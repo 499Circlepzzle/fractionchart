@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -39,8 +38,7 @@ const Index = () => {
         <h1 className="text-2xl font-light text-neutral-900">Rectangle Ratio Visualizer</h1>
       </div>
       
-      <div className="space-y-0">
-        {/* First Rectangle */}
+      <div className="space-y-0 relative">
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -63,7 +61,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Second Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -104,34 +101,9 @@ const Index = () => {
               <span className="text-2xl font-bold text-black">4/2</span>
               <span className="text-2xl font-bold text-black">2</span>
             </motion.div>
-            {duplicatedHalves.map((half) => (
-              <motion.div
-                key={half.id}
-                drag
-                dragMomentum={false}
-                initial={{ x: half.position.x, y: half.position.y }}
-                animate={{ x: half.position.x, y: half.position.y }}
-                onDragEnd={(e, info) => {
-                  updatePosition(half.id, { x: info.offset.x + half.position.x, y: info.offset.y + half.position.y });
-                }}
-                className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black absolute top-0 group"
-              >
-                <span className="text-4xl font-bold text-black">½</span>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeDuplicate(half.id);
-                  }}
-                  className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  <X size={16} />
-                </button>
-              </motion.div>
-            ))}
           </div>
         </motion.div>
 
-        {/* Third Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -187,7 +159,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Fourth Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -256,7 +227,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Fifth Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -309,7 +279,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Sixth Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -365,7 +334,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Seventh Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -401,7 +369,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Eighth Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -436,6 +403,38 @@ const Index = () => {
             ))}
           </div>
         </motion.div>
+
+        {duplicatedHalves.map((half) => (
+          <motion.div
+            key={half.id}
+            drag
+            dragMomentum={false}
+            initial={{ x: half.position.x, y: half.position.y }}
+            animate={{ x: half.position.x, y: half.position.y }}
+            onDragEnd={(e, info) => {
+              updatePosition(half.id, { x: info.offset.x + half.position.x, y: info.offset.y + half.position.y });
+            }}
+            whileDrag={{ zIndex: 50 }}
+            style={{
+              position: 'fixed',
+              width: `calc(${baseWidth} / 4)`,
+              height: baseHeight,
+              zIndex: 40
+            }}
+            className="bg-[#7E69AB] flex items-center justify-center border-r border-black group"
+          >
+            <span className="text-4xl font-bold text-black">½</span>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                removeDuplicate(half.id);
+              }}
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <X size={16} />
+            </button>
+          </motion.div>
+        ))}
       </div>
 
       <p className="mt-6 text-sm text-neutral-600">
