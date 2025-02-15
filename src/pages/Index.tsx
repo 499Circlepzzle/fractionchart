@@ -381,7 +381,7 @@ const Index = () => {
                     </span>
                   </>
                 ) : (
-                  <span className="text-2xl font-bold text-black">{index + 1}/10</span>
+                  <span className="text-xl font-bold text-black">{index + 1}/10</span>
                 )}
               </motion.div>
             ))}
