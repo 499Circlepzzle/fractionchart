@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -70,11 +71,17 @@ const Index = () => {
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
             <motion.div 
-              drag
+              drag="x"
+              dragSnapToOrigin
+              dragElastic={0}
               dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
               dragMomentum={false}
               whileDrag={{ zIndex: 50 }}
-              onTap={duplicateHalf}
+              onTap={(event, info) => {
+                if (Math.abs(info.point.x - info.point.x) < 5) {
+                  duplicateHalf();
+                }
+              }}
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-move relative"
             >
               <span className="text-4xl font-bold text-black">½</span>
