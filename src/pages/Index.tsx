@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 
 const Index = () => {
@@ -204,6 +203,32 @@ const Index = () => {
               <span className="text-2xl font-bold text-black">8/4</span>
               <span className="text-2xl font-bold text-black">2</span>
             </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Fifth Rectangle */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 1.2 }}
+          className="relative"
+        >
+          <div 
+            style={{ 
+              width: baseWidth,
+              height: baseHeight,
+            }}
+            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
+          >
+            {[...Array(10)].map((_, index) => (
+              <motion.div 
+                key={index}
+                drag
+                className="w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black last:border-r 0"
+              >
+                <span className="text-4xl font-bold text-black">{index + 1}/5</span>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </div>
