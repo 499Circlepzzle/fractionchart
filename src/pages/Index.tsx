@@ -54,28 +54,24 @@ const Index = () => {
           >
             <motion.div 
               drag
-              dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">1</span>
             </motion.div>
             <motion.div 
               drag
-              dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">2</span>
             </motion.div>
             <motion.div 
               drag
-              dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">3</span>
             </motion.div>
             <motion.div 
               drag
-              dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center"
             >
               <span className="text-4xl font-bold text-black">4</span>
