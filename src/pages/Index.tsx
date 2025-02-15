@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -77,15 +76,13 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-            <div 
-              onClick={() => {
-                console.log("Click detected");
-                duplicateHalf();
-              }}
+            <button 
+              type="button"
+              onClick={duplicateHalf}
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#6c5b94] transition-colors"
             >
               <span className="text-4xl font-bold text-black">½</span>
-            </div>
+            </button>
             <motion.div 
               drag
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
@@ -430,6 +427,7 @@ const Index = () => {
           >
             <span className="text-4xl font-bold text-black">½</span>
             <button
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 removeDuplicate(half.id);
