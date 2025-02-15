@@ -1,28 +1,23 @@
-
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
 
 const Index = () => {
-  const baseWidth = "90vw";
-  const baseHeight = "calc((90vw / 24) * 2.5)";
+  // Calculate dimensions maintaining new proportions
+  const baseWidth = "90vw"; // 90% of viewport width
+  const baseHeight = "calc((90vw / 24) * 2.5)"; // Original height * 2.5 (150% increase)
   
-  const [duplicatedHalves, setDuplicatedHalves] = useState<Array<{ id: number; x?: number; y?: number }>>([]);
+  // State to track duplicated sections
+  const [duplicatedHalves, setDuplicatedHalves] = useState<Array<{ id: number }>>([]);
 
+  // Function to duplicate a half
   const duplicateHalf = () => {
     setDuplicatedHalves(prev => [...prev, { id: Date.now() }]);
   };
 
+  // Function to remove a duplicated half
   const removeDuplicate = (id: number) => {
     setDuplicatedHalves(prev => prev.filter(half => half.id !== id));
-  };
-
-  const onDragEnd = (id: number, event: MouseEvent | TouchEvent | PointerEvent, info: { point: { x: number; y: number } }) => {
-    setDuplicatedHalves(prev => 
-      prev.map(half => 
-        half.id === id ? { ...half, x: info.point.x, y: info.point.y } : half
-      )
-    );
   };
 
   return (
@@ -35,6 +30,7 @@ const Index = () => {
       </div>
       
       <div className="space-y-0">
+        {/* First Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -57,6 +53,7 @@ const Index = () => {
           </div>
         </motion.div>
 
+        {/* Second Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -71,50 +68,41 @@ const Index = () => {
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
             <motion.div 
-              drag="x"
-              dragSnapToOrigin
-              dragElastic={0}
-              dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-              dragMomentum={false}
-              whileDrag={{ zIndex: 50 }}
-              onTap={(event, info) => {
-                if (Math.abs(info.point.x - info.point.x) < 5) {
-                  duplicateHalf();
-                }
-              }}
-              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-move relative"
+              drag
+              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-pointer"
+              onClick={duplicateHalf}
             >
               <span className="text-4xl font-bold text-black">½</span>
             </motion.div>
-            <div className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black">
+            <motion.div 
+              drag
+              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
+            >
               <span className="text-4xl font-bold text-black">2/2</span>
-            </div>
-            <div className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black flex-col">
+            </motion.div>
+            <motion.div 
+              drag
+              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black flex-col"
+            >
               <span className="text-2xl font-bold text-black">3/2</span>
               <span className="text-2xl font-bold text-black">1½</span>
-            </div>
-            <div className="w-1/4 bg-[#7E69AB] flex items-center justify-center flex-col">
+            </motion.div>
+            <motion.div 
+              drag
+              className="w-1/4 bg-[#7E69AB] flex items-center justify-center flex-col"
+            >
               <span className="text-2xl font-bold text-black">4/2</span>
               <span className="text-2xl font-bold text-black">2</span>
-            </div>
+            </motion.div>
             {duplicatedHalves.map((half) => (
               <motion.div
                 key={half.id}
                 drag
                 dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-                dragMomentum={false}
-                whileDrag={{ zIndex: 50 }}
-                onDragEnd={(event, info) => onDragEnd(half.id, event, info)}
-                animate={{ 
-                  x: half.x,
-                  y: half.y
-                }}
-                initial={half.x === undefined ? { opacity: 0, scale: 0.8, y: "100%" } : false}
-                className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black absolute top-0 group cursor-move"
-                style={{ 
-                  height: baseHeight,
-                  width: `calc(${baseWidth} / 4)`
-                }}
+                className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black absolute top-0 group"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
               >
                 <span className="text-4xl font-bold text-black">½</span>
                 <button
@@ -131,6 +119,7 @@ const Index = () => {
           </div>
         </motion.div>
 
+        {/* Third Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -144,42 +133,49 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-            <div 
+            <motion.div 
+              drag
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">1/3</span>
-            </div>
-            <div 
+            </motion.div>
+            <motion.div 
+              drag
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">2/3</span>
-            </div>
-            <div 
+            </motion.div>
+            <motion.div 
+              drag
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">3/3</span>
-            </div>
-            <div 
+            </motion.div>
+            <motion.div 
+              drag
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black flex-col"
             >
               <span className="text-2xl font-bold text-black">4/3</span>
               <span className="text-2xl font-bold text-black">1⅓</span>
-            </div>
-            <div 
+            </motion.div>
+            <motion.div 
+              drag
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black flex-col"
             >
               <span className="text-2xl font-bold text-black">5/3</span>
               <span className="text-2xl font-bold text-black">1⅔</span>
-            </div>
-            <div 
+            </motion.div>
+            <motion.div 
+              drag
               className="w-1/6 bg-[#FFE649] flex items-center justify-center flex-col"
             >
               <span className="text-2xl font-bold text-black">6/3</span>
               <span className="text-2xl font-bold text-black">2</span>
-            </div>
+            </motion.div>
           </div>
         </motion.div>
 
+        {/* Fourth Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -193,53 +189,62 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-            <div 
+            <motion.div 
+              drag
               className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">1/4</span>
-            </div>
-            <div 
+            </motion.div>
+            <motion.div 
+              drag
               className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">2/4</span>
-            </div>
-            <div 
+            </motion.div>
+            <motion.div 
+              drag
               className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">3/4</span>
-            </div>
-            <div 
+            </motion.div>
+            <motion.div 
+              drag
               className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">4/4</span>
-            </div>
-            <div 
+            </motion.div>
+            <motion.div 
+              drag
               className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black flex-col"
             >
               <span className="text-2xl font-bold text-black">5/4</span>
               <span className="text-2xl font-bold text-black">1¼</span>
-            </div>
-            <div 
+            </motion.div>
+            <motion.div 
+              drag
               className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black flex-col"
             >
               <span className="text-2xl font-bold text-black">6/4</span>
               <span className="text-2xl font-bold text-black">1½</span>
-            </div>
-            <div 
+            </motion.div>
+            <motion.div 
+              drag
               className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black flex-col"
             >
               <span className="text-2xl font-bold text-black">7/4</span>
               <span className="text-2xl font-bold text-black">1¾</span>
-            </div>
-            <div 
+            </motion.div>
+            <motion.div 
+              drag
               className="w-[12.5%] bg-green-200 flex items-center justify-center flex-col"
             >
               <span className="text-2xl font-bold text-black">8/4</span>
               <span className="text-2xl font-bold text-black">2</span>
-            </div>
+            </motion.div>
           </div>
         </motion.div>
 
+        {/* Fifth Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -292,6 +297,7 @@ const Index = () => {
           </div>
         </motion.div>
 
+        {/* Sixth Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -347,6 +353,7 @@ const Index = () => {
           </div>
         </motion.div>
 
+        {/* Seventh Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -382,6 +389,7 @@ const Index = () => {
           </div>
         </motion.div>
 
+        {/* Eighth Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
