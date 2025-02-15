@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -67,33 +68,33 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-            <div 
-              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-pointer"
+            <motion.div 
+              drag
+              dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+              whileDrag={{ zIndex: 50 }}
+              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-move relative"
               onClick={duplicateHalf}
             >
               <span className="text-4xl font-bold text-black">½</span>
-            </div>
-            <div 
-              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
-            >
+            </motion.div>
+            <div className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black">
               <span className="text-4xl font-bold text-black">2/2</span>
             </div>
-            <div 
-              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black flex-col"
-            >
+            <div className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black flex-col">
               <span className="text-2xl font-bold text-black">3/2</span>
               <span className="text-2xl font-bold text-black">1½</span>
             </div>
-            <div 
-              className="w-1/4 bg-[#7E69AB] flex items-center justify-center flex-col"
-            >
+            <div className="w-1/4 bg-[#7E69AB] flex items-center justify-center flex-col">
               <span className="text-2xl font-bold text-black">4/2</span>
               <span className="text-2xl font-bold text-black">2</span>
             </div>
             {duplicatedHalves.map((half) => (
               <motion.div
                 key={half.id}
-                className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black absolute top-0 group"
+                drag
+                dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+                whileDrag={{ zIndex: 50 }}
+                className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black absolute top-0 group cursor-move"
                 initial={{ opacity: 0, scale: 0.8, y: "100%" }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: "backOut" }}
