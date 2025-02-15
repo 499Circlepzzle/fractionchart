@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -13,6 +12,7 @@ const Index = () => {
 
   // Function to duplicate a half
   const duplicateHalf = () => {
+    console.log("Duplicating half"); // Debug log
     setDuplicatedHalves(prev => [...prev, { id: Date.now(), position: { x: 0, y: 0 } }]);
   };
 
@@ -75,15 +75,13 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-            <motion.div 
-              onClick={(e) => {
-                e.preventDefault();
-                duplicateHalf();
-              }}
+            <div 
+              role="button"
+              onClick={duplicateHalf}
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#6c5b94] transition-colors"
             >
               <span className="text-4xl font-bold text-black">½</span>
-            </motion.div>
+            </div>
             <motion.div 
               drag
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
