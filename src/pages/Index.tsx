@@ -27,7 +27,7 @@ const Index = () => {
             width: baseWidth,
             height: baseHeight,
           }}
-          className="bg-gradient-to-r from-neutral-200 to-neutral-300 rounded-sm shadow-sm"
+          className="bg-[#9b87f5] border-2 border-black rounded-sm shadow-md"
         />
       </motion.div>
 
