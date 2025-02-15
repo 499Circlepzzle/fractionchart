@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { X } from "lucide-react";
 
 const Index = () => {
   // Calculate dimensions maintaining new proportions
@@ -12,6 +13,11 @@ const Index = () => {
   // Function to duplicate a half
   const duplicateHalf = () => {
     setDuplicatedHalves(prev => [...prev, { id: Date.now() }]);
+  };
+
+  // Function to remove a duplicated half
+  const removeDuplicate = (id: number) => {
+    setDuplicatedHalves(prev => prev.filter(half => half.id !== id));
   };
 
   return (
@@ -93,12 +99,21 @@ const Index = () => {
                 key={half.id}
                 drag
                 dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-                className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black absolute top-0"
+                className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black absolute top-0 group"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3 }}
               >
                 <span className="text-4xl font-bold text-black">½</span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeDuplicate(half.id);
+                  }}
+                  className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <X size={16} />
+                </button>
               </motion.div>
             ))}
           </div>
