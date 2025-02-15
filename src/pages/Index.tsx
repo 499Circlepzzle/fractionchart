@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 
 const Index = () => {
@@ -345,7 +344,7 @@ const Index = () => {
                     </span>
                   </>
                 ) : (
-                  <span className="text-4xl font-bold text-black">{index + 1}/8</span>
+                  <span className="text-2xl font-bold text-black">{index + 1}/8</span>
                 )}
               </motion.div>
             ))}
