@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -10,10 +11,14 @@ const Index = () => {
   // State to track duplicated sections with position
   const [duplicatedHalves, setDuplicatedHalves] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
 
-  // Function to duplicate a half
+  // Function to duplicate a half with offset
   const duplicateHalf = () => {
     console.log("Duplicating half"); // Debug log
-    const newHalf = { id: Date.now(), position: { x: 0, y: 0 } };
+    const offset = duplicatedHalves.length * 20; // Offset each new duplicate by 20px
+    const newHalf = { 
+      id: Date.now(), 
+      position: { x: offset, y: offset }
+    };
     setDuplicatedHalves(prevHalves => [...prevHalves, newHalf]);
   };
 
@@ -418,12 +423,15 @@ const Index = () => {
             }}
             whileDrag={{ zIndex: 50 }}
             style={{
-              position: 'fixed',
+              position: 'absolute',
               width: `calc(${baseWidth} / 4)`,
               height: baseHeight,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
               zIndex: 40
             }}
-            className="bg-[#7E69AB] flex items-center justify-center border-r border-black group"
+            className="bg-[#7E69AB] flex items-center justify-center border-2 border-black group"
           >
             <span className="text-4xl font-bold text-black">½</span>
             <button
