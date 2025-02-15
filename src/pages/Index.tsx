@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -100,9 +101,9 @@ const Index = () => {
                 drag
                 dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
                 className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black absolute top-0 group"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, scale: 0.8, y: "100%" }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: "backOut" }}
               >
                 <span className="text-4xl font-bold text-black">½</span>
                 <button
