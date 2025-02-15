@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -74,13 +75,12 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-            <motion.div 
-              drag
-              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-pointer"
+            <div 
               onClick={duplicateHalf}
+              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-pointer"
             >
               <span className="text-4xl font-bold text-black">½</span>
-            </motion.div>
+            </div>
             <motion.div 
               drag
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
