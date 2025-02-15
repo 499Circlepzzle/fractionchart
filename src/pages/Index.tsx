@@ -1,4 +1,3 @@
-<lov-code>
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -475,8 +474,9 @@ const Index = () => {
             <span className="text-2xl font-bold text-black">1/8</span>
           </button>
           {[...Array(15)].map((_, index) => (
-            <div 
+            <motion.div 
               key={index}
+              drag
               className={`w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black last:border-r-0 ${(index >= 7) ? 'flex-col' : ''}`}
             >
               {index >= 7 ? (
@@ -490,7 +490,7 @@ const Index = () => {
               ) : (
                 <span className="text-2xl font-bold text-black">{index + 2}/8</span>
               )}
-            </div>
+            </motion.div>
           ))}
         </div>
       </motion.div>
@@ -730,4 +730,35 @@ const Index = () => {
             whileDrag={{ zIndex: 50 }}
             style={{
               position: 'absolute',
-              width: `calc(${base
+              width: `calc(${baseWidth} / 16)`,
+              height: baseHeight,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 40
+            }}
+            className="bg-[#ea384c] flex items-center justify-center border-2 border-black group"
+          >
+            <span className="text-2xl font-bold text-black">1/8</span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeEighth(eighth.id);
+              }}
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <X size={16} />
+            </button>
+          </motion.div>
+        ))}
+
+        <p className="mt-6 text-sm text-neutral-600">
+          A horizontal rectangle with a precise 24:1 ratio
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default Index;
