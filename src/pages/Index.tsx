@@ -12,6 +12,7 @@ const Index = () => {
   const [duplicatedThirds, setDuplicatedThirds] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   const [duplicatedQuarters, setDuplicatedQuarters] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   const [duplicatedFifths, setDuplicatedFifths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
+  const [duplicatedSixths, setDuplicatedSixths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
 
   // Function to duplicate a half with offset
   const duplicateHalf = () => {
@@ -57,6 +58,17 @@ const Index = () => {
     setDuplicatedFifths(prevFifths => [...prevFifths, newFifth]);
   };
 
+  // Function to duplicate a sixth with offset
+  const duplicateSixth = () => {
+    console.log("Duplicating sixth"); // Debug log
+    const offset = duplicatedSixths.length * 20; // Offset each new duplicate by 20px
+    const newSixth = { 
+      id: Date.now(), 
+      position: { x: offset, y: offset }
+    };
+    setDuplicatedSixths(prevSixths => [...prevSixths, newSixth]);
+  };
+
   // Function to remove duplicates
   const removeDuplicate = (id: number) => {
     setDuplicatedHalves(prev => prev.filter(half => half.id !== id));
@@ -74,8 +86,12 @@ const Index = () => {
     setDuplicatedFifths(prev => prev.filter(fifth => fifth.id !== id));
   };
 
+  const removeSixth = (id: number) => {
+    setDuplicatedSixths(prev => prev.filter(sixth => sixth.id !== id));
+  };
+
   // Function to update position when dragging ends
-  const updatePosition = (id: number, position: { x: number; y: number }, type: 'half' | 'third' | 'quarter' | 'fifth') => {
+  const updatePosition = (id: number, position: { x: number; y: number }, type: 'half' | 'third' | 'quarter' | 'fifth' | 'sixth') => {
     switch (type) {
       case 'half':
         setDuplicatedHalves(prev => 
@@ -95,6 +111,11 @@ const Index = () => {
       case 'fifth':
         setDuplicatedFifths(prev => 
           prev.map(fifth => fifth.id === id ? { ...fifth, position } : fifth)
+        );
+        break;
+      case 'sixth':
+        setDuplicatedSixths(prev => 
+          prev.map(sixth => sixth.id === id ? { ...sixth, position } : sixth)
         );
         break;
     }
@@ -342,11 +363,17 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-            {[...Array(12)].map((_, index) => (
+            <button 
+              type="button"
+              onClick={duplicateSixth}
+              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#ffd0d5] transition-colors"
+            >
+              <span className="text-4xl font-bold text-black">1/6</span>
+            </button>
+            {[...Array(11)].map((_, index) => (
               <motion.div 
                 key={index}
-                drag
-                className={`w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black last:border-r-0 ${(index >= 6 || index === 7 || index === 8 || index === 9 || index === 10) ? 'flex-col' : ''}`}
+                className={`w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black ${(index >= 5) ? 'flex-col' : ''} last:border-r-0`}
               >
                 {index === 7 ? (
                   <>
@@ -368,16 +395,16 @@ const Index = () => {
                     <span className="text-2xl font-bold text-black">11/6</span>
                     <span className="text-2xl font-bold text-black">1⅚</span>
                   </>
-                ) : index >= 6 ? (
+                ) : index >= 5 ? (
                   <>
-                    <span className="text-2xl font-bold text-black">{index + 1}/6</span>
+                    <span className="text-2xl font-bold text-black">{index + 2}/6</span>
                     <span className="text-2xl font-bold text-black">
-                      {Math.floor((index + 1) / 6)}
-                      {((index + 1) % 6) === 0 ? '' : '⅙'}
+                      {Math.floor((index + 2) / 6)}
+                      {((index + 2) % 6) === 0 ? '' : '⅙'}
                     </span>
                   </>
                 ) : (
-                  <span className="text-4xl font-bold text-black">{index + 1}/6</span>
+                  <span className="text-4xl font-bold text-black">{index + 2}/6</span>
                 )}
               </motion.div>
             ))}
@@ -590,6 +617,42 @@ const Index = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 removeFifth(fifth.id);
+              }}
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <X size={16} />
+            </button>
+          </motion.div>
+        ))}
+
+        {duplicatedSixths.map((sixth) => (
+          <motion.div
+            key={sixth.id}
+            drag
+            dragMomentum={false}
+            initial={{ x: sixth.position.x, y: sixth.position.y }}
+            animate={{ x: sixth.position.x, y: sixth.position.y }}
+            onDragEnd={(e, info) => {
+              updatePosition(sixth.id, { x: info.offset.x + sixth.position.x, y: info.offset.y + sixth.position.y }, 'sixth');
+            }}
+            whileDrag={{ zIndex: 50 }}
+            style={{
+              position: 'absolute',
+              width: `calc(${baseWidth} / 12)`,
+              height: baseHeight,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 40
+            }}
+            className="bg-[#FFDEE2] flex items-center justify-center border-2 border-black group"
+          >
+            <span className="text-4xl font-bold text-black">1/6</span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeSixth(sixth.id);
               }}
               className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
             >
