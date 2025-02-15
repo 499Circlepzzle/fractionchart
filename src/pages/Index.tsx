@@ -16,6 +16,7 @@ const Index = () => {
       </div>
       
       <div className="space-y-0">
+        {/* First Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -77,6 +78,59 @@ const Index = () => {
             >
               <span className="text-2xl font-bold text-black">4/2</span>
               <span className="text-2xl font-bold text-black">2</span>
+            </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Third Rectangle */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 0.6 }}
+          className="relative"
+        >
+          <div 
+            style={{ 
+              width: baseWidth,
+              height: baseHeight,
+            }}
+            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
+          >
+            <motion.div 
+              drag
+              className="w-1/6 bg-[#6E59A5] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-4xl font-bold text-black">1/6</span>
+            </motion.div>
+            <motion.div 
+              drag
+              className="w-1/6 bg-[#6E59A5] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-4xl font-bold text-black">2/6</span>
+            </motion.div>
+            <motion.div 
+              drag
+              className="w-1/6 bg-[#6E59A5] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-4xl font-bold text-black">3/6</span>
+            </motion.div>
+            <motion.div 
+              drag
+              className="w-1/6 bg-[#6E59A5] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-4xl font-bold text-black">4/6</span>
+            </motion.div>
+            <motion.div 
+              drag
+              className="w-1/6 bg-[#6E59A5] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-4xl font-bold text-black">5/6</span>
+            </motion.div>
+            <motion.div 
+              drag
+              className="w-1/6 bg-[#6E59A5] flex items-center justify-center"
+            >
+              <span className="text-4xl font-bold text-black">6/6</span>
             </motion.div>
           </div>
         </motion.div>
