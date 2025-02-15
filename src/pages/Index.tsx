@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 
 const Index = () => {
@@ -346,6 +345,42 @@ const Index = () => {
                   </>
                 ) : (
                   <span className="text-4xl font-bold text-black">{index + 1}/8</span>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Eighth Rectangle */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 2.1 }}
+          className="relative"
+        >
+          <div 
+            style={{ 
+              width: baseWidth,
+              height: baseHeight,
+            }}
+            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
+          >
+            {[...Array(20)].map((_, index) => (
+              <motion.div 
+                key={index}
+                drag
+                className={`w-[5%] bg-[#FEC6A1] flex items-center justify-center border-r border-black last:border-r-0 ${(index >= 10) ? 'flex-col' : ''}`}
+              >
+                {index >= 10 ? (
+                  <>
+                    <span className="text-2xl font-bold text-black">{index + 1}/10</span>
+                    <span className="text-2xl font-bold text-black">
+                      {Math.floor((index + 1) / 10)}
+                      {((index + 1) % 10) === 0 ? '' : `${((index + 1) % 10)}/10`}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-4xl font-bold text-black">{index + 1}/10</span>
                 )}
               </motion.div>
             ))}
