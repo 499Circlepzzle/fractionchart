@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 
 const Index = () => {
@@ -369,7 +370,7 @@ const Index = () => {
               <motion.div 
                 key={index}
                 drag
-                className={`w-[5%] bg-[#FEC6A1] flex items-center justify-center border-r border-black last:border-r-0 ${(index >= 10) ? 'flex-col' : ''}`}
+                className={`w-[5%] bg-[#D3E4FD] flex items-center justify-center border-r border-black last:border-r-0 ${(index >= 10) ? 'flex-col' : ''}`}
               >
                 {index >= 10 ? (
                   <>
