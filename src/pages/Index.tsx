@@ -278,7 +278,7 @@ const Index = () => {
               <motion.div 
                 key={index}
                 drag
-                className={`w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black last:border-r-0 ${(index >= 6 || index === 7 || index === 8) ? 'flex-col' : ''}`}
+                className={`w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black last:border-r-0 ${(index >= 6 || index === 7 || index === 8 || index === 9) ? 'flex-col' : ''}`}
               >
                 {index === 7 ? (
                   <>
@@ -289,6 +289,11 @@ const Index = () => {
                   <>
                     <span className="text-2xl font-bold text-black">9/6</span>
                     <span className="text-2xl font-bold text-black">1½</span>
+                  </>
+                ) : index === 9 ? (
+                  <>
+                    <span className="text-2xl font-bold text-black">10/6</span>
+                    <span className="text-2xl font-bold text-black">1⅔</span>
                   </>
                 ) : index >= 6 ? (
                   <>
