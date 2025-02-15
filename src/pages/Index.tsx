@@ -11,6 +11,7 @@ const Index = () => {
   const [duplicatedHalves, setDuplicatedHalves] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   const [duplicatedThirds, setDuplicatedThirds] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   const [duplicatedQuarters, setDuplicatedQuarters] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
+  const [duplicatedFifths, setDuplicatedFifths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
 
   // Function to duplicate a half with offset
   const duplicateHalf = () => {
@@ -45,6 +46,17 @@ const Index = () => {
     setDuplicatedQuarters(prevQuarters => [...prevQuarters, newQuarter]);
   };
 
+  // Function to duplicate a fifth with offset
+  const duplicateFifth = () => {
+    console.log("Duplicating fifth"); // Debug log
+    const offset = duplicatedFifths.length * 20; // Offset each new duplicate by 20px
+    const newFifth = { 
+      id: Date.now(), 
+      position: { x: offset, y: offset }
+    };
+    setDuplicatedFifths(prevFifths => [...prevFifths, newFifth]);
+  };
+
   // Function to remove duplicates
   const removeDuplicate = (id: number) => {
     setDuplicatedHalves(prev => prev.filter(half => half.id !== id));
@@ -58,8 +70,12 @@ const Index = () => {
     setDuplicatedQuarters(prev => prev.filter(quarter => quarter.id !== id));
   };
 
+  const removeFifth = (id: number) => {
+    setDuplicatedFifths(prev => prev.filter(fifth => fifth.id !== id));
+  };
+
   // Function to update position when dragging ends
-  const updatePosition = (id: number, position: { x: number; y: number }, type: 'half' | 'third' | 'quarter') => {
+  const updatePosition = (id: number, position: { x: number; y: number }, type: 'half' | 'third' | 'quarter' | 'fifth') => {
     switch (type) {
       case 'half':
         setDuplicatedHalves(prev => 
@@ -74,6 +90,11 @@ const Index = () => {
       case 'quarter':
         setDuplicatedQuarters(prev => 
           prev.map(quarter => quarter.id === id ? { ...quarter, position } : quarter)
+        );
+        break;
+      case 'fifth':
+        setDuplicatedFifths(prev => 
+          prev.map(fifth => fifth.id === id ? { ...fifth, position } : fifth)
         );
         break;
     }
@@ -280,39 +301,28 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-            {[...Array(10)].map((_, index) => (
+            <button 
+              type="button"
+              onClick={duplicateFifth}
+              className="w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#e5b291] transition-colors"
+            >
+              <span className="text-4xl font-bold text-black">1/5</span>
+            </button>
+            {[...Array(9)].map((_, index) => (
               <motion.div 
                 key={index}
-                drag
-                className={`w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black last:border-r-0 ${(index === 5 || index === 6 || index === 7 || index === 8 || index === 9) ? 'flex-col' : ''}`}
+                className={`w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black ${(index >= 4) ? 'flex-col' : ''} ${index === 8 ? 'border-r-0' : ''}`}
               >
-                {index === 5 ? (
+                {index >= 4 ? (
                   <>
-                    <span className="text-2xl font-bold text-black">6/5</span>
-                    <span className="text-2xl font-bold text-black">1⅕</span>
-                  </>
-                ) : index === 6 ? (
-                  <>
-                    <span className="text-2xl font-bold text-black">7/5</span>
-                    <span className="text-2xl font-bold text-black">1⅖</span>
-                  </>
-                ) : index === 7 ? (
-                  <>
-                    <span className="text-2xl font-bold text-black">8/5</span>
-                    <span className="text-2xl font-bold text-black">1⅗</span>
-                  </>
-                ) : index === 8 ? (
-                  <>
-                    <span className="text-2xl font-bold text-black">9/5</span>
-                    <span className="text-2xl font-bold text-black">1⅘</span>
-                  </>
-                ) : index === 9 ? (
-                  <>
-                    <span className="text-2xl font-bold text-black">10/5</span>
-                    <span className="text-2xl font-bold text-black">2</span>
+                    <span className="text-2xl font-bold text-black">{index + 2}/5</span>
+                    <span className="text-2xl font-bold text-black">
+                      {Math.floor((index + 2) / 5)}
+                      {((index + 2) % 5) === 0 ? '' : `${((index + 2) % 5)}/5`}
+                    </span>
                   </>
                 ) : (
-                  <span className="text-4xl font-bold text-black">{index + 1}/5</span>
+                  <span className="text-4xl font-bold text-black">{index + 2}/5</span>
                 )}
               </motion.div>
             ))}
@@ -544,6 +554,42 @@ const Index = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 removeQuarter(quarter.id);
+              }}
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <X size={16} />
+            </button>
+          </motion.div>
+        ))}
+
+        {duplicatedFifths.map((fifth) => (
+          <motion.div
+            key={fifth.id}
+            drag
+            dragMomentum={false}
+            initial={{ x: fifth.position.x, y: fifth.position.y }}
+            animate={{ x: fifth.position.x, y: fifth.position.y }}
+            onDragEnd={(e, info) => {
+              updatePosition(fifth.id, { x: info.offset.x + fifth.position.x, y: info.offset.y + fifth.position.y }, 'fifth');
+            }}
+            whileDrag={{ zIndex: 50 }}
+            style={{
+              position: 'absolute',
+              width: `calc(${baseWidth} / 10)`,
+              height: baseHeight,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 40
+            }}
+            className="bg-[#FEC6A1] flex items-center justify-center border-2 border-black group"
+          >
+            <span className="text-4xl font-bold text-black">1/5</span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeFifth(fifth.id);
               }}
               className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
             >
