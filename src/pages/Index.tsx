@@ -98,37 +98,37 @@ const Index = () => {
           >
             <motion.div 
               drag
-              className="w-1/6 bg-[#FEF7CD] flex items-center justify-center border-r border-black"
+              className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">1/6</span>
             </motion.div>
             <motion.div 
               drag
-              className="w-1/6 bg-[#FEF7CD] flex items-center justify-center border-r border-black"
+              className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">2/6</span>
             </motion.div>
             <motion.div 
               drag
-              className="w-1/6 bg-[#FEF7CD] flex items-center justify-center border-r border-black"
+              className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">3/6</span>
             </motion.div>
             <motion.div 
               drag
-              className="w-1/6 bg-[#FEF7CD] flex items-center justify-center border-r border-black"
+              className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">4/6</span>
             </motion.div>
             <motion.div 
               drag
-              className="w-1/6 bg-[#FEF7CD] flex items-center justify-center border-r border-black"
+              className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">5/6</span>
             </motion.div>
             <motion.div 
               drag
-              className="w-1/6 bg-[#FEF7CD] flex items-center justify-center"
+              className="w-1/6 bg-[#FFE649] flex items-center justify-center"
             >
               <span className="text-4xl font-bold text-black">6/6</span>
             </motion.div>
