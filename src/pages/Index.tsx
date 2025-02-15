@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -68,38 +67,32 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-            <motion.div 
-              drag
+            <div 
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-pointer"
               onClick={duplicateHalf}
             >
               <span className="text-4xl font-bold text-black">½</span>
-            </motion.div>
-            <motion.div 
-              drag
+            </div>
+            <div 
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">2/2</span>
-            </motion.div>
-            <motion.div 
-              drag
+            </div>
+            <div 
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black flex-col"
             >
               <span className="text-2xl font-bold text-black">3/2</span>
               <span className="text-2xl font-bold text-black">1½</span>
-            </motion.div>
-            <motion.div 
-              drag
+            </div>
+            <div 
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center flex-col"
             >
               <span className="text-2xl font-bold text-black">4/2</span>
               <span className="text-2xl font-bold text-black">2</span>
-            </motion.div>
+            </div>
             {duplicatedHalves.map((half) => (
               <motion.div
                 key={half.id}
-                drag
-                dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
                 className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black absolute top-0 group"
                 initial={{ opacity: 0, scale: 0.8, y: "100%" }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -134,45 +127,39 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-            <motion.div 
-              drag
+            <div 
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">1/3</span>
-            </motion.div>
-            <motion.div 
-              drag
+            </div>
+            <div 
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">2/3</span>
-            </motion.div>
-            <motion.div 
-              drag
+            </div>
+            <div 
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">3/3</span>
-            </motion.div>
-            <motion.div 
-              drag
+            </div>
+            <div 
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black flex-col"
             >
               <span className="text-2xl font-bold text-black">4/3</span>
               <span className="text-2xl font-bold text-black">1⅓</span>
-            </motion.div>
-            <motion.div 
-              drag
+            </div>
+            <div 
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black flex-col"
             >
               <span className="text-2xl font-bold text-black">5/3</span>
               <span className="text-2xl font-bold text-black">1⅔</span>
-            </motion.div>
-            <motion.div 
-              drag
+            </div>
+            <div 
               className="w-1/6 bg-[#FFE649] flex items-center justify-center flex-col"
             >
               <span className="text-2xl font-bold text-black">6/3</span>
               <span className="text-2xl font-bold text-black">2</span>
-            </motion.div>
+            </div>
           </div>
         </motion.div>
 
@@ -190,58 +177,50 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-            <motion.div 
-              drag
+            <div 
               className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">1/4</span>
-            </motion.div>
-            <motion.div 
-              drag
+            </div>
+            <div 
               className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">2/4</span>
-            </motion.div>
-            <motion.div 
-              drag
+            </div>
+            <div 
               className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">3/4</span>
-            </motion.div>
-            <motion.div 
-              drag
+            </div>
+            <div 
               className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">4/4</span>
-            </motion.div>
-            <motion.div 
-              drag
+            </div>
+            <div 
               className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black flex-col"
             >
               <span className="text-2xl font-bold text-black">5/4</span>
               <span className="text-2xl font-bold text-black">1¼</span>
-            </motion.div>
-            <motion.div 
-              drag
+            </div>
+            <div 
               className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black flex-col"
             >
               <span className="text-2xl font-bold text-black">6/4</span>
               <span className="text-2xl font-bold text-black">1½</span>
-            </motion.div>
-            <motion.div 
-              drag
+            </div>
+            <div 
               className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black flex-col"
             >
               <span className="text-2xl font-bold text-black">7/4</span>
               <span className="text-2xl font-bold text-black">1¾</span>
-            </motion.div>
-            <motion.div 
-              drag
+            </div>
+            <div 
               className="w-[12.5%] bg-green-200 flex items-center justify-center flex-col"
             >
               <span className="text-2xl font-bold text-black">8/4</span>
               <span className="text-2xl font-bold text-black">2</span>
-            </motion.div>
+            </div>
           </div>
         </motion.div>
 
