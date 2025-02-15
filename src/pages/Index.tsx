@@ -75,12 +75,15 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-            <div 
-              onClick={duplicateHalf}
-              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-pointer"
+            <motion.div 
+              onClick={(e) => {
+                e.preventDefault();
+                duplicateHalf();
+              }}
+              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#6c5b94] transition-colors"
             >
               <span className="text-4xl font-bold text-black">½</span>
-            </div>
+            </motion.div>
             <motion.div 
               drag
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
