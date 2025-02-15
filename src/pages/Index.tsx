@@ -29,10 +29,10 @@ const Index = () => {
           className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
         >
           <div className="w-1/2 bg-[#9b87f5] flex items-center justify-center border-r border-black">
-            <span className="text-4xl font-bold text-white">1</span>
+            <span className="text-4xl font-bold text-black">1</span>
           </div>
           <div className="w-1/2 bg-[#9b87f5] flex items-center justify-center">
-            <span className="text-4xl font-bold text-white">2</span>
+            <span className="text-4xl font-bold text-black">2</span>
           </div>
         </div>
       </motion.div>
