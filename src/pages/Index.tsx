@@ -30,14 +30,23 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-            <div className="w-1/3 bg-[#9b87f5] flex items-center justify-center border-r border-black">
-              <span className="text-4xl font-bold text-black">1/3</span>
+            <div className="w-1/6 bg-[#9b87f5] flex items-center justify-center border-r border-black">
+              <span className="text-4xl font-bold text-black">1/6</span>
             </div>
-            <div className="w-1/3 bg-[#9b87f5] flex items-center justify-center border-r border-black">
-              <span className="text-4xl font-bold text-black">2/3</span>
+            <div className="w-1/6 bg-[#9b87f5] flex items-center justify-center border-r border-black">
+              <span className="text-4xl font-bold text-black">2/6</span>
             </div>
-            <div className="w-1/3 bg-[#9b87f5] flex items-center justify-center">
-              <span className="text-4xl font-bold text-black">3/3</span>
+            <div className="w-1/6 bg-[#9b87f5] flex items-center justify-center border-r border-black">
+              <span className="text-4xl font-bold text-black">3/6</span>
+            </div>
+            <div className="w-1/6 bg-[#9b87f5] flex items-center justify-center border-r border-black">
+              <span className="text-4xl font-bold text-black">4/6</span>
+            </div>
+            <div className="w-1/6 bg-[#9b87f5] flex items-center justify-center border-r border-black">
+              <span className="text-4xl font-bold text-black">5/6</span>
+            </div>
+            <div className="w-1/6 bg-[#9b87f5] flex items-center justify-center">
+              <span className="text-4xl font-bold text-black">6/6</span>
             </div>
           </div>
         </motion.div>
@@ -58,21 +67,39 @@ const Index = () => {
           >
             <motion.div 
               drag
-              className="w-1/3 bg-[#7E69AB] flex items-center justify-center border-r border-black"
+              className="w-1/6 bg-[#7E69AB] flex items-center justify-center border-r border-black"
             >
-              <span className="text-4xl font-bold text-black">1/3</span>
+              <span className="text-4xl font-bold text-black">1/6</span>
             </motion.div>
             <motion.div 
               drag
-              className="w-1/3 bg-[#7E69AB] flex items-center justify-center border-r border-black"
+              className="w-1/6 bg-[#7E69AB] flex items-center justify-center border-r border-black"
             >
-              <span className="text-4xl font-bold text-black">2/3</span>
+              <span className="text-4xl font-bold text-black">2/6</span>
             </motion.div>
             <motion.div 
               drag
-              className="w-1/3 bg-[#7E69AB] flex items-center justify-center"
+              className="w-1/6 bg-[#7E69AB] flex items-center justify-center border-r border-black"
             >
-              <span className="text-4xl font-bold text-black">3/3</span>
+              <span className="text-4xl font-bold text-black">3/6</span>
+            </motion.div>
+            <motion.div 
+              drag
+              className="w-1/6 bg-[#7E69AB] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-4xl font-bold text-black">4/6</span>
+            </motion.div>
+            <motion.div 
+              drag
+              className="w-1/6 bg-[#7E69AB] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-4xl font-bold text-black">5/6</span>
+            </motion.div>
+            <motion.div 
+              drag
+              className="w-1/6 bg-[#7E69AB] flex items-center justify-center"
+            >
+              <span className="text-4xl font-bold text-black">6/6</span>
             </motion.div>
           </div>
         </motion.div>
