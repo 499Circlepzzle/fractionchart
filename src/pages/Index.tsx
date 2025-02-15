@@ -171,8 +171,8 @@ const Index = () => {
           24:1 Ratio
         </span>
         <h1 className="text-2xl font-light text-neutral-900">Rectangle Ratio Visualizer</h1>
-        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200 max-w-md">
-          <p className="text-sm text-blue-800">
+        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-black max-w-md">
+          <p className="text-sm text-black">
             <strong>Tip:</strong> Click on the first fraction in each rectangle (½, ⅓, ¼, etc.) to create duplicates you can drag around. Hover over duplicates to reveal a delete button.
           </p>
         </div>
