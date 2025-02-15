@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 
 const Index = () => {
@@ -373,14 +374,14 @@ const Index = () => {
               >
                 {index >= 10 ? (
                   <>
-                    <span className="text-2xl font-bold text-black">{index + 1}/10</span>
-                    <span className="text-2xl font-bold text-black">
+                    <span className="text-xl font-bold text-black">{index + 1}/10</span>
+                    <span className="text-xl font-bold text-black">
                       {Math.floor((index + 1) / 10)}
                       {((index + 1) % 10) === 0 ? '' : `${((index + 1) % 10)}/10`}
                     </span>
                   </>
                 ) : (
-                  <span className="text-4xl font-bold text-black">{index + 1}/10</span>
+                  <span className="text-3xl font-bold text-black">{index + 1}/10</span>
                 )}
               </motion.div>
             ))}
