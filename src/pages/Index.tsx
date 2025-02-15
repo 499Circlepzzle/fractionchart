@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -166,7 +167,7 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-50 p-4">
       <div className="space-y-2 text-center mb-8">
-        <h1 className="text-2xl font-light text-neutral-900">Fraction Chart</h1>
+        <h1 className="text-2xl font-bold text-neutral-900">Fraction Chart</h1>
         <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-black max-w-md">
           <p className="text-sm text-black">
             <strong>Tip:</strong> Click on the first fraction in each rectangle (½, ⅓, ¼, etc.) to create duplicates you can drag around. Hover over duplicates to reveal a delete button.
