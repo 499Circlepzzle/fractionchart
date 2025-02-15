@@ -1,27 +1,21 @@
-
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
 
 const Index = () => {
-  // Calculate dimensions maintaining new proportions
-  const baseWidth = "90vw"; // 90% of viewport width
-  const baseHeight = "calc((90vw / 24) * 2.5)"; // Original height * 2.5 (150% increase)
+  const baseWidth = "90vw";
+  const baseHeight = "calc((90vw / 24) * 2.5)";
   
-  // State to track duplicated sections with position
   const [duplicatedHalves, setDuplicatedHalves] = useState<Array<{ id: number; x?: number; y?: number }>>([]);
 
-  // Function to duplicate a half
   const duplicateHalf = () => {
     setDuplicatedHalves(prev => [...prev, { id: Date.now() }]);
   };
 
-  // Function to remove a duplicated half
   const removeDuplicate = (id: number) => {
     setDuplicatedHalves(prev => prev.filter(half => half.id !== id));
   };
 
-  // Function to update position when dragging ends
   const onDragEnd = (id: number, event: MouseEvent | TouchEvent | PointerEvent, info: { point: { x: number; y: number } }) => {
     setDuplicatedHalves(prev => 
       prev.map(half => 
@@ -40,7 +34,6 @@ const Index = () => {
       </div>
       
       <div className="space-y-0">
-        {/* First Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -63,7 +56,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Second Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -82,8 +74,8 @@ const Index = () => {
               dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
               dragMomentum={false}
               whileDrag={{ zIndex: 50 }}
+              onTap={duplicateHalf}
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-move relative"
-              onClick={duplicateHalf}
             >
               <span className="text-4xl font-bold text-black">½</span>
             </motion.div>
@@ -132,7 +124,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Third Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -182,7 +173,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Fourth Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -243,7 +233,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Fifth Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -296,7 +285,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Sixth Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -352,7 +340,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Seventh Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -388,7 +375,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Eighth Rectangle */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
