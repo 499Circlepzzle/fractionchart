@@ -2,10 +2,9 @@
 import { motion } from "framer-motion";
 
 const Index = () => {
-  // Calculate dimensions maintaining 24:1 ratio
-  // Base the width on viewport width while ensuring the height stays proportional
+  // Calculate dimensions maintaining new proportions
   const baseWidth = "90vw"; // 90% of viewport width
-  const baseHeight = "calc(90vw / 24)"; // Height is width/24 to maintain ratio
+  const baseHeight = "calc((90vw / 24) * 2.5)"; // Original height * 2.5 (150% increase)
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-50 p-4">
