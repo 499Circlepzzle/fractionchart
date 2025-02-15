@@ -62,20 +62,20 @@ const Index = () => {
               drag
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
             >
-              <span className="text-4xl font-bold text-black">2 halves</span>
+              <span className="text-4xl font-bold text-black">2/2</span>
             </motion.div>
             <motion.div 
               drag
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black flex-col"
             >
-              <span className="text-2xl font-bold text-black">3 halves</span>
+              <span className="text-2xl font-bold text-black">3/2</span>
               <span className="text-2xl font-bold text-black">1½</span>
             </motion.div>
             <motion.div 
               drag
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center flex-col"
             >
-              <span className="text-2xl font-bold text-black">4 halves</span>
+              <span className="text-2xl font-bold text-black">4/2</span>
               <span className="text-2xl font-bold text-black">2</span>
             </motion.div>
           </div>
