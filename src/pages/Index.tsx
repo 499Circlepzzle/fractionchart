@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 
 const Index = () => {
@@ -153,49 +154,49 @@ const Index = () => {
           >
             <motion.div 
               drag
-              className="w-1/8 bg-[#F2FCE2] flex items-center justify-center border-r border-black"
+              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">1/4</span>
             </motion.div>
             <motion.div 
               drag
-              className="w-1/8 bg-[#F2FCE2] flex items-center justify-center border-r border-black"
+              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">2/4</span>
             </motion.div>
             <motion.div 
               drag
-              className="w-1/8 bg-[#F2FCE2] flex items-center justify-center border-r border-black"
+              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">3/4</span>
             </motion.div>
             <motion.div 
               drag
-              className="w-1/8 bg-[#F2FCE2] flex items-center justify-center border-r border-black"
+              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">4/4</span>
             </motion.div>
             <motion.div 
               drag
-              className="w-1/8 bg-[#F2FCE2] flex items-center justify-center border-r border-black"
+              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">5/4</span>
             </motion.div>
             <motion.div 
               drag
-              className="w-1/8 bg-[#F2FCE2] flex items-center justify-center border-r border-black"
+              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">6/4</span>
             </motion.div>
             <motion.div 
               drag
-              className="w-1/8 bg-[#F2FCE2] flex items-center justify-center border-r border-black"
+              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
             >
               <span className="text-4xl font-bold text-black">7/4</span>
             </motion.div>
             <motion.div 
               drag
-              className="w-1/8 bg-[#F2FCE2] flex items-center justify-center"
+              className="w-[12.5%] bg-green-200 flex items-center justify-center"
             >
               <span className="text-4xl font-bold text-black">8/4</span>
             </motion.div>
