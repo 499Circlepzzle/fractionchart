@@ -14,6 +14,7 @@ const Index = () => {
   const [duplicatedFifths, setDuplicatedFifths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   const [duplicatedSixths, setDuplicatedSixths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   const [duplicatedEighths, setDuplicatedEighths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
+  const [duplicatedTenths, setDuplicatedTenths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
 
   // Function to duplicate a half with offset
   const duplicateHalf = () => {
@@ -81,6 +82,17 @@ const Index = () => {
     setDuplicatedEighths(prevEighths => [...prevEighths, newEighth]);
   };
 
+  // Function to duplicate a tenth with offset
+  const duplicateTenth = () => {
+    console.log("Duplicating tenth"); // Debug log
+    const offset = duplicatedTenths.length * 20; // Offset each new duplicate by 20px
+    const newTenth = { 
+      id: Date.now(), 
+      position: { x: offset, y: offset }
+    };
+    setDuplicatedTenths(prevTenths => [...prevTenths, newTenth]);
+  };
+
   // Function to remove duplicates
   const removeDuplicate = (id: number) => {
     setDuplicatedHalves(prev => prev.filter(half => half.id !== id));
@@ -106,8 +118,12 @@ const Index = () => {
     setDuplicatedEighths(prev => prev.filter(eighth => eighth.id !== id));
   };
 
+  const removeTenth = (id: number) => {
+    setDuplicatedTenths(prev => prev.filter(tenth => tenth.id !== id));
+  };
+
   // Function to update position when dragging ends
-  const updatePosition = (id: number, position: { x: number; y: number }, type: 'half' | 'third' | 'quarter' | 'fifth' | 'sixth' | 'eighth') => {
+  const updatePosition = (id: number, position: { x: number; y: number }, type: 'half' | 'third' | 'quarter' | 'fifth' | 'sixth' | 'eighth' | 'tenth') => {
     switch (type) {
       case 'half':
         setDuplicatedHalves(prev => 
@@ -137,6 +153,11 @@ const Index = () => {
       case 'eighth':
         setDuplicatedEighths(prev => 
           prev.map(eighth => eighth.id === id ? { ...eighth, position } : eighth)
+        );
+        break;
+      case 'tenth':
+        setDuplicatedTenths(prev => 
+          prev.map(tenth => tenth.id === id ? { ...tenth, position } : tenth)
         );
         break;
     }
@@ -480,7 +501,14 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-            {[...Array(20)].map((_, index) => (
+            <button 
+              type="button"
+              onClick={duplicateTenth}
+              className="w-[5%] bg-[#D3E4FD] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#bfcee6] transition-colors"
+            >
+              <span className="text-xl font-bold text-black">1/10</span>
+            </button>
+            {[...Array(19)].map((_, index) => (
               <motion.div 
                 key={index}
                 drag
@@ -488,14 +516,14 @@ const Index = () => {
               >
                 {index >= 10 ? (
                   <>
-                    <span className="text-base font-bold text-black">{index + 1}/10</span>
+                    <span className="text-base font-bold text-black">{index + 2}/10</span>
                     <span className="text-base font-bold text-black">
-                      {Math.floor((index + 1) / 10)}
-                      {((index + 1) % 10) === 0 ? '' : `${((index + 1) % 10)}/10`}
+                      {Math.floor((index + 2) / 10)}
+                      {((index + 2) % 10) === 0 ? '' : `${((index + 2) % 10)}/10`}
                     </span>
                   </>
                 ) : (
-                  <span className="text-xl font-bold text-black">{index + 1}/10</span>
+                  <span className="text-xl font-bold text-black">{index + 2}/10</span>
                 )}
               </motion.div>
             ))}
@@ -710,6 +738,42 @@ const Index = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 removeEighth(eighth.id);
+              }}
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <X size={16} />
+            </button>
+          </motion.div>
+        ))}
+
+        {duplicatedTenths.map((tenth) => (
+          <motion.div
+            key={tenth.id}
+            drag
+            dragMomentum={false}
+            initial={{ x: tenth.position.x, y: tenth.position.y }}
+            animate={{ x: tenth.position.x, y: tenth.position.y }}
+            onDragEnd={(e, info) => {
+              updatePosition(tenth.id, { x: info.offset.x + tenth.position.x, y: info.offset.y + tenth.position.y }, 'tenth');
+            }}
+            whileDrag={{ zIndex: 50 }}
+            style={{
+              position: 'absolute',
+              width: `calc(${baseWidth} / 20)`,
+              height: baseHeight,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 40
+            }}
+            className="bg-[#D3E4FD] flex items-center justify-center border-2 border-black group"
+          >
+            <span className="text-xl font-bold text-black">1/10</span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeTenth(tenth.id);
               }}
               className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
             >
