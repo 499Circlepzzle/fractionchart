@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 
 const Index = () => {
@@ -254,6 +253,42 @@ const Index = () => {
                   </>
                 ) : (
                   <span className="text-4xl font-bold text-black">{index + 1}/5</span>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Sixth Rectangle */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 1.5 }}
+          className="relative"
+        >
+          <div 
+            style={{ 
+              width: baseWidth,
+              height: baseHeight,
+            }}
+            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
+          >
+            {[...Array(12)].map((_, index) => (
+              <motion.div 
+                key={index}
+                drag
+                className={`w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black last:border-r-0 ${(index >= 6) ? 'flex-col' : ''}`}
+              >
+                {index >= 6 ? (
+                  <>
+                    <span className="text-2xl font-bold text-black">{index + 1}/6</span>
+                    <span className="text-2xl font-bold text-black">
+                      {Math.floor((index + 1) / 6)}
+                      {((index + 1) % 6) === 0 ? '' : '⅙'}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-4xl font-bold text-black">{index + 1}/6</span>
                 )}
               </motion.div>
             ))}
