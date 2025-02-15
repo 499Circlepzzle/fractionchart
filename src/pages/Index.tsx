@@ -26,8 +26,15 @@ const Index = () => {
             width: baseWidth,
             height: baseHeight,
           }}
-          className="bg-[#9b87f5] border-2 border-black rounded-sm shadow-md"
-        />
+          className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
+        >
+          <div className="w-1/2 bg-[#9b87f5] flex items-center justify-center border-r border-black">
+            <span className="text-4xl font-bold text-white">1</span>
+          </div>
+          <div className="w-1/2 bg-[#9b87f5] flex items-center justify-center">
+            <span className="text-4xl font-bold text-white">2</span>
+          </div>
+        </div>
       </motion.div>
 
       <p className="mt-6 text-sm text-neutral-600">
