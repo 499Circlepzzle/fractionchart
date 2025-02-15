@@ -130,9 +130,10 @@ const Index = () => {
             </motion.div>
             <motion.div 
               drag
-              className="w-1/6 bg-[#FFE649] flex items-center justify-center"
+              className="w-1/6 bg-[#FFE649] flex items-center justify-center flex-col"
             >
-              <span className="text-4xl font-bold text-black">6/6</span>
+              <span className="text-2xl font-bold text-black">6/3</span>
+              <span className="text-2xl font-bold text-black">2</span>
             </motion.div>
           </div>
         </motion.div>
