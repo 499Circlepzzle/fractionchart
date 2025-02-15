@@ -30,10 +30,10 @@ const Index = () => {
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
             <div className="w-1/2 bg-[#9b87f5] flex items-center justify-center border-r border-black">
-              <span className="text-4xl font-bold text-black">1</span>
+              <span className="text-4xl font-bold text-black">½</span>
             </div>
             <div className="w-1/2 bg-[#9b87f5] flex items-center justify-center">
-              <span className="text-4xl font-bold text-black">2</span>
+              <span className="text-4xl font-bold text-black">2/2</span>
             </div>
           </div>
         </motion.div>
@@ -56,25 +56,25 @@ const Index = () => {
               drag
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
             >
-              <span className="text-4xl font-bold text-black">1</span>
+              <span className="text-4xl font-bold text-black">¼</span>
             </motion.div>
             <motion.div 
               drag
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
             >
-              <span className="text-4xl font-bold text-black">2</span>
+              <span className="text-4xl font-bold text-black">2/4</span>
             </motion.div>
             <motion.div 
               drag
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
             >
-              <span className="text-4xl font-bold text-black">3</span>
+              <span className="text-4xl font-bold text-black">3/4</span>
             </motion.div>
             <motion.div 
               drag
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center"
             >
-              <span className="text-4xl font-bold text-black">4</span>
+              <span className="text-4xl font-bold text-black">4/4</span>
             </motion.div>
           </div>
         </motion.div>
