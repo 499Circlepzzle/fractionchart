@@ -13,6 +13,7 @@ const Index = () => {
   const [duplicatedQuarters, setDuplicatedQuarters] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   const [duplicatedFifths, setDuplicatedFifths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   const [duplicatedSixths, setDuplicatedSixths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
+  const [duplicatedEighths, setDuplicatedEighths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
 
   // Function to duplicate a half with offset
   const duplicateHalf = () => {
@@ -69,6 +70,17 @@ const Index = () => {
     setDuplicatedSixths(prevSixths => [...prevSixths, newSixth]);
   };
 
+  // Function to duplicate an eighth with offset
+  const duplicateEighth = () => {
+    console.log("Duplicating eighth"); // Debug log
+    const offset = duplicatedEighths.length * 20; // Offset each new duplicate by 20px
+    const newEighth = { 
+      id: Date.now(), 
+      position: { x: offset, y: offset }
+    };
+    setDuplicatedEighths(prevEighths => [...prevEighths, newEighth]);
+  };
+
   // Function to remove duplicates
   const removeDuplicate = (id: number) => {
     setDuplicatedHalves(prev => prev.filter(half => half.id !== id));
@@ -90,8 +102,12 @@ const Index = () => {
     setDuplicatedSixths(prev => prev.filter(sixth => sixth.id !== id));
   };
 
+  const removeEighth = (id: number) => {
+    setDuplicatedEighths(prev => prev.filter(eighth => eighth.id !== id));
+  };
+
   // Function to update position when dragging ends
-  const updatePosition = (id: number, position: { x: number; y: number }, type: 'half' | 'third' | 'quarter' | 'fifth' | 'sixth') => {
+  const updatePosition = (id: number, position: { x: number; y: number }, type: 'half' | 'third' | 'quarter' | 'fifth' | 'sixth' | 'eighth') => {
     switch (type) {
       case 'half':
         setDuplicatedHalves(prev => 
@@ -116,6 +132,11 @@ const Index = () => {
       case 'sixth':
         setDuplicatedSixths(prev => 
           prev.map(sixth => sixth.id === id ? { ...sixth, position } : sixth)
+        );
+        break;
+      case 'eighth':
+        setDuplicatedEighths(prev => 
+          prev.map(eighth => eighth.id === id ? { ...eighth, position } : eighth)
         );
         break;
     }
@@ -653,6 +674,42 @@ const Index = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 removeSixth(sixth.id);
+              }}
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <X size={16} />
+            </button>
+          </motion.div>
+        ))}
+
+        {duplicatedEighths.map((eighth) => (
+          <motion.div
+            key={eighth.id}
+            drag
+            dragMomentum={false}
+            initial={{ x: eighth.position.x, y: eighth.position.y }}
+            animate={{ x: eighth.position.x, y: eighth.position.y }}
+            onDragEnd={(e, info) => {
+              updatePosition(eighth.id, { x: info.offset.x + eighth.position.x, y: info.offset.y + eighth.position.y }, 'eighth');
+            }}
+            whileDrag={{ zIndex: 50 }}
+            style={{
+              position: 'absolute',
+              width: `calc(${baseWidth} / 16)`,
+              height: baseHeight,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 40
+            }}
+            className="bg-[#ea384c] flex items-center justify-center border-2 border-black group"
+          >
+            <span className="text-2xl font-bold text-black">1/8</span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeEighth(eighth.id);
               }}
               className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
             >
