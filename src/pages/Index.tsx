@@ -15,27 +15,74 @@ const Index = () => {
         <h1 className="text-2xl font-light text-neutral-900">Rectangle Ratio Visualizer</h1>
       </div>
       
-      <motion.div
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ duration: 1, ease: "easeOut" }}
-        className="relative"
-      >
-        <div 
-          style={{ 
-            width: baseWidth,
-            height: baseHeight,
-          }}
-          className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
+      <div className="space-y-0">
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="relative"
         >
-          <div className="w-1/2 bg-[#9b87f5] flex items-center justify-center border-r border-black">
-            <span className="text-4xl font-bold text-black">1</span>
+          <div 
+            style={{ 
+              width: baseWidth,
+              height: baseHeight,
+            }}
+            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
+          >
+            <div className="w-1/2 bg-[#9b87f5] flex items-center justify-center border-r border-black">
+              <span className="text-4xl font-bold text-black">1</span>
+            </div>
+            <div className="w-1/2 bg-[#9b87f5] flex items-center justify-center">
+              <span className="text-4xl font-bold text-black">2</span>
+            </div>
           </div>
-          <div className="w-1/2 bg-[#9b87f5] flex items-center justify-center">
-            <span className="text-4xl font-bold text-black">2</span>
+        </motion.div>
+
+        {/* Second Rectangle */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
+          className="relative"
+        >
+          <div 
+            style={{ 
+              width: baseWidth,
+              height: baseHeight,
+            }}
+            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
+          >
+            <motion.div 
+              drag
+              dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-4xl font-bold text-black">1</span>
+            </motion.div>
+            <motion.div 
+              drag
+              dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-4xl font-bold text-black">2</span>
+            </motion.div>
+            <motion.div 
+              drag
+              dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-4xl font-bold text-black">3</span>
+            </motion.div>
+            <motion.div 
+              drag
+              dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+              className="w-1/4 bg-[#7E69AB] flex items-center justify-center"
+            >
+              <span className="text-4xl font-bold text-black">4</span>
+            </motion.div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
 
       <p className="mt-6 text-sm text-neutral-600">
         A horizontal rectangle with a precise 24:1 ratio
