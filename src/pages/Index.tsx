@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -7,17 +8,26 @@ const Index = () => {
   const baseWidth = "90vw"; // 90% of viewport width
   const baseHeight = "calc((90vw / 24) * 2.5)"; // Original height * 2.5 (150% increase)
   
-  // State to track duplicated sections
-  const [duplicatedHalves, setDuplicatedHalves] = useState<Array<{ id: number }>>([]);
+  // State to track duplicated sections with position
+  const [duplicatedHalves, setDuplicatedHalves] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
 
   // Function to duplicate a half
   const duplicateHalf = () => {
-    setDuplicatedHalves(prev => [...prev, { id: Date.now() }]);
+    setDuplicatedHalves(prev => [...prev, { id: Date.now(), position: { x: 0, y: 0 } }]);
   };
 
   // Function to remove a duplicated half
   const removeDuplicate = (id: number) => {
     setDuplicatedHalves(prev => prev.filter(half => half.id !== id));
+  };
+
+  // Function to update position when dragging ends
+  const updatePosition = (id: number, position: { x: number; y: number }) => {
+    setDuplicatedHalves(prev => 
+      prev.map(half => 
+        half.id === id ? { ...half, position } : half
+      )
+    );
   };
 
   return (
@@ -98,11 +108,13 @@ const Index = () => {
               <motion.div
                 key={half.id}
                 drag
-                dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+                dragMomentum={false}
+                initial={{ x: half.position.x, y: half.position.y }}
+                animate={{ x: half.position.x, y: half.position.y }}
+                onDragEnd={(e, info) => {
+                  updatePosition(half.id, { x: info.offset.x + half.position.x, y: info.offset.y + half.position.y });
+                }}
                 className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black absolute top-0 group"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
               >
                 <span className="text-4xl font-bold text-black">½</span>
                 <button
