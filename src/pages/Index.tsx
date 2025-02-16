@@ -1,4 +1,4 @@
-
+<lov-code>
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -15,6 +15,7 @@ const Index = () => {
   const [duplicatedFifths, setDuplicatedFifths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   const [duplicatedSixths, setDuplicatedSixths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   const [duplicatedEighths, setDuplicatedEighths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
+
   const [duplicatedTenths, setDuplicatedTenths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
 
   // Function to duplicate a half with offset
@@ -94,7 +95,6 @@ const Index = () => {
     setDuplicatedTenths(prevTenths => [...prevTenths, newTenth]);
   };
 
-  // Function to remove duplicates
   const removeDuplicate = (id: number) => {
     setDuplicatedHalves(prev => prev.filter(half => half.id !== id));
   };
@@ -728,40 +728,4 @@ const Index = () => {
             initial={{ x: eighth.position.x, y: eighth.position.y }}
             animate={{ x: eighth.position.x, y: eighth.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(eighth.id, { x: info.offset.x + eighth.position.x, y: info.offset.y + eighth.position.y }, 'eighth');
-            }}
-            whileDrag={{ zIndex: 50 }}
-            style={{
-              position: 'absolute',
-              width: `calc(${baseWidth} / 16)`,
-              height: baseHeight,
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              zIndex: 40
-            }}
-            className="bg-[#ea384c] flex items-center justify-center border-2 border-black group"
-          >
-            <span className="text-2xl font-bold text-black">1/8</span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeEighth(eighth.id);
-              }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <X size={16} />
-            </button>
-          </motion.div>
-        ))}
-
-        <p className="mt-6 text-sm text-neutral-600">
-          A horizontal rectangle with a precise 24:1 ratio
-        </p>
-      </div>
-    </div>
-  );
-};
-
-export default Index;
+              updatePosition(eighth.id, { x: info.offset.x + eighth.position.x, y: info.
