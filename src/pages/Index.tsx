@@ -1,4 +1,3 @@
-<lov-code>
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -15,7 +14,6 @@ const Index = () => {
   const [duplicatedFifths, setDuplicatedFifths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   const [duplicatedSixths, setDuplicatedSixths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   const [duplicatedEighths, setDuplicatedEighths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
-
   const [duplicatedTenths, setDuplicatedTenths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
 
   // Function to duplicate a half with offset
@@ -728,4 +726,4 @@ const Index = () => {
             initial={{ x: eighth.position.x, y: eighth.position.y }}
             animate={{ x: eighth.position.x, y: eighth.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(eighth.id, { x: info.offset.x + eighth.position.x, y: info.
+              updatePosition(eighth.id, { x: info.offset.x + eighth.position.x, y: info.offset.y
