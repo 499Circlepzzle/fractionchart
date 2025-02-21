@@ -1,12 +1,29 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 
 const Index = () => {
-  // Calculate dimensions maintaining new proportions
-  const baseWidth = "90vw"; // 90% of viewport width
-  const baseHeight = "calc((90vw / 24) * 2.5)"; // Original height * 2.5 (150% increase)
-  
+  // Calculate dimensions maintaining new proportions, but now responsive to screen size
+  const [baseWidth, setBaseWidth] = useState("90vw");
+  const [baseHeight, setBaseHeight] = useState("calc((90vw / 24) * 2.5)");
+
+  // Update dimensions based on screen size
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (window.innerWidth < 768) { // Mobile devices
+        setBaseWidth("95vw"); // Use more screen width on mobile
+        setBaseHeight("calc((95vw / 24) * 3)"); // Increase height ratio for better visibility
+      } else {
+        setBaseWidth("90vw");
+        setBaseHeight("calc((90vw / 24) * 2.5)");
+      }
+    };
+
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
+
   // State to track duplicated sections with position
   const [duplicatedHalves, setDuplicatedHalves] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   const [duplicatedThirds, setDuplicatedThirds] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
@@ -156,22 +173,22 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-50 p-4">
-      <div className="space-y-2 text-center mb-8">
-        <h1 className="text-2xl font-bold text-neutral-900">Fraction Chart</h1>
-        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-black max-w-md">
-          <p className="text-sm text-black">
-            <strong>Tip:</strong> Click on the first fraction in each rectangle (½, ⅓, ¼, etc.) to create duplicates you can drag around. Hover over duplicates to reveal a delete button.
+    <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-50 p-2 md:p-4">
+      <div className="space-y-2 text-center mb-4 md:mb-8">
+        <h1 className="text-xl md:text-2xl font-bold text-neutral-900">Fraction Chart</h1>
+        <div className="mt-2 md:mt-4 p-2 md:p-4 bg-blue-50 rounded-lg border border-black max-w-md mx-2">
+          <p className="text-xs md:text-sm text-black">
+            <strong>Tip:</strong> Click on the first fraction in each rectangle (½, ⅓, ¼, etc.) to create duplicates you can drag around. Hover or tap a duplicate to reveal the delete button.
           </p>
         </div>
       </div>
       
-      <div className="space-y-0 relative">
+      <div className="space-y-0 relative w-full flex flex-col items-center">
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="relative"
+          className="relative w-full flex justify-center"
         >
           <div 
             style={{ 
@@ -181,10 +198,10 @@ const Index = () => {
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
             <div className="w-1/2 bg-[#9b87f5] flex items-center justify-center border-r border-black">
-              <span className="text-4xl font-bold text-black">1</span>
+              <span className="text-2xl md:text-4xl font-bold text-black">1</span>
             </div>
             <div className="w-1/2 bg-[#9b87f5] flex items-center justify-center">
-              <span className="text-4xl font-bold text-black">2</span>
+              <span className="text-2xl md:text-4xl font-bold text-black">2</span>
             </div>
           </div>
         </motion.div>
@@ -193,7 +210,7 @@ const Index = () => {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
-          className="relative"
+          className="relative w-full flex justify-center"
         >
           <div 
             style={{ 
@@ -233,7 +250,7 @@ const Index = () => {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.6 }}
-          className="relative"
+          className="relative w-full flex justify-center"
         >
           <div 
             style={{ 
@@ -284,7 +301,7 @@ const Index = () => {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.9 }}
-          className="relative"
+          className="relative w-full flex justify-center"
         >
           <div 
             style={{ 
@@ -346,7 +363,7 @@ const Index = () => {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1, ease: "easeOut", delay: 1.2 }}
-          className="relative"
+          className="relative w-full flex justify-center"
         >
           <div 
             style={{ 
@@ -387,7 +404,7 @@ const Index = () => {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1, ease: "easeOut", delay: 1.5 }}
-          className="relative"
+          className="relative w-full flex justify-center"
         >
           <div 
             style={{ 
@@ -428,7 +445,7 @@ const Index = () => {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1, ease: "easeOut", delay: 1.8 }}
-          className="relative"
+          className="relative w-full flex justify-center"
         >
           <div 
             style={{ 
@@ -469,7 +486,7 @@ const Index = () => {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1, ease: "easeOut", delay: 2.1 }}
-          className="relative"
+          className="relative w-full flex justify-center"
         >
           <div 
             style={{ 
@@ -526,16 +543,16 @@ const Index = () => {
               transform: 'translate(-50%, -50%)',
               zIndex: 40
             }}
-            className="bg-[#7E69AB] flex items-center justify-center border-2 border-black group"
+            className="bg-[#7E69AB] flex items-center justify-center border-2 border-black group touch-none"
           >
-            <span className="text-4xl font-bold text-black">½</span>
+            <span className="text-xl md:text-4xl font-bold text-black">½</span>
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 removeDuplicate(half.id);
               }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
             >
               <X size={16} />
             </button>
@@ -562,16 +579,16 @@ const Index = () => {
               transform: 'translate(-50%, -50%)',
               zIndex: 40
             }}
-            className="bg-[#FFE649] flex items-center justify-center border-2 border-black group"
+            className="bg-[#FFE649] flex items-center justify-center border-2 border-black group touch-none"
           >
-            <span className="text-4xl font-bold text-black">⅓</span>
+            <span className="text-xl md:text-4xl font-bold text-black">⅓</span>
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 removeThird(third.id);
               }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
             >
               <X size={16} />
             </button>
@@ -598,16 +615,16 @@ const Index = () => {
               transform: 'translate(-50%, -50%)',
               zIndex: 40
             }}
-            className="bg-green-200 flex items-center justify-center border-2 border-black group"
+            className="bg-green-200 flex items-center justify-center border-2 border-black group touch-none"
           >
-            <span className="text-4xl font-bold text-black">¼</span>
+            <span className="text-xl md:text-4xl font-bold text-black">¼</span>
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 removeQuarter(quarter.id);
               }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
             >
               <X size={16} />
             </button>
@@ -634,16 +651,16 @@ const Index = () => {
               transform: 'translate(-50%, -50%)',
               zIndex: 40
             }}
-            className="bg-[#FEC6A1] flex items-center justify-center border-2 border-black group"
+            className="bg-[#FEC6A1] flex items-center justify-center border-2 border-black group touch-none"
           >
-            <span className="text-4xl font-bold text-black">⅕</span>
+            <span className="text-xl md:text-4xl font-bold text-black">⅕</span>
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 removeFifth(fifth.id);
               }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
             >
               <X size={16} />
             </button>
@@ -670,16 +687,16 @@ const Index = () => {
               transform: 'translate(-50%, -50%)',
               zIndex: 40
             }}
-            className="bg-[#FFDEE2] flex items-center justify-center border-2 border-black group"
+            className="bg-[#FFDEE2] flex items-center justify-center border-2 border-black group touch-none"
           >
-            <span className="text-4xl font-bold text-black">⅙</span>
+            <span className="text-xl md:text-4xl font-bold text-black">⅙</span>
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 removeSixth(sixth.id);
               }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
             >
               <X size={16} />
             </button>
@@ -706,16 +723,16 @@ const Index = () => {
               transform: 'translate(-50%, -50%)',
               zIndex: 40
             }}
-            className="bg-[#ea384c] flex items-center justify-center border-2 border-black group"
+            className="bg-[#ea384c] flex items-center justify-center border-2 border-black group touch-none"
           >
-            <span className="text-4xl font-bold text-black">⅛</span>
+            <span className="text-xl md:text-4xl font-bold text-black">⅛</span>
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 removeEighth(eighth.id);
               }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
             >
               <X size={16} />
             </button>
@@ -742,7 +759,7 @@ const Index = () => {
               transform: 'translate(-50%, -50%)',
               zIndex: 40
             }}
-            className="bg-[#D3E4FD] flex items-center justify-center border-2 border-black group"
+            className="bg-[#D3E4FD] flex items-center justify-center border-2 border-black group touch-none"
           >
             <span className="text-xl font-bold text-black">⅒</span>
             <button
@@ -751,7 +768,7 @@ const Index = () => {
                 e.stopPropagation();
                 removeTenth(tenth.id);
               }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
             >
               <X size={16} />
             </button>
