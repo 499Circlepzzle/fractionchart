@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { DraggableFraction } from "../components/fractions/DraggableFraction";
@@ -59,9 +60,7 @@ const Index = () => {
       
       <div className="space-y-0 relative w-full flex flex-col items-center">
         <FractionRow baseWidth={baseWidth} baseHeight={baseHeight} delay={0}>
-          <div 
-            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
-          >
+          <div className="flex border-2 border-black rounded-sm shadow-md overflow-hidden">
             <div className="w-1/2 bg-[#9b87f5] flex items-center justify-center border-r border-black">
               <span className="text-lg md:text-4xl font-bold text-black">1</span>
             </div>
