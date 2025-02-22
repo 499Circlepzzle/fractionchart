@@ -518,8 +518,8 @@ const Index = () => {
         key={half.id}
         drag
         dragMomentum={false}
-        dragElastic={0}  // Disable elastic dragging
-        dragConstraints={{ left: -1000, right: 1000, top: -1000, bottom: 1000 }} // Add constraints to prevent unwanted behavior
+        dragElastic={0}
+        dragConstraints={{ left: -1000, right: 1000, top: -1000, bottom: 1000 }}
         initial={{ x: half.position.x, y: half.position.y }}
         animate={{ x: half.position.x, y: half.position.y }}
         onDragEnd={(e, info) => {
@@ -536,7 +536,7 @@ const Index = () => {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           zIndex: 40,
-          touchAction: 'none'  // Prevent default touch behaviors
+          touchAction: 'none'
         }}
         className="bg-[#7E69AB] flex items-center justify-center border-2 border-black group touch-none"
       >
@@ -687,4 +687,124 @@ const Index = () => {
             dragMomentum={false}
             dragElastic={0}
             dragConstraints={{ left: -1000, right: 1000, top: -1000, bottom: 1000 }}
-            initial={{ x: sixth.position.x, y: sixth.position.y
+            initial={{ x: sixth.position.x, y: sixth.position.y }}
+            animate={{ x: sixth.position.x, y: sixth.position.y }}
+            onDragEnd={(e, info) => {
+              const newX = sixth.position.x + info.offset.x;
+              const newY = sixth.position.y + info.offset.y;
+              updatePosition(sixth.id, { x: newX, y: newY }, 'sixth');
+            }}
+            whileDrag={{ scale: 1.02, zIndex: 50 }}
+            style={{
+              position: 'absolute',
+              width: `calc(${baseWidth} / 12)`,
+              height: baseHeight,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 40,
+              touchAction: 'none'
+            }}
+            className="bg-[#FFDEE2] flex items-center justify-center border-2 border-black group touch-none"
+          >
+            <span className="text-xs md:text-4xl font-bold text-black">⅙</span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeSixth(sixth.id);
+              }}
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
+            >
+              <X size={16} />
+            </button>
+          </motion.div>
+        ))}
+
+        {duplicatedEighths.map((eighth) => (
+          <motion.div
+            key={eighth.id}
+            drag
+            dragMomentum={false}
+            dragElastic={0}
+            dragConstraints={{ left: -1000, right: 1000, top: -1000, bottom: 1000 }}
+            initial={{ x: eighth.position.x, y: eighth.position.y }}
+            animate={{ x: eighth.position.x, y: eighth.position.y }}
+            onDragEnd={(e, info) => {
+              const newX = eighth.position.x + info.offset.x;
+              const newY = eighth.position.y + info.offset.y;
+              updatePosition(eighth.id, { x: newX, y: newY }, 'eighth');
+            }}
+            whileDrag={{ scale: 1.02, zIndex: 50 }}
+            style={{
+              position: 'absolute',
+              width: `calc(${baseWidth} / 16)`,
+              height: baseHeight,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 40,
+              touchAction: 'none'
+            }}
+            className="bg-[#ea384c] flex items-center justify-center border-2 border-black group touch-none"
+          >
+            <span className="text-[10px] md:text-4xl font-bold text-black">⅛</span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeEighth(eighth.id);
+              }}
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
+            >
+              <X size={16} />
+            </button>
+          </motion.div>
+        ))}
+
+        {duplicatedTenths.map((tenth) => (
+          <motion.div
+            key={tenth.id}
+            drag
+            dragMomentum={false}
+            dragElastic={0}
+            dragConstraints={{ left: -1000, right: 1000, top: -1000, bottom: 1000 }}
+            initial={{ x: tenth.position.x, y: tenth.position.y }}
+            animate={{ x: tenth.position.x, y: tenth.position.y }}
+            onDragEnd={(e, info) => {
+              const newX = tenth.position.x + info.offset.x;
+              const newY = tenth.position.y + info.offset.y;
+              updatePosition(tenth.id, { x: newX, y: newY }, 'tenth');
+            }}
+            whileDrag={{ scale: 1.02, zIndex: 50 }}
+            style={{
+              position: 'absolute',
+              width: `calc(${baseWidth} / 20)`,
+              height: baseHeight,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 40,
+              touchAction: 'none'
+            }}
+            className="bg-[#D3E4FD] flex items-center justify-center border-2 border-black group touch-none"
+          >
+            <span className="text-[8px] md:text-xl font-bold text-black">⅒</span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeTenth(tenth.id);
+              }}
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
+            >
+              <X size={16} />
+            </button>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Index;
