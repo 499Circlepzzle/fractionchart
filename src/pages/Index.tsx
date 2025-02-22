@@ -512,89 +512,107 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {duplicatedHalves.map((half) => (
-          <motion.div
-            key={half.id}
-            drag
-            dragMomentum={false}
-            initial={{ x: half.position.x, y: half.position.y }}
-            animate={{ x: half.position.x, y: half.position.y }}
-            onDragEnd={(e, info) => {
-              updatePosition(half.id, { x: info.offset.x + half.position.x, y: info.offset.y + half.position.y }, 'half');
-            }}
-            whileDrag={{ zIndex: 50 }}
-            style={{
-              position: 'absolute',
-              width: `calc(${baseWidth} / 4)`,
-              height: baseHeight,
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              zIndex: 40
-            }}
-            className="bg-[#7E69AB] flex items-center justify-center border-2 border-black group touch-none"
-          >
-            <span className="text-lg md:text-4xl font-bold text-black">½</span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeDuplicate(half.id);
-              }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
-            >
-              <X size={16} />
-            </button>
-          </motion.div>
-        ))}
+        {
+    duplicatedHalves.map((half) => (
+      <motion.div
+        key={half.id}
+        drag
+        dragMomentum={false}
+        dragElastic={0}  // Disable elastic dragging
+        dragConstraints={{ left: -1000, right: 1000, top: -1000, bottom: 1000 }} // Add constraints to prevent unwanted behavior
+        initial={{ x: half.position.x, y: half.position.y }}
+        animate={{ x: half.position.x, y: half.position.y }}
+        onDragEnd={(e, info) => {
+          const newX = half.position.x + info.offset.x;
+          const newY = half.position.y + info.offset.y;
+          updatePosition(half.id, { x: newX, y: newY }, 'half');
+        }}
+        whileDrag={{ scale: 1.02, zIndex: 50 }}
+        style={{
+          position: 'absolute',
+          width: `calc(${baseWidth} / 4)`,
+          height: baseHeight,
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 40,
+          touchAction: 'none'  // Prevent default touch behaviors
+        }}
+        className="bg-[#7E69AB] flex items-center justify-center border-2 border-black group touch-none"
+      >
+        <span className="text-lg md:text-4xl font-bold text-black">½</span>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            removeDuplicate(half.id);
+          }}
+          className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
+        >
+          <X size={16} />
+        </button>
+      </motion.div>
+    ))
+  }
 
-        {duplicatedThirds.map((third) => (
-          <motion.div
-            key={third.id}
-            drag
-            dragMomentum={false}
-            initial={{ x: third.position.x, y: third.position.y }}
-            animate={{ x: third.position.x, y: third.position.y }}
-            onDragEnd={(e, info) => {
-              updatePosition(third.id, { x: info.offset.x + third.position.x, y: info.offset.y + third.position.y }, 'third');
-            }}
-            whileDrag={{ zIndex: 50 }}
-            style={{
-              position: 'absolute',
-              width: `calc(${baseWidth} / 6)`,
-              height: baseHeight,
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              zIndex: 40
-            }}
-            className="bg-[#FFE649] flex items-center justify-center border-2 border-black group touch-none"
-          >
-            <span className="text-lg md:text-4xl font-bold text-black">⅓</span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeThird(third.id);
-              }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
-            >
-              <X size={16} />
-            </button>
-          </motion.div>
-        ))}
+    {
+    duplicatedThirds.map((third) => (
+      <motion.div
+        key={third.id}
+        drag
+        dragMomentum={false}
+        dragElastic={0}
+        dragConstraints={{ left: -1000, right: 1000, top: -1000, bottom: 1000 }}
+        initial={{ x: third.position.x, y: third.position.y }}
+        animate={{ x: third.position.x, y: third.position.y }}
+        onDragEnd={(e, info) => {
+          const newX = third.position.x + info.offset.x;
+          const newY = third.position.y + info.offset.y;
+          updatePosition(third.id, { x: newX, y: newY }, 'third');
+        }}
+        whileDrag={{ scale: 1.02, zIndex: 50 }}
+        style={{
+          position: 'absolute',
+          width: `calc(${baseWidth} / 6)`,
+          height: baseHeight,
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 40,
+          touchAction: 'none'
+        }}
+        className="bg-[#FFE649] flex items-center justify-center border-2 border-black group touch-none"
+      >
+        <span className="text-lg md:text-4xl font-bold text-black">⅓</span>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            removeThird(third.id);
+          }}
+          className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
+        >
+          <X size={16} />
+        </button>
+      </motion.div>
+    ))
+  }
 
         {duplicatedQuarters.map((quarter) => (
           <motion.div
             key={quarter.id}
             drag
             dragMomentum={false}
+            dragElastic={0}
+            dragConstraints={{ left: -1000, right: 1000, top: -1000, bottom: 1000 }}
             initial={{ x: quarter.position.x, y: quarter.position.y }}
             animate={{ x: quarter.position.x, y: quarter.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(quarter.id, { x: info.offset.x + quarter.position.x, y: info.offset.y + quarter.position.y }, 'quarter');
+              const newX = quarter.position.x + info.offset.x;
+              const newY = quarter.position.y + info.offset.y;
+              updatePosition(quarter.id, { x: newX, y: newY }, 'quarter');
             }}
-            whileDrag={{ zIndex: 50 }}
+            whileDrag={{ scale: 1.02, zIndex: 50 }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 8)`,
@@ -602,7 +620,8 @@ const Index = () => {
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              zIndex: 40
+              zIndex: 40,
+              touchAction: 'none'
             }}
             className="bg-green-200 flex items-center justify-center border-2 border-black group touch-none"
           >
@@ -625,12 +644,16 @@ const Index = () => {
             key={fifth.id}
             drag
             dragMomentum={false}
+            dragElastic={0}
+            dragConstraints={{ left: -1000, right: 1000, top: -1000, bottom: 1000 }}
             initial={{ x: fifth.position.x, y: fifth.position.y }}
             animate={{ x: fifth.position.x, y: fifth.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(fifth.id, { x: info.offset.x + fifth.position.x, y: info.offset.y + fifth.position.y }, 'fifth');
+              const newX = fifth.position.x + info.offset.x;
+              const newY = fifth.position.y + info.offset.y;
+              updatePosition(fifth.id, { x: newX, y: newY }, 'fifth');
             }}
-            whileDrag={{ zIndex: 50 }}
+            whileDrag={{ scale: 1.02, zIndex: 50 }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 10)`,
@@ -638,7 +661,8 @@ const Index = () => {
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              zIndex: 40
+              zIndex: 40,
+              touchAction: 'none'
             }}
             className="bg-[#FEC6A1] flex items-center justify-center border-2 border-black group touch-none"
           >
@@ -661,111 +685,6 @@ const Index = () => {
             key={sixth.id}
             drag
             dragMomentum={false}
-            initial={{ x: sixth.position.x, y: sixth.position.y }}
-            animate={{ x: sixth.position.x, y: sixth.position.y }}
-            onDragEnd={(e, info) => {
-              updatePosition(sixth.id, { x: info.offset.x + sixth.position.x, y: info.offset.y + sixth.position.y }, 'sixth');
-            }}
-            whileDrag={{ zIndex: 50 }}
-            style={{
-              position: 'absolute',
-              width: `calc(${baseWidth} / 12)`,
-              height: baseHeight,
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              zIndex: 40
-            }}
-            className="bg-[#FFDEE2] flex items-center justify-center border-2 border-black group touch-none"
-          >
-            <span className="text-xs md:text-4xl font-bold text-black">⅙</span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeSixth(sixth.id);
-              }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
-            >
-              <X size={16} />
-            </button>
-          </motion.div>
-        ))}
-
-        {duplicatedEighths.map((eighth) => (
-          <motion.div
-            key={eighth.id}
-            drag
-            dragMomentum={false}
-            initial={{ x: eighth.position.x, y: eighth.position.y }}
-            animate={{ x: eighth.position.x, y: eighth.position.y }}
-            onDragEnd={(e, info) => {
-              updatePosition(eighth.id, { x: info.offset.x + eighth.position.x, y: info.offset.y + eighth.position.y }, 'eighth');
-            }}
-            whileDrag={{ zIndex: 50 }}
-            style={{
-              position: 'absolute',
-              width: `calc(${baseWidth} / 16)`,
-              height: baseHeight,
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              zIndex: 40
-            }}
-            className="bg-[#ea384c] flex items-center justify-center border-2 border-black group touch-none"
-          >
-            <span className="text-[10px] md:text-4xl font-bold text-black">⅛</span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeEighth(eighth.id);
-              }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
-            >
-              <X size={16} />
-            </button>
-          </motion.div>
-        ))}
-
-        {duplicatedTenths.map((tenth) => (
-          <motion.div
-            key={tenth.id}
-            drag
-            dragMomentum={false}
-            initial={{ x: tenth.position.x, y: tenth.position.y }}
-            animate={{ x: tenth.position.x, y: tenth.position.y }}
-            onDragEnd={(e, info) => {
-              updatePosition(tenth.id, { x: info.offset.x + tenth.position.x, y: info.offset.y + tenth.position.y }, 'tenth');
-            }}
-            whileDrag={{ zIndex: 50 }}
-            style={{
-              position: 'absolute',
-              width: `calc(${baseWidth} / 20)`,
-              height: baseHeight,
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              zIndex: 40
-            }}
-            className="bg-[#D3E4FD] flex items-center justify-center border-2 border-black group touch-none"
-          >
-            <span className="text-xl font-bold text-black">⅒</span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeTenth(tenth.id);
-              }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity"
-            >
-              <X size={16} />
-            </button>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-export default Index;
+            dragElastic={0}
+            dragConstraints={{ left: -1000, right: 1000, top: -1000, bottom: 1000 }}
+            initial={{ x: sixth.position.x, y: sixth.position.y
