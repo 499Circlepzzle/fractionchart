@@ -15,15 +15,20 @@ export const Halves = ({ createDuplicate }: FractionComponentProps) => (
     >
       <span className="text-lg md:text-4xl font-bold text-black">½</span>
     </button>
-    {[...Array(3)].map((_, index) => (
-      <motion.div 
-        key={index}
-        className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black flex-col"
-      >
-        <span className="text-base md:text-2xl font-bold text-black">{index + 2}/2</span>
-        {index > 0 && <span className="text-base md:text-2xl font-bold text-black">{Math.floor((index + 2) / 2)}</span>}
-      </motion.div>
-    ))}
+    {[...Array(3)].map((_, index) => {
+      const num = index + 2;
+      const wholeNumber = Math.floor(num / 2);
+      const remainder = num % 2;
+      return (
+        <motion.div 
+          key={index}
+          className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black flex-col"
+        >
+          {remainder > 0 && <span className="text-base md:text-2xl font-bold text-black">{remainder}/2</span>}
+          {wholeNumber > 0 && <span className="text-base md:text-2xl font-bold text-black">{wholeNumber}</span>}
+        </motion.div>
+      );
+    })}
   </>
 );
 
@@ -36,15 +41,20 @@ export const Thirds = ({ createDuplicate }: FractionComponentProps) => (
     >
       <span className="text-lg md:text-4xl font-bold text-black">⅓</span>
     </button>
-    {[...Array(5)].map((_, index) => (
-      <motion.div 
-        key={index}
-        className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black flex-col"
-      >
-        <span className="text-base md:text-2xl font-bold text-black">{index + 2}/3</span>
-        {index > 1 && <span className="text-base md:text-2xl font-bold text-black">{Math.floor((index + 2) / 3)}</span>}
-      </motion.div>
-    ))}
+    {[...Array(5)].map((_, index) => {
+      const num = index + 2;
+      const wholeNumber = Math.floor(num / 3);
+      const remainder = num % 3;
+      return (
+        <motion.div 
+          key={index}
+          className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black flex-col"
+        >
+          {remainder > 0 && <span className="text-base md:text-2xl font-bold text-black">{remainder}/3</span>}
+          {wholeNumber > 0 && <span className="text-base md:text-2xl font-bold text-black">{wholeNumber}</span>}
+        </motion.div>
+      );
+    })}
   </>
 );
 
@@ -57,15 +67,20 @@ export const Quarters = ({ createDuplicate }: FractionComponentProps) => (
     >
       <span className="text-base md:text-4xl font-bold text-black">¼</span>
     </button>
-    {[...Array(7)].map((_, index) => (
-      <motion.div 
-        key={index}
-        className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black flex-col"
-      >
-        <span className="text-base md:text-2xl font-bold text-black">{index + 2}/4</span>
-        {index > 2 && <span className="text-base md:text-2xl font-bold text-black">{Math.floor((index + 2) / 4)}</span>}
-      </motion.div>
-    ))}
+    {[...Array(7)].map((_, index) => {
+      const num = index + 2;
+      const wholeNumber = Math.floor(num / 4);
+      const remainder = num % 4;
+      return (
+        <motion.div 
+          key={index}
+          className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black flex-col"
+        >
+          {remainder > 0 && <span className="text-base md:text-2xl font-bold text-black">{remainder}/4</span>}
+          {wholeNumber > 0 && <span className="text-base md:text-2xl font-bold text-black">{wholeNumber}</span>}
+        </motion.div>
+      );
+    })}
   </>
 );
 
@@ -78,15 +93,20 @@ export const Fifths = ({ createDuplicate }: FractionComponentProps) => (
     >
       <span className="text-sm md:text-4xl font-bold text-black">⅕</span>
     </button>
-    {[...Array(9)].map((_, index) => (
-      <motion.div 
-        key={index}
-        className={`w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black ${index > 3 ? 'flex-col' : ''}`}
-      >
-        <span className="text-sm md:text-2xl font-bold text-black">{index + 2}/5</span>
-        {index > 3 && <span className="text-sm md:text-2xl font-bold text-black">{Math.floor((index + 2) / 5)}</span>}
-      </motion.div>
-    ))}
+    {[...Array(9)].map((_, index) => {
+      const num = index + 2;
+      const wholeNumber = Math.floor(num / 5);
+      const remainder = num % 5;
+      return (
+        <motion.div 
+          key={index}
+          className="w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black flex-col"
+        >
+          {remainder > 0 && <span className="text-sm md:text-2xl font-bold text-black">{remainder}/5</span>}
+          {wholeNumber > 0 && <span className="text-sm md:text-2xl font-bold text-black">{wholeNumber}</span>}
+        </motion.div>
+      );
+    })}
   </>
 );
 
@@ -99,15 +119,20 @@ export const Sixths = ({ createDuplicate }: FractionComponentProps) => (
     >
       <span className="text-xs md:text-4xl font-bold text-black">⅙</span>
     </button>
-    {[...Array(11)].map((_, index) => (
-      <motion.div 
-        key={index}
-        className={`w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black ${index > 4 ? 'flex-col' : ''}`}
-      >
-        <span className="text-xs md:text-2xl font-bold text-black">{index + 2}/6</span>
-        {index > 4 && <span className="text-xs md:text-2xl font-bold text-black">{Math.floor((index + 2) / 6)}</span>}
-      </motion.div>
-    ))}
+    {[...Array(11)].map((_, index) => {
+      const num = index + 2;
+      const wholeNumber = Math.floor(num / 6);
+      const remainder = num % 6;
+      return (
+        <motion.div 
+          key={index}
+          className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black flex-col"
+        >
+          {remainder > 0 && <span className="text-xs md:text-2xl font-bold text-black">{remainder}/6</span>}
+          {wholeNumber > 0 && <span className="text-xs md:text-2xl font-bold text-black">{wholeNumber}</span>}
+        </motion.div>
+      );
+    })}
   </>
 );
 
@@ -120,15 +145,20 @@ export const Eighths = ({ createDuplicate }: FractionComponentProps) => (
     >
       <span className="text-[10px] md:text-4xl font-bold text-black">⅛</span>
     </button>
-    {[...Array(15)].map((_, index) => (
-      <motion.div 
-        key={index}
-        className={`w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black ${index > 6 ? 'flex-col' : ''}`}
-      >
-        <span className="text-[10px] md:text-2xl font-bold text-black">{index + 2}/8</span>
-        {index > 6 && <span className="text-[10px] md:text-2xl font-bold text-black">{Math.floor((index + 2) / 8)}</span>}
-      </motion.div>
-    ))}
+    {[...Array(15)].map((_, index) => {
+      const num = index + 2;
+      const wholeNumber = Math.floor(num / 8);
+      const remainder = num % 8;
+      return (
+        <motion.div 
+          key={index}
+          className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black flex-col"
+        >
+          {remainder > 0 && <span className="text-[10px] md:text-2xl font-bold text-black">{remainder}/8</span>}
+          {wholeNumber > 0 && <span className="text-[10px] md:text-2xl font-bold text-black">{wholeNumber}</span>}
+        </motion.div>
+      );
+    })}
   </>
 );
 
@@ -141,14 +171,19 @@ export const Tenths = ({ createDuplicate }: FractionComponentProps) => (
     >
       <span className="text-[8px] md:text-xl font-bold text-black">⅒</span>
     </button>
-    {[...Array(19)].map((_, index) => (
-      <motion.div 
-        key={index}
-        className={`w-[5%] bg-[#D3E4FD] flex items-center justify-center border-r border-black ${index > 8 ? 'flex-col' : ''}`}
-      >
-        <span className="text-[8px] md:text-xl font-bold text-black">{index + 2}/10</span>
-        {index > 8 && <span className="text-[8px] md:text-xl font-bold text-black">{Math.floor((index + 2) / 10)}</span>}
-      </motion.div>
-    ))}
+    {[...Array(19)].map((_, index) => {
+      const num = index + 2;
+      const wholeNumber = Math.floor(num / 10);
+      const remainder = num % 10;
+      return (
+        <motion.div 
+          key={index}
+          className="w-[5%] bg-[#D3E4FD] flex items-center justify-center border-r border-black flex-col"
+        >
+          {remainder > 0 && <span className="text-[8px] md:text-xl font-bold text-black">{remainder}/10</span>}
+          {wholeNumber > 0 && <span className="text-[8px] md:text-xl font-bold text-black">{wholeNumber}</span>}
+        </motion.div>
+      );
+    })}
   </>
 );
