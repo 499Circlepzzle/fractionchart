@@ -467,34 +467,34 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-          <button 
-            type="button"
-            onClick={duplicateEighth}
-            className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#d3324d] transition-colors"
-          >
-            <span className="text-2xl font-bold text-black">1/8</span>
-          </button>
-          {[...Array(15)].map((_, index) => (
-            <motion.div 
-              key={index}
-              drag
-              className={`w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black last:border-r-0 ${(index >= 7) ? 'flex-col' : ''}`}
+            <button 
+              type="button"
+              onClick={duplicateEighth}
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#d3324d] transition-colors"
             >
-              {index >= 7 ? (
-                <>
+              <span className="text-2xl font-bold text-black">1/8</span>
+            </button>
+            {[...Array(15)].map((_, index) => (
+              <motion.div 
+                key={index}
+                drag
+                className={`w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black last:border-r-0 ${(index >= 7) ? 'flex-col' : ''}`}
+              >
+                {index >= 7 ? (
+                  <>
+                    <span className="text-2xl font-bold text-black">{index + 2}/8</span>
+                    <span className="text-2xl font-bold text-black">
+                      {Math.floor((index + 2) / 8)}
+                      {((index + 2) % 8) === 0 ? '' : `${((index + 2) % 8)}/8`}
+                    </span>
+                  </>
+                ) : (
                   <span className="text-2xl font-bold text-black">{index + 2}/8</span>
-                  <span className="text-2xl font-bold text-black">
-                    {Math.floor((index + 2) / 8)}
-                    {((index + 2) % 8) === 0 ? '' : `${((index + 2) % 8)}/8`}
-                  </span>
-                </>
-              ) : (
-                <span className="text-2xl font-bold text-black">{index + 2}/8</span>
-              )}
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
         <motion.div
           initial={{ scaleX: 0 }}
@@ -726,4 +726,72 @@ const Index = () => {
             initial={{ x: eighth.position.x, y: eighth.position.y }}
             animate={{ x: eighth.position.x, y: eighth.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(eighth.id, { x: info.offset.x + eighth.position.x, y: info.offset.y
+              updatePosition(eighth.id, { x: info.offset.x + eighth.position.x, y: info.offset.y + eighth.position.y }, 'eighth');
+            }}
+            whileDrag={{ zIndex: 50 }}
+            style={{
+              position: 'absolute',
+              width: `calc(${baseWidth} / 16)`,
+              height: baseHeight,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 40
+            }}
+            className="bg-[#ea384c] flex items-center justify-center border-2 border-black group"
+          >
+            <span className="text-2xl font-bold text-black">1/8</span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeEighth(eighth.id);
+              }}
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <X size={16} />
+            </button>
+          </motion.div>
+        ))}
+
+        {duplicatedTenths.map((tenth) => (
+          <motion.div
+            key={tenth.id}
+            drag
+            dragMomentum={false}
+            initial={{ x: tenth.position.x, y: tenth.position.y }}
+            animate={{ x: tenth.position.x, y: tenth.position.y }}
+            onDragEnd={(e, info) => {
+              updatePosition(tenth.id, { x: info.offset.x + tenth.position.x, y: info.offset.y + tenth.position.y }, 'tenth');
+            }}
+            whileDrag={{ zIndex: 50 }}
+            style={{
+              position: 'absolute',
+              width: `calc(${baseWidth} / 20)`,
+              height: baseHeight,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 40
+            }}
+            className="bg-[#D3E4FD] flex items-center justify-center border-2 border-black group"
+          >
+            <span className="text-xl font-bold text-black">1/10</span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeTenth(tenth.id);
+              }}
+              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <X size={16} />
+            </button>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Index;
