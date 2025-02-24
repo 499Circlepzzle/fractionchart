@@ -428,7 +428,7 @@ const Index = () => {
               onClick={duplicateEighth}
               className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#d3324d] transition-colors"
             >
-              <span className="text-base md:text-4xl font-bold text-black">⅛</span>
+              <span className="text-xs md:text-3xl font-bold text-black">⅛</span>
             </button>
             {[...Array(15)].map((_, index) => (
               <motion.div 
@@ -437,14 +437,14 @@ const Index = () => {
               >
                 {index >= 7 ? (
                   <>
-                    <span className="text-sm md:text-2xl font-bold text-black">{index + 2}/8</span>
-                    <span className="text-sm md:text-2xl font-bold text-black">
+                    <span className="text-[10px] md:text-lg font-bold text-black">{index + 2}/8</span>
+                    <span className="text-[10px] md:text-lg font-bold text-black">
                       {Math.floor((index + 2) / 8)}
                       {((index + 2) % 8) === 0 ? '' : '⅛'}
                     </span>
                   </>
                 ) : (
-                  <span className="text-base md:text-4xl font-bold text-black">{index + 2}/8</span>
+                  <span className="text-xs md:text-3xl font-bold text-black">{index + 2}/8</span>
                 )}
               </motion.div>
             ))}
@@ -469,7 +469,7 @@ const Index = () => {
               onClick={duplicateTenth}
               className="w-[5%] bg-[#D3E4FD] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#bfcee6] transition-colors"
             >
-              <span className="text-base md:text-4xl font-bold text-black">⅒</span>
+              <span className="text-xs md:text-3xl font-bold text-black">⅒</span>
             </button>
             {[...Array(19)].map((_, index) => (
               <motion.div 
@@ -478,14 +478,14 @@ const Index = () => {
               >
                 {index >= 9 ? (
                   <>
-                    <span className="text-sm md:text-2xl font-bold text-black">{index + 2}/10</span>
-                    <span className="text-sm md:text-2xl font-bold text-black">
+                    <span className="text-[10px] md:text-lg font-bold text-black">{index + 2}/10</span>
+                    <span className="text-[10px] md:text-lg font-bold text-black">
                       {Math.floor((index + 2) / 10)}
                       {((index + 2) % 10) === 0 ? '' : '⅒'}
                     </span>
                   </>
                 ) : (
-                  <span className="text-base md:text-4xl font-bold text-black">{index + 2}/10</span>
+                  <span className="text-xs md:text-3xl font-bold text-black">{index + 2}/10</span>
                 )}
               </motion.div>
             ))}
