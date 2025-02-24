@@ -123,40 +123,45 @@ const Index = () => {
 
   // Function to update position when dragging ends
   const updatePosition = (id: number, position: { x: number; y: number }, type: 'half' | 'third' | 'quarter' | 'fifth' | 'sixth' | 'eighth' | 'tenth') => {
+    const offsetPosition = {
+      x: Math.round(position.x), // Round to prevent floating point issues
+      y: Math.round(position.y)
+    };
+
     switch (type) {
       case 'half':
         setDuplicatedHalves(prev => 
-          prev.map(half => half.id === id ? { ...half, position } : half)
+          prev.map(half => half.id === id ? { ...half, position: offsetPosition } : half)
         );
         break;
       case 'third':
         setDuplicatedThirds(prev => 
-          prev.map(third => third.id === id ? { ...third, position } : third)
+          prev.map(third => third.id === id ? { ...third, position: offsetPosition } : third)
         );
         break;
       case 'quarter':
         setDuplicatedQuarters(prev => 
-          prev.map(quarter => quarter.id === id ? { ...quarter, position } : quarter)
+          prev.map(quarter => quarter.id === id ? { ...quarter, position: offsetPosition } : quarter)
         );
         break;
       case 'fifth':
         setDuplicatedFifths(prev => 
-          prev.map(fifth => fifth.id === id ? { ...fifth, position } : fifth)
+          prev.map(fifth => fifth.id === id ? { ...fifth, position: offsetPosition } : fifth)
         );
         break;
       case 'sixth':
         setDuplicatedSixths(prev => 
-          prev.map(sixth => sixth.id === id ? { ...sixth, position } : sixth)
+          prev.map(sixth => sixth.id === id ? { ...sixth, position: offsetPosition } : sixth)
         );
         break;
       case 'eighth':
         setDuplicatedEighths(prev => 
-          prev.map(eighth => eighth.id === id ? { ...eighth, position } : eighth)
+          prev.map(eighth => eighth.id === id ? { ...eighth, position: offsetPosition } : eighth)
         );
         break;
       case 'tenth':
         setDuplicatedTenths(prev => 
-          prev.map(tenth => tenth.id === id ? { ...tenth, position } : tenth)
+          prev.map(tenth => tenth.id === id ? { ...tenth, position: offsetPosition } : tenth)
         );
         break;
     }
@@ -497,19 +502,25 @@ const Index = () => {
             key={half.id}
             drag
             dragMomentum={false}
+            dragElastic={0}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             initial={{ x: half.position.x, y: half.position.y }}
             animate={{ x: half.position.x, y: half.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(half.id, { x: info.offset.x + half.position.x, y: info.offset.y + half.position.y }, 'half');
+              updatePosition(half.id, { 
+                x: half.position.x + info.offset.x, 
+                y: half.position.y + info.offset.y 
+              }, 'half');
             }}
-            whileDrag={{ zIndex: 50 }}
+            whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 4)`,
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: 'translate(-50%, -50%)',
+              transform: `translate(-50%, -50%)`,
+              touchAction: 'none',
               zIndex: 40
             }}
             className="bg-[#7E69AB] flex items-center justify-center border-2 border-black group"
@@ -533,19 +544,25 @@ const Index = () => {
             key={third.id}
             drag
             dragMomentum={false}
+            dragElastic={0}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             initial={{ x: third.position.x, y: third.position.y }}
             animate={{ x: third.position.x, y: third.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(third.id, { x: info.offset.x + third.position.x, y: info.offset.y + third.position.y }, 'third');
+              updatePosition(third.id, { 
+                x: third.position.x + info.offset.x, 
+                y: third.position.y + info.offset.y 
+              }, 'third');
             }}
-            whileDrag={{ zIndex: 50 }}
+            whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 6)`,
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: 'translate(-50%, -50%)',
+              transform: `translate(-50%, -50%)`,
+              touchAction: 'none',
               zIndex: 40
             }}
             className="bg-[#FFE649] flex items-center justify-center border-2 border-black group"
@@ -569,19 +586,25 @@ const Index = () => {
             key={quarter.id}
             drag
             dragMomentum={false}
+            dragElastic={0}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             initial={{ x: quarter.position.x, y: quarter.position.y }}
             animate={{ x: quarter.position.x, y: quarter.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(quarter.id, { x: info.offset.x + quarter.position.x, y: info.offset.y + quarter.position.y }, 'quarter');
+              updatePosition(quarter.id, { 
+                x: quarter.position.x + info.offset.x, 
+                y: quarter.position.y + info.offset.y 
+              }, 'quarter');
             }}
-            whileDrag={{ zIndex: 50 }}
+            whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 8)`,
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: 'translate(-50%, -50%)',
+              transform: `translate(-50%, -50%)`,
+              touchAction: 'none',
               zIndex: 40
             }}
             className="bg-green-200 flex items-center justify-center border-2 border-black group"
@@ -605,19 +628,25 @@ const Index = () => {
             key={fifth.id}
             drag
             dragMomentum={false}
+            dragElastic={0}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             initial={{ x: fifth.position.x, y: fifth.position.y }}
             animate={{ x: fifth.position.x, y: fifth.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(fifth.id, { x: info.offset.x + fifth.position.x, y: info.offset.y + fifth.position.y }, 'fifth');
+              updatePosition(fifth.id, { 
+                x: fifth.position.x + info.offset.x, 
+                y: fifth.position.y + info.offset.y 
+              }, 'fifth');
             }}
-            whileDrag={{ zIndex: 50 }}
+            whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 10)`,
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: 'translate(-50%, -50%)',
+              transform: `translate(-50%, -50%)`,
+              touchAction: 'none',
               zIndex: 40
             }}
             className="bg-[#FEC6A1] flex items-center justify-center border-2 border-black group"
@@ -641,19 +670,25 @@ const Index = () => {
             key={sixth.id}
             drag
             dragMomentum={false}
+            dragElastic={0}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             initial={{ x: sixth.position.x, y: sixth.position.y }}
             animate={{ x: sixth.position.x, y: sixth.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(sixth.id, { x: info.offset.x + sixth.position.x, y: info.offset.y + sixth.position.y }, 'sixth');
+              updatePosition(sixth.id, { 
+                x: sixth.position.x + info.offset.x, 
+                y: sixth.position.y + info.offset.y 
+              }, 'sixth');
             }}
-            whileDrag={{ zIndex: 50 }}
+            whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 12)`,
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: 'translate(-50%, -50%)',
+              transform: `translate(-50%, -50%)`,
+              touchAction: 'none',
               zIndex: 40
             }}
             className="bg-[#FFDEE2] flex items-center justify-center border-2 border-black group"
@@ -677,19 +712,25 @@ const Index = () => {
             key={eighth.id}
             drag
             dragMomentum={false}
+            dragElastic={0}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             initial={{ x: eighth.position.x, y: eighth.position.y }}
             animate={{ x: eighth.position.x, y: eighth.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(eighth.id, { x: info.offset.x + eighth.position.x, y: info.offset.y + eighth.position.y }, 'eighth');
+              updatePosition(eighth.id, { 
+                x: eighth.position.x + info.offset.x, 
+                y: eighth.position.y + info.offset.y 
+              }, 'eighth');
             }}
-            whileDrag={{ zIndex: 50 }}
+            whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 16)`,
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: 'translate(-50%, -50%)',
+              transform: `translate(-50%, -50%)`,
+              touchAction: 'none',
               zIndex: 40
             }}
             className="bg-[#ea384c] flex items-center justify-center border-2 border-black group"
@@ -713,19 +754,25 @@ const Index = () => {
             key={tenth.id}
             drag
             dragMomentum={false}
+            dragElastic={0}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             initial={{ x: tenth.position.x, y: tenth.position.y }}
             animate={{ x: tenth.position.x, y: tenth.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(tenth.id, { x: info.offset.x + tenth.position.x, y: info.offset.y + tenth.position.y }, 'tenth');
+              updatePosition(tenth.id, { 
+                x: tenth.position.x + info.offset.x, 
+                y: tenth.position.y + info.offset.y 
+              }, 'tenth');
             }}
-            whileDrag={{ zIndex: 50 }}
+            whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 20)`,
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: 'translate(-50%, -50%)',
+              transform: `translate(-50%, -50%)`,
+              touchAction: 'none',
               zIndex: 40
             }}
             className="bg-[#D3E4FD] flex items-center justify-center border-2 border-black group"
