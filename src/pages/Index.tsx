@@ -214,24 +214,24 @@ const Index = () => {
               onClick={duplicateHalf}
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#6c5b94] transition-colors"
             >
-              <span className="text-lg md:text-4xl font-bold text-black">½</span>
+              <span className="text-base md:text-4xl font-bold text-black">½</span>
             </button>
             <motion.div 
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
             >
-              <span className="text-lg md:text-4xl font-bold text-black">2/2</span>
+              <span className="text-base md:text-4xl font-bold text-black">2/2</span>
             </motion.div>
             <motion.div 
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black flex-col"
             >
-              <span className="text-base md:text-2xl font-bold text-black">3/2</span>
-              <span className="text-base md:text-2xl font-bold text-black">1½</span>
+              <span className="text-xs md:text-xl font-bold text-black">3/2</span>
+              <span className="text-xs md:text-xl font-bold text-black">1½</span>
             </motion.div>
             <motion.div 
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center flex-col"
             >
-              <span className="text-base md:text-2xl font-bold text-black">4/2</span>
-              <span className="text-base md:text-2xl font-bold text-black">2</span>
+              <span className="text-xs md:text-xl font-bold text-black">4/2</span>
+              <span className="text-xs md:text-xl font-bold text-black">2</span>
             </motion.div>
           </div>
         </motion.div>
@@ -269,20 +269,20 @@ const Index = () => {
             <motion.div 
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black flex-col"
             >
-              <span className="text-sm md:text-2xl font-bold text-black">4/3</span>
-              <span className="text-sm md:text-2xl font-bold text-black">1⅓</span>
+              <span className="text-xs md:text-xl font-bold text-black">4/3</span>
+              <span className="text-xs md:text-xl font-bold text-black">1⅓</span>
             </motion.div>
             <motion.div 
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black flex-col"
             >
-              <span className="text-sm md:text-2xl font-bold text-black">5/3</span>
-              <span className="text-sm md:text-2xl font-bold text-black">1⅔</span>
+              <span className="text-xs md:text-xl font-bold text-black">5/3</span>
+              <span className="text-xs md:text-xl font-bold text-black">1⅔</span>
             </motion.div>
             <motion.div 
               className="w-1/6 bg-[#FFE649] flex items-center justify-center flex-col"
             >
-              <span className="text-sm md:text-2xl font-bold text-black">6/3</span>
-              <span className="text-sm md:text-2xl font-bold text-black">2</span>
+              <span className="text-xs md:text-xl font-bold text-black">6/3</span>
+              <span className="text-xs md:text-xl font-bold text-black">2</span>
             </motion.div>
           </div>
         </motion.div>
@@ -314,8 +314,8 @@ const Index = () => {
               >
                 {index >= 3 ? (
                   <>
-                    <span className="text-sm md:text-2xl font-bold text-black">{index + 2}/4</span>
-                    <span className="text-sm md:text-2xl font-bold text-black">
+                    <span className="text-xs md:text-xl font-bold text-black">{index + 2}/4</span>
+                    <span className="text-xs md:text-xl font-bold text-black">
                       {Math.floor((index + 2) / 4)}
                       {((index + 2) % 4) === 0 ? '' : '¼'}
                     </span>
