@@ -140,6 +140,7 @@ const Index = () => {
         );
         break;
       case 'quarter':
+        console.log('Updating quarter position:', id, offsetPosition); // Debug log
         setDuplicatedQuarters(prev => 
           prev.map(quarter => quarter.id === id ? { ...quarter, position: offsetPosition } : quarter)
         );
@@ -588,13 +589,15 @@ const Index = () => {
             dragMomentum={false}
             dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={false}
+            initial={{ x: quarter.position.x, y: quarter.position.y }}
             animate={{ x: quarter.position.x, y: quarter.position.y }}
-            onDragEnd={(e, info) => {
-              updatePosition(quarter.id, { 
-                x: quarter.position.x + info.offset.x, 
-                y: quarter.position.y + info.offset.y 
-              }, 'quarter');
+            onDragEnd={(_, info) => {
+              const currentPosition = {
+                x: quarter.position.x + info.offset.x,
+                y: quarter.position.y + info.offset.y
+              };
+              console.log('Quarter drag ended:', currentPosition); // Debug log
+              updatePosition(quarter.id, currentPosition, 'quarter');
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -605,7 +608,9 @@ const Index = () => {
               left: '50%',
               transform: 'translate(-50%, -50%)',
               touchAction: 'none',
-              zIndex: 40
+              zIndex: 40,
+              userSelect: 'none',
+              WebkitUserSelect: 'none'
             }}
             className="bg-green-200 flex items-center justify-center border-2 border-black group"
           >
