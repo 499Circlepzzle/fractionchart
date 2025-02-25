@@ -635,13 +635,15 @@ const Index = () => {
             dragMomentum={false}
             dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={false}
+            initial={{ x: fifth.position.x, y: fifth.position.y }}
             animate={{ x: fifth.position.x, y: fifth.position.y }}
-            onDragEnd={(e, info) => {
-              updatePosition(fifth.id, { 
-                x: fifth.position.x + info.offset.x, 
-                y: fifth.position.y + info.offset.y 
-              }, 'fifth');
+            onDragEnd={(_, info) => {
+              const currentPosition = {
+                x: fifth.position.x + info.offset.x,
+                y: fifth.position.y + info.offset.y
+              };
+              console.log('Fifth drag ended:', currentPosition); // Debug log
+              updatePosition(fifth.id, currentPosition, 'fifth');
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -652,7 +654,9 @@ const Index = () => {
               left: '50%',
               transform: 'translate(-50%, -50%)',
               touchAction: 'none',
-              zIndex: 40
+              zIndex: 40,
+              userSelect: 'none',
+              WebkitUserSelect: 'none'
             }}
             className="bg-[#FEC6A1] flex items-center justify-center border-2 border-black group"
           >
@@ -725,80 +729,4 @@ const Index = () => {
               updatePosition(eighth.id, { 
                 x: eighth.position.x + info.offset.x, 
                 y: eighth.position.y + info.offset.y 
-              }, 'eighth');
-            }}
-            whileDrag={{ scale: 1.05, zIndex: 50 }}
-            style={{
-              position: 'absolute',
-              width: `calc(${baseWidth} / 16)`,
-              height: baseHeight,
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              touchAction: 'none',
-              zIndex: 40
-            }}
-            className="bg-[#ea384c] flex items-center justify-center border-2 border-black group"
-          >
-            <span className="text-xs md:text-3xl font-bold text-black">⅛</span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeEighth(eighth.id);
-              }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <X size={16} />
-            </button>
-          </motion.div>
-        ))}
-
-        {duplicatedTenths.map((tenth) => (
-          <motion.div
-            key={tenth.id}
-            drag
-            dragMomentum={false}
-            dragElastic={0}
-            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={false}
-            animate={{ x: tenth.position.x, y: tenth.position.y }}
-            onDragEnd={(e, info) => {
-              updatePosition(tenth.id, { 
-                x: tenth.position.x + info.offset.x, 
-                y: tenth.position.y + info.offset.y 
-              }, 'tenth');
-            }}
-            whileDrag={{ scale: 1.05, zIndex: 50 }}
-            style={{
-              position: 'absolute',
-              width: `calc(${baseWidth} / 20)`,
-              height: baseHeight,
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              touchAction: 'none',
-              zIndex: 40
-            }}
-            className="bg-[#D3E4FD] flex items-center justify-center border-2 border-black group"
-          >
-            <span className="text-base md:text-4xl font-bold text-black">⅒</span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeTenth(tenth.id);
-              }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <X size={16} />
-            </button>
-          </motion.div>
-        ))}
-
-      </div>
-    </div>
-  );
-};
-
-export default Index;
+              },
