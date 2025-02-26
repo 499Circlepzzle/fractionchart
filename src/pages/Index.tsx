@@ -635,20 +635,13 @@ const Index = () => {
             dragMomentum={false}
             dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: 0, y: 0 }}
+            initial={false}
             animate={{ x: fifth.position.x, y: fifth.position.y }}
             onDragEnd={(e, info) => {
-              const currentPosition = {
-                x: fifth.position.x + info.offset.x,
-                y: fifth.position.y + info.offset.y
-              };
-              setDuplicatedFifths(prev => 
-                prev.map(item => 
-                  item.id === fifth.id 
-                    ? { ...item, position: currentPosition }
-                    : item
-                )
-              );
+              updatePosition(fifth.id, { 
+                x: fifth.position.x + info.offset.x, 
+                y: fifth.position.y + info.offset.y 
+              }, 'fifth');
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -686,20 +679,13 @@ const Index = () => {
             dragMomentum={false}
             dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: 0, y: 0 }}
+            initial={false}
             animate={{ x: sixth.position.x, y: sixth.position.y }}
             onDragEnd={(e, info) => {
-              const currentPosition = {
-                x: sixth.position.x + info.offset.x,
-                y: sixth.position.y + info.offset.y
-              };
-              setDuplicatedSixths(prev => 
-                prev.map(item => 
-                  item.id === sixth.id 
-                    ? { ...item, position: currentPosition }
-                    : item
-                )
-              );
+              updatePosition(sixth.id, { 
+                x: sixth.position.x + info.offset.x, 
+                y: sixth.position.y + info.offset.y 
+              }, 'sixth');
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -737,20 +723,13 @@ const Index = () => {
             dragMomentum={false}
             dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: 0, y: 0 }}
+            initial={false}
             animate={{ x: eighth.position.x, y: eighth.position.y }}
             onDragEnd={(e, info) => {
-              const currentPosition = {
-                x: eighth.position.x + info.offset.x,
-                y: eighth.position.y + info.offset.y
-              };
-              setDuplicatedEighths(prev => 
-                prev.map(item => 
-                  item.id === eighth.id 
-                    ? { ...item, position: currentPosition }
-                    : item
-                )
-              );
+              updatePosition(eighth.id, { 
+                x: eighth.position.x + info.offset.x, 
+                y: eighth.position.y + info.offset.y 
+              }, 'eighth');
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -788,20 +767,13 @@ const Index = () => {
             dragMomentum={false}
             dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: 0, y: 0 }}
+            initial={false}
             animate={{ x: tenth.position.x, y: tenth.position.y }}
-            onDragEnd={(_, info) => {
-              const currentPosition = {
-                x: tenth.position.x + info.offset.x,
-                y: tenth.position.y + info.offset.y
-              };
-              setDuplicatedTenths(prev => 
-                prev.map(item => 
-                  item.id === tenth.id 
-                    ? { ...item, position: currentPosition }
-                    : item
-                )
-              );
+            onDragEnd={(e, info) => {
+              updatePosition(tenth.id, { 
+                x: tenth.position.x + info.offset.x, 
+                y: tenth.position.y + info.offset.y 
+              }, 'tenth');
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
