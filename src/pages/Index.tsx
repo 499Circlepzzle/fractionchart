@@ -635,14 +635,13 @@ const Index = () => {
             dragMomentum={false}
             dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: fifth.position.x, y: fifth.position.y }}
+            initial={false}
             animate={{ x: fifth.position.x, y: fifth.position.y }}
             onDragEnd={(e, info) => {
-              const newPosition = {
-                x: fifth.position.x + info.offset.x,
-                y: fifth.position.y + info.offset.y
-              };
-              updatePosition(fifth.id, newPosition, 'fifth');
+              updatePosition(fifth.id, { 
+                x: fifth.position.x + info.offset.x, 
+                y: fifth.position.y + info.offset.y 
+              }, 'fifth');
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -655,8 +654,7 @@ const Index = () => {
               touchAction: 'none',
               zIndex: 40,
               userSelect: 'none',
-              WebkitUserSelect: 'none',
-              cursor: 'grab'
+              WebkitUserSelect: 'none'
             }}
             className="bg-[#FEC6A1] flex items-center justify-center border-2 border-black group"
           >
