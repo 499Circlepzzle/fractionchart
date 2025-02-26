@@ -635,13 +635,20 @@ const Index = () => {
             dragMomentum={false}
             dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={false}
+            initial={{ x: 0, y: 0 }}
             animate={{ x: fifth.position.x, y: fifth.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(fifth.id, { 
-                x: fifth.position.x + info.offset.x, 
-                y: fifth.position.y + info.offset.y 
-              }, 'fifth');
+              const currentPosition = {
+                x: fifth.position.x + info.offset.x,
+                y: fifth.position.y + info.offset.y
+              };
+              setDuplicatedFifths(prev => 
+                prev.map(item => 
+                  item.id === fifth.id 
+                    ? { ...item, position: currentPosition }
+                    : item
+                )
+              );
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -679,13 +686,20 @@ const Index = () => {
             dragMomentum={false}
             dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={false}
+            initial={{ x: 0, y: 0 }}
             animate={{ x: sixth.position.x, y: sixth.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(sixth.id, { 
-                x: sixth.position.x + info.offset.x, 
-                y: sixth.position.y + info.offset.y 
-              }, 'sixth');
+              const currentPosition = {
+                x: sixth.position.x + info.offset.x,
+                y: sixth.position.y + info.offset.y
+              };
+              setDuplicatedSixths(prev => 
+                prev.map(item => 
+                  item.id === sixth.id 
+                    ? { ...item, position: currentPosition }
+                    : item
+                )
+              );
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -696,7 +710,9 @@ const Index = () => {
               left: '50%',
               transform: 'translate(-50%, -50%)',
               touchAction: 'none',
-              zIndex: 40
+              zIndex: 40,
+              userSelect: 'none',
+              WebkitUserSelect: 'none'
             }}
             className="bg-[#FFDEE2] flex items-center justify-center border-2 border-black group"
           >
@@ -721,13 +737,20 @@ const Index = () => {
             dragMomentum={false}
             dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={false}
+            initial={{ x: 0, y: 0 }}
             animate={{ x: eighth.position.x, y: eighth.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(eighth.id, { 
-                x: eighth.position.x + info.offset.x, 
-                y: eighth.position.y + info.offset.y 
-              }, 'eighth');
+              const currentPosition = {
+                x: eighth.position.x + info.offset.x,
+                y: eighth.position.y + info.offset.y
+              };
+              setDuplicatedEighths(prev => 
+                prev.map(item => 
+                  item.id === eighth.id 
+                    ? { ...item, position: currentPosition }
+                    : item
+                )
+              );
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -765,15 +788,20 @@ const Index = () => {
             dragMomentum={false}
             dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: tenth.position.x, y: tenth.position.y }}
+            initial={{ x: 0, y: 0 }}
             animate={{ x: tenth.position.x, y: tenth.position.y }}
             onDragEnd={(_, info) => {
               const currentPosition = {
                 x: tenth.position.x + info.offset.x,
                 y: tenth.position.y + info.offset.y
               };
-              console.log('Tenth drag ended:', currentPosition);
-              updatePosition(tenth.id, currentPosition, 'tenth');
+              setDuplicatedTenths(prev => 
+                prev.map(item => 
+                  item.id === tenth.id 
+                    ? { ...item, position: currentPosition }
+                    : item
+                )
+              );
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
