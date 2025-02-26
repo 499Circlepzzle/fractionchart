@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -597,7 +596,7 @@ const Index = () => {
                 x: quarter.position.x + info.offset.x,
                 y: quarter.position.y + info.offset.y
               };
-              console.log('Quarter drag ended:', currentPosition); // Debug log
+              console.log('Quarter drag ended:', currentPosition);
               updatePosition(quarter.id, currentPosition, 'quarter');
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
@@ -636,14 +635,14 @@ const Index = () => {
             dragMomentum={false}
             dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: fifth.position.x, y: fifth.position.y }}
+            initial={false}
             animate={{ x: fifth.position.x, y: fifth.position.y }}
             onDragEnd={(_, info) => {
               const currentPosition = {
                 x: fifth.position.x + info.offset.x,
                 y: fifth.position.y + info.offset.y
               };
-              console.log('Fifth drag ended:', currentPosition); // Debug log
+              console.log('Fifth drag ended:', currentPosition);
               updatePosition(fifth.id, currentPosition, 'fifth');
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
