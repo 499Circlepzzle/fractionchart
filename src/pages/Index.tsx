@@ -17,23 +17,6 @@ const Index = () => {
   const [duplicatedEighths, setDuplicatedEighths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   const [duplicatedTenths, setDuplicatedTenths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   
-  // Track drag state
-  const [activeDrag, setActiveDrag] = useState<{
-    id: number | null;
-    type: 'half' | 'third' | 'quarter' | 'fifth' | 'sixth' | 'eighth' | 'tenth' | null;
-    startX: number;
-    startY: number;
-    startPosX: number;
-    startPosY: number;
-  }>({
-    id: null,
-    type: null,
-    startX: 0,
-    startY: 0,
-    startPosX: 0,
-    startPosY: 0
-  });
-  
   // Function to duplicate a half with offset
   const duplicateHalf = () => {
     console.log("Duplicating half"); // Debug log
@@ -139,149 +122,8 @@ const Index = () => {
     setDuplicatedTenths(prev => prev.filter(tenth => tenth.id !== id));
   };
 
-  // Handle the start of a drag operation
-  const handleDragStart = (
-    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
-    id: number,
-    type: 'half' | 'third' | 'quarter' | 'fifth' | 'sixth' | 'eighth' | 'tenth',
-    position: { x: number, y: number }
-  ) => {
-    e.preventDefault();
-    
-    // Get the starting position
-    let startX, startY;
-    if ('touches' in e) {
-      // Touch event
-      const touch = e.touches[0];
-      startX = touch.clientX;
-      startY = touch.clientY;
-    } else {
-      // Mouse event
-      startX = e.clientX;
-      startY = e.clientY;
-    }
-    
-    // Set active drag information
-    setActiveDrag({
-      id,
-      type,
-      startX,
-      startY,
-      startPosX: position.x,
-      startPosY: position.y
-    });
-  };
-  
-  // Handle dragging
-  const handleDrag = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
-    if (!activeDrag.id) return;
-    
-    e.preventDefault();
-    e.stopPropagation();
-    
-    // Get current position
-    let currentX, currentY;
-    if ('touches' in e) {
-      // Touch event
-      const touch = e.touches[0];
-      currentX = touch.clientX;
-      currentY = touch.clientY;
-    } else {
-      // Mouse event  
-      currentX = e.clientX;
-      currentY = e.clientY;
-    }
-    
-    // Calculate new position
-    const deltaX = currentX - activeDrag.startX;
-    const deltaY = currentY - activeDrag.startY;
-    const newX = activeDrag.startPosX + deltaX;
-    const newY = activeDrag.startPosY + deltaY;
-    
-    // Update the position based on type
-    switch (activeDrag.type) {
-      case 'half':
-        setDuplicatedHalves(prev => 
-          prev.map(half => half.id === activeDrag.id 
-            ? { ...half, position: { x: newX, y: newY } } 
-            : half
-          )
-        );
-        break;
-      case 'third':
-        setDuplicatedThirds(prev => 
-          prev.map(third => third.id === activeDrag.id 
-            ? { ...third, position: { x: newX, y: newY } } 
-            : third
-          )
-        );
-        break;
-      case 'quarter':
-        setDuplicatedQuarters(prev => 
-          prev.map(quarter => quarter.id === activeDrag.id 
-            ? { ...quarter, position: { x: newX, y: newY } } 
-            : quarter
-          )
-        );
-        break;
-      case 'fifth':
-        setDuplicatedFifths(prev => 
-          prev.map(fifth => fifth.id === activeDrag.id 
-            ? { ...fifth, position: { x: newX, y: newY } } 
-            : fifth
-          )
-        );
-        break;
-      case 'sixth':
-        setDuplicatedSixths(prev => 
-          prev.map(sixth => sixth.id === activeDrag.id 
-            ? { ...sixth, position: { x: newX, y: newY } } 
-            : sixth
-          )
-        );
-        break;
-      case 'eighth':
-        setDuplicatedEighths(prev => 
-          prev.map(eighth => eighth.id === activeDrag.id 
-            ? { ...eighth, position: { x: newX, y: newY } } 
-            : eighth
-          )
-        );
-        break;
-      case 'tenth':
-        setDuplicatedTenths(prev => 
-          prev.map(tenth => tenth.id === activeDrag.id 
-            ? { ...tenth, position: { x: newX, y: newY } } 
-            : tenth
-          )
-        );
-        break;
-    }
-  };
-  
-  // Handle the end of a drag operation
-  const handleDragEnd = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setActiveDrag({
-      id: null,
-      type: null,
-      startX: 0,
-      startY: 0,
-      startPosX: 0,
-      startPosY: 0
-    });
-  };
-
   return (
-    <div 
-      className="min-h-screen flex flex-col items-center justify-center bg-neutral-50 p-4"
-      onMouseMove={activeDrag.id ? handleDrag : undefined}
-      onTouchMove={activeDrag.id ? handleDrag : undefined}
-      onMouseUp={activeDrag.id ? handleDragEnd : undefined}
-      onMouseLeave={activeDrag.id ? handleDragEnd : undefined}
-      onTouchEnd={activeDrag.id ? handleDragEnd : undefined}
-      onTouchCancel={activeDrag.id ? handleDragEnd : undefined}
-    >
+    <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-50 p-4">
       <div className="space-y-2 text-center mb-8">
         <h1 className="text-2xl font-bold text-neutral-900">Fraction Chart</h1>
         <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-black max-w-md">
@@ -612,27 +454,33 @@ const Index = () => {
 
         {/* Draggable duplicated halves */}
         {duplicatedHalves.map((half) => (
-          <div
+          <motion.div
             key={half.id}
+            drag
+            dragMomentum={false}
+            dragElastic={0}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+            initial={{ x: half.position.x, y: half.position.y }}
+            animate={{ x: half.position.x, y: half.position.y }}
+            onDragEnd={(e, info) => {
+              setDuplicatedHalves(prev => 
+                prev.map(item => item.id === half.id 
+                  ? { ...item, position: { x: item.position.x + info.offset.x, y: item.position.y + info.offset.y } } 
+                  : item
+                )
+              );
+            }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 4)`,
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: `translate(-50%, -50%) translate(${half.position.x}px, ${half.position.y}px)`,
+              transform: `translate(-50%, -50%)`,
               touchAction: 'none',
               zIndex: 40,
-              backgroundColor: '#7E69AB',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              border: '2px solid black',
-              cursor: 'grab'
             }}
-            className="group"
-            onMouseDown={(e) => handleDragStart(e, half.id, 'half', half.position)}
-            onTouchStart={(e) => handleDragStart(e, half.id, 'half', half.position)}
+            className="bg-[#7E69AB] flex items-center justify-center border-2 border-black group"
           >
             <span className="text-base md:text-4xl font-bold text-black">½</span>
             <button
@@ -645,32 +493,38 @@ const Index = () => {
             >
               <X size={16} />
             </button>
-          </div>
+          </motion.div>
         ))}
 
         {/* Draggable duplicated thirds */}
         {duplicatedThirds.map((third) => (
-          <div
+          <motion.div
             key={third.id}
+            drag
+            dragMomentum={false}
+            dragElastic={0}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+            initial={{ x: third.position.x, y: third.position.y }}
+            animate={{ x: third.position.x, y: third.position.y }}
+            onDragEnd={(e, info) => {
+              setDuplicatedThirds(prev => 
+                prev.map(item => item.id === third.id 
+                  ? { ...item, position: { x: item.position.x + info.offset.x, y: item.position.y + info.offset.y } } 
+                  : item
+                )
+              );
+            }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 6)`,
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: `translate(-50%, -50%) translate(${third.position.x}px, ${third.position.y}px)`,
+              transform: `translate(-50%, -50%)`,
               touchAction: 'none',
               zIndex: 40,
-              backgroundColor: '#FFE649',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              border: '2px solid black',
-              cursor: 'grab'
             }}
-            className="group"
-            onMouseDown={(e) => handleDragStart(e, third.id, 'third', third.position)}
-            onTouchStart={(e) => handleDragStart(e, third.id, 'third', third.position)}
+            className="bg-[#FFE649] flex items-center justify-center border-2 border-black group"
           >
             <span className="text-base md:text-4xl font-bold text-black">⅓</span>
             <button
@@ -683,32 +537,38 @@ const Index = () => {
             >
               <X size={16} />
             </button>
-          </div>
+          </motion.div>
         ))}
 
         {/* Draggable duplicated quarters */}
         {duplicatedQuarters.map((quarter) => (
-          <div
+          <motion.div
             key={quarter.id}
+            drag
+            dragMomentum={false}
+            dragElastic={0}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+            initial={{ x: quarter.position.x, y: quarter.position.y }}
+            animate={{ x: quarter.position.x, y: quarter.position.y }}
+            onDragEnd={(e, info) => {
+              setDuplicatedQuarters(prev => 
+                prev.map(item => item.id === quarter.id 
+                  ? { ...item, position: { x: item.position.x + info.offset.x, y: item.position.y + info.offset.y } } 
+                  : item
+                )
+              );
+            }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 8)`,
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: `translate(-50%, -50%) translate(${quarter.position.x}px, ${quarter.position.y}px)`,
+              transform: `translate(-50%, -50%)`,
               touchAction: 'none',
               zIndex: 40,
-              backgroundColor: 'rgb(167, 243, 208)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              border: '2px solid black',
-              cursor: 'grab'
             }}
-            className="group"
-            onMouseDown={(e) => handleDragStart(e, quarter.id, 'quarter', quarter.position)}
-            onTouchStart={(e) => handleDragStart(e, quarter.id, 'quarter', quarter.position)}
+            className="bg-green-200 flex items-center justify-center border-2 border-black group"
           >
             <span className="text-base md:text-4xl font-bold text-black">¼</span>
             <button
@@ -721,32 +581,38 @@ const Index = () => {
             >
               <X size={16} />
             </button>
-          </div>
+          </motion.div>
         ))}
 
         {/* Draggable duplicated fifths */}
         {duplicatedFifths.map((fifth) => (
-          <div
+          <motion.div
             key={fifth.id}
+            drag
+            dragMomentum={false}
+            dragElastic={0}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+            initial={{ x: fifth.position.x, y: fifth.position.y }}
+            animate={{ x: fifth.position.x, y: fifth.position.y }}
+            onDragEnd={(e, info) => {
+              setDuplicatedFifths(prev => 
+                prev.map(item => item.id === fifth.id 
+                  ? { ...item, position: { x: item.position.x + info.offset.x, y: item.position.y + info.offset.y } } 
+                  : item
+                )
+              );
+            }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 10)`,
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: `translate(-50%, -50%) translate(${fifth.position.x}px, ${fifth.position.y}px)`,
+              transform: `translate(-50%, -50%)`,
               touchAction: 'none',
               zIndex: 40,
-              backgroundColor: '#FEC6A1',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              border: '2px solid black',
-              cursor: 'grab'
             }}
-            className="group"
-            onMouseDown={(e) => handleDragStart(e, fifth.id, 'fifth', fifth.position)}
-            onTouchStart={(e) => handleDragStart(e, fifth.id, 'fifth', fifth.position)}
+            className="bg-[#FEC6A1] flex items-center justify-center border-2 border-black group"
           >
             <span className="text-base md:text-4xl font-bold text-black">⅕</span>
             <button
@@ -759,32 +625,38 @@ const Index = () => {
             >
               <X size={16} />
             </button>
-          </div>
+          </motion.div>
         ))}
 
         {/* Draggable duplicated sixths */}
         {duplicatedSixths.map((sixth) => (
-          <div
+          <motion.div
             key={sixth.id}
+            drag
+            dragMomentum={false}
+            dragElastic={0}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+            initial={{ x: sixth.position.x, y: sixth.position.y }}
+            animate={{ x: sixth.position.x, y: sixth.position.y }}
+            onDragEnd={(e, info) => {
+              setDuplicatedSixths(prev => 
+                prev.map(item => item.id === sixth.id 
+                  ? { ...item, position: { x: item.position.x + info.offset.x, y: item.position.y + info.offset.y } } 
+                  : item
+                )
+              );
+            }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 12)`,
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: `translate(-50%, -50%) translate(${sixth.position.x}px, ${sixth.position.y}px)`,
+              transform: `translate(-50%, -50%)`,
               touchAction: 'none',
               zIndex: 40,
-              backgroundColor: '#FFDEE2',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              border: '2px solid black',
-              cursor: 'grab'
             }}
-            className="group"
-            onMouseDown={(e) => handleDragStart(e, sixth.id, 'sixth', sixth.position)}
-            onTouchStart={(e) => handleDragStart(e, sixth.id, 'sixth', sixth.position)}
+            className="bg-[#FFDEE2] flex items-center justify-center border-2 border-black group"
           >
             <span className="text-base md:text-4xl font-bold text-black">⅙</span>
             <button
@@ -797,32 +669,38 @@ const Index = () => {
             >
               <X size={16} />
             </button>
-          </div>
+          </motion.div>
         ))}
 
         {/* Draggable duplicated eighths */}
         {duplicatedEighths.map((eighth) => (
-          <div
+          <motion.div
             key={eighth.id}
+            drag
+            dragMomentum={false}
+            dragElastic={0}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+            initial={{ x: eighth.position.x, y: eighth.position.y }}
+            animate={{ x: eighth.position.x, y: eighth.position.y }}
+            onDragEnd={(e, info) => {
+              setDuplicatedEighths(prev => 
+                prev.map(item => item.id === eighth.id 
+                  ? { ...item, position: { x: item.position.x + info.offset.x, y: item.position.y + info.offset.y } } 
+                  : item
+                )
+              );
+            }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 16)`,
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: `translate(-50%, -50%) translate(${eighth.position.x}px, ${eighth.position.y}px)`,
+              transform: `translate(-50%, -50%)`,
               touchAction: 'none',
               zIndex: 40,
-              backgroundColor: '#ea384c',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              border: '2px solid black',
-              cursor: 'grab'
             }}
-            className="group"
-            onMouseDown={(e) => handleDragStart(e, eighth.id, 'eighth', eighth.position)}
-            onTouchStart={(e) => handleDragStart(e, eighth.id, 'eighth', eighth.position)}
+            className="bg-[#ea384c] flex items-center justify-center border-2 border-black group"
           >
             <span className="text-xs md:text-3xl font-bold text-black">⅛</span>
             <button
@@ -835,32 +713,38 @@ const Index = () => {
             >
               <X size={16} />
             </button>
-          </div>
+          </motion.div>
         ))}
 
         {/* Draggable duplicated tenths */}
         {duplicatedTenths.map((tenth) => (
-          <div
+          <motion.div
             key={tenth.id}
+            drag
+            dragMomentum={false}
+            dragElastic={0}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+            initial={{ x: tenth.position.x, y: tenth.position.y }}
+            animate={{ x: tenth.position.x, y: tenth.position.y }}
+            onDragEnd={(e, info) => {
+              setDuplicatedTenths(prev => 
+                prev.map(item => item.id === tenth.id 
+                  ? { ...item, position: { x: item.position.x + info.offset.x, y: item.position.y + info.offset.y } } 
+                  : item
+                )
+              );
+            }}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / 20)`,
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: `translate(-50%, -50%) translate(${tenth.position.x}px, ${tenth.position.y}px)`,
+              transform: `translate(-50%, -50%)`,
               touchAction: 'none',
               zIndex: 40,
-              backgroundColor: '#D3E4FD',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              border: '2px solid black',
-              cursor: 'grab'
             }}
-            className="group"
-            onMouseDown={(e) => handleDragStart(e, tenth.id, 'tenth', tenth.position)}
-            onTouchStart={(e) => handleDragStart(e, tenth.id, 'tenth', tenth.position)}
+            className="bg-[#D3E4FD] flex items-center justify-center border-2 border-black group"
           >
             <span className="text-[10px] md:text-lg font-bold text-black">⅒</span>
             <button
@@ -873,7 +757,7 @@ const Index = () => {
             >
               <X size={16} />
             </button>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
