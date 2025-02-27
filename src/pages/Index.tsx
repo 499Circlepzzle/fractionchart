@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -587,17 +588,20 @@ const Index = () => {
             key={quarter.id}
             drag
             dragMomentum={false}
-            dragElastic={0}
+            dragElastic={0.1}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             initial={{ x: quarter.position.x, y: quarter.position.y }}
             animate={{ x: quarter.position.x, y: quarter.position.y }}
-            onDragEnd={(_, info) => {
-              const currentPosition = {
-                x: quarter.position.x + info.offset.x,
-                y: quarter.position.y + info.offset.y
-              };
-              console.log('Quarter drag ended:', currentPosition);
-              updatePosition(quarter.id, currentPosition, 'quarter');
+            onDragEnd={(e, info) => {
+              const newX = quarter.position.x + info.offset.x;
+              const newY = quarter.position.y + info.offset.y;
+              
+              setDuplicatedQuarters(prev => 
+                prev.map(q => q.id === quarter.id 
+                  ? { ...q, position: { x: Math.round(newX), y: Math.round(newY) } } 
+                  : q
+                )
+              );
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -633,15 +637,20 @@ const Index = () => {
             key={fifth.id}
             drag
             dragMomentum={false}
-            dragElastic={0}
+            dragElastic={0.1}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={false}
+            initial={{ x: fifth.position.x, y: fifth.position.y }}
             animate={{ x: fifth.position.x, y: fifth.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(fifth.id, { 
-                x: fifth.position.x + info.offset.x, 
-                y: fifth.position.y + info.offset.y 
-              }, 'fifth');
+              const newX = fifth.position.x + info.offset.x;
+              const newY = fifth.position.y + info.offset.y;
+              
+              setDuplicatedFifths(prev => 
+                prev.map(f => f.id === fifth.id 
+                  ? { ...f, position: { x: Math.round(newX), y: Math.round(newY) } } 
+                  : f
+                )
+              );
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -677,15 +686,20 @@ const Index = () => {
             key={sixth.id}
             drag
             dragMomentum={false}
-            dragElastic={0}
+            dragElastic={0.1}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={false}
+            initial={{ x: sixth.position.x, y: sixth.position.y }}
             animate={{ x: sixth.position.x, y: sixth.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(sixth.id, { 
-                x: sixth.position.x + info.offset.x, 
-                y: sixth.position.y + info.offset.y 
-              }, 'sixth');
+              const newX = sixth.position.x + info.offset.x;
+              const newY = sixth.position.y + info.offset.y;
+              
+              setDuplicatedSixths(prev => 
+                prev.map(s => s.id === sixth.id 
+                  ? { ...s, position: { x: Math.round(newX), y: Math.round(newY) } } 
+                  : s
+                )
+              );
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -721,15 +735,20 @@ const Index = () => {
             key={eighth.id}
             drag
             dragMomentum={false}
-            dragElastic={0}
+            dragElastic={0.1}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={false}
+            initial={{ x: eighth.position.x, y: eighth.position.y }}
             animate={{ x: eighth.position.x, y: eighth.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(eighth.id, { 
-                x: eighth.position.x + info.offset.x, 
-                y: eighth.position.y + info.offset.y 
-              }, 'eighth');
+              const newX = eighth.position.x + info.offset.x;
+              const newY = eighth.position.y + info.offset.y;
+              
+              setDuplicatedEighths(prev => 
+                prev.map(e => e.id === eighth.id 
+                  ? { ...e, position: { x: Math.round(newX), y: Math.round(newY) } } 
+                  : e
+                )
+              );
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -765,15 +784,20 @@ const Index = () => {
             key={tenth.id}
             drag
             dragMomentum={false}
-            dragElastic={0}
+            dragElastic={0.1}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={false}
+            initial={{ x: tenth.position.x, y: tenth.position.y }}
             animate={{ x: tenth.position.x, y: tenth.position.y }}
             onDragEnd={(e, info) => {
-              updatePosition(tenth.id, { 
-                x: tenth.position.x + info.offset.x, 
-                y: tenth.position.y + info.offset.y 
-              }, 'tenth');
+              const newX = tenth.position.x + info.offset.x;
+              const newY = tenth.position.y + info.offset.y;
+              
+              setDuplicatedTenths(prev => 
+                prev.map(t => t.id === tenth.id 
+                  ? { ...t, position: { x: Math.round(newX), y: Math.round(newY) } } 
+                  : t
+                )
+              );
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
