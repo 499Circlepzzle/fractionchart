@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { useState, useRef, useCallback } from "react";
+import { useState } from "react";
 import { X } from "lucide-react";
 
 const Index = () => {
@@ -17,18 +17,23 @@ const Index = () => {
   const [duplicatedEighths, setDuplicatedEighths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   const [duplicatedTenths, setDuplicatedTenths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
   
-  // Create refs for tracking touchstart/touchend coordinates
-  const touchStartRef = useRef({ x: 0, y: 0 });
-  const currentElementRef = useRef<{ 
-    id: number | null; 
+  // Track drag state
+  const [activeDrag, setActiveDrag] = useState<{
+    id: number | null;
     type: 'half' | 'third' | 'quarter' | 'fifth' | 'sixth' | 'eighth' | 'tenth' | null;
-    initialPosition: { x: number, y: number } | null;
-  }>({ 
-    id: null, 
+    startX: number;
+    startY: number;
+    startPosX: number;
+    startPosY: number;
+  }>({
+    id: null,
     type: null,
-    initialPosition: null 
+    startX: 0,
+    startY: 0,
+    startPosX: 0,
+    startPosY: 0
   });
-
+  
   // Function to duplicate a half with offset
   const duplicateHalf = () => {
     console.log("Duplicating half"); // Debug log
@@ -134,100 +139,149 @@ const Index = () => {
     setDuplicatedTenths(prev => prev.filter(tenth => tenth.id !== id));
   };
 
-  // Universal handler for touch start
-  const handleTouchStart = useCallback((
-    id: number, 
+  // Handle the start of a drag operation
+  const handleDragStart = (
+    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
+    id: number,
     type: 'half' | 'third' | 'quarter' | 'fifth' | 'sixth' | 'eighth' | 'tenth',
-    position: { x: number, y: number },
-    e: React.TouchEvent
+    position: { x: number, y: number }
   ) => {
-    const touch = e.touches[0];
-    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
-    currentElementRef.current = { 
-      id, 
-      type,
-      initialPosition: { ...position }
-    };
-    e.stopPropagation();
-  }, []);
-
-  // Universal handler for touch move
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!currentElementRef.current.id || !currentElementRef.current.initialPosition) return;
+    e.preventDefault();
     
-    const touch = e.touches[0];
-    const deltaX = touch.clientX - touchStartRef.current.x;
-    const deltaY = touch.clientY - touchStartRef.current.y;
-    
-    const newX = currentElementRef.current.initialPosition.x + deltaX;
-    const newY = currentElementRef.current.initialPosition.y + deltaY;
-    
-    // Update the position in state based on type
-    switch (currentElementRef.current.type) {
-      case 'half':
-        setDuplicatedHalves(prev => prev.map(half => 
-          half.id === currentElementRef.current.id 
-            ? { ...half, position: { x: newX, y: newY } } 
-            : half
-        ));
-        break;
-      case 'third':
-        setDuplicatedThirds(prev => prev.map(third => 
-          third.id === currentElementRef.current.id 
-            ? { ...third, position: { x: newX, y: newY } } 
-            : third
-        ));
-        break;
-      case 'quarter':
-        setDuplicatedQuarters(prev => prev.map(quarter => 
-          quarter.id === currentElementRef.current.id 
-            ? { ...quarter, position: { x: newX, y: newY } } 
-            : quarter
-        ));
-        break;
-      case 'fifth':
-        setDuplicatedFifths(prev => prev.map(fifth => 
-          fifth.id === currentElementRef.current.id 
-            ? { ...fifth, position: { x: newX, y: newY } } 
-            : fifth
-        ));
-        break;
-      case 'sixth':
-        setDuplicatedSixths(prev => prev.map(sixth => 
-          sixth.id === currentElementRef.current.id 
-            ? { ...sixth, position: { x: newX, y: newY } } 
-            : sixth
-        ));
-        break;
-      case 'eighth':
-        setDuplicatedEighths(prev => prev.map(eighth => 
-          eighth.id === currentElementRef.current.id 
-            ? { ...eighth, position: { x: newX, y: newY } } 
-            : eighth
-        ));
-        break;
-      case 'tenth':
-        setDuplicatedTenths(prev => prev.map(tenth => 
-          tenth.id === currentElementRef.current.id 
-            ? { ...tenth, position: { x: newX, y: newY } } 
-            : tenth
-        ));
-        break;
+    // Get the starting position
+    let startX, startY;
+    if ('touches' in e) {
+      // Touch event
+      const touch = e.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+    } else {
+      // Mouse event
+      startX = e.clientX;
+      startY = e.clientY;
     }
+    
+    // Set active drag information
+    setActiveDrag({
+      id,
+      type,
+      startX,
+      startY,
+      startPosX: position.x,
+      startPosY: position.y
+    });
+  };
+  
+  // Handle dragging
+  const handleDrag = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+    if (!activeDrag.id) return;
     
     e.preventDefault();
     e.stopPropagation();
-  }, []);
-
-  // Universal handler for touch end
-  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    // Position is already updated in state during touch move
-    currentElementRef.current = { id: null, type: null, initialPosition: null };
-    e.stopPropagation();
-  }, []);
+    
+    // Get current position
+    let currentX, currentY;
+    if ('touches' in e) {
+      // Touch event
+      const touch = e.touches[0];
+      currentX = touch.clientX;
+      currentY = touch.clientY;
+    } else {
+      // Mouse event  
+      currentX = e.clientX;
+      currentY = e.clientY;
+    }
+    
+    // Calculate new position
+    const deltaX = currentX - activeDrag.startX;
+    const deltaY = currentY - activeDrag.startY;
+    const newX = activeDrag.startPosX + deltaX;
+    const newY = activeDrag.startPosY + deltaY;
+    
+    // Update the position based on type
+    switch (activeDrag.type) {
+      case 'half':
+        setDuplicatedHalves(prev => 
+          prev.map(half => half.id === activeDrag.id 
+            ? { ...half, position: { x: newX, y: newY } } 
+            : half
+          )
+        );
+        break;
+      case 'third':
+        setDuplicatedThirds(prev => 
+          prev.map(third => third.id === activeDrag.id 
+            ? { ...third, position: { x: newX, y: newY } } 
+            : third
+          )
+        );
+        break;
+      case 'quarter':
+        setDuplicatedQuarters(prev => 
+          prev.map(quarter => quarter.id === activeDrag.id 
+            ? { ...quarter, position: { x: newX, y: newY } } 
+            : quarter
+          )
+        );
+        break;
+      case 'fifth':
+        setDuplicatedFifths(prev => 
+          prev.map(fifth => fifth.id === activeDrag.id 
+            ? { ...fifth, position: { x: newX, y: newY } } 
+            : fifth
+          )
+        );
+        break;
+      case 'sixth':
+        setDuplicatedSixths(prev => 
+          prev.map(sixth => sixth.id === activeDrag.id 
+            ? { ...sixth, position: { x: newX, y: newY } } 
+            : sixth
+          )
+        );
+        break;
+      case 'eighth':
+        setDuplicatedEighths(prev => 
+          prev.map(eighth => eighth.id === activeDrag.id 
+            ? { ...eighth, position: { x: newX, y: newY } } 
+            : eighth
+          )
+        );
+        break;
+      case 'tenth':
+        setDuplicatedTenths(prev => 
+          prev.map(tenth => tenth.id === activeDrag.id 
+            ? { ...tenth, position: { x: newX, y: newY } } 
+            : tenth
+          )
+        );
+        break;
+    }
+  };
+  
+  // Handle the end of a drag operation
+  const handleDragEnd = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setActiveDrag({
+      id: null,
+      type: null,
+      startX: 0,
+      startY: 0,
+      startPosX: 0,
+      startPosY: 0
+    });
+  };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-50 p-4">
+    <div 
+      className="min-h-screen flex flex-col items-center justify-center bg-neutral-50 p-4"
+      onMouseMove={activeDrag.id ? handleDrag : undefined}
+      onTouchMove={activeDrag.id ? handleDrag : undefined}
+      onMouseUp={activeDrag.id ? handleDragEnd : undefined}
+      onMouseLeave={activeDrag.id ? handleDragEnd : undefined}
+      onTouchEnd={activeDrag.id ? handleDragEnd : undefined}
+      onTouchCancel={activeDrag.id ? handleDragEnd : undefined}
+    >
       <div className="space-y-2 text-center mb-8">
         <h1 className="text-2xl font-bold text-neutral-900">Fraction Chart</h1>
         <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-black max-w-md">
@@ -573,12 +627,12 @@ const Index = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: '2px solid black'
+              border: '2px solid black',
+              cursor: 'grab'
             }}
             className="group"
-            onTouchStart={(e) => handleTouchStart(half.id, 'half', half.position, e)}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
+            onMouseDown={(e) => handleDragStart(e, half.id, 'half', half.position)}
+            onTouchStart={(e) => handleDragStart(e, half.id, 'half', half.position)}
           >
             <span className="text-base md:text-4xl font-bold text-black">½</span>
             <button
@@ -611,12 +665,12 @@ const Index = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: '2px solid black'
+              border: '2px solid black',
+              cursor: 'grab'
             }}
             className="group"
-            onTouchStart={(e) => handleTouchStart(third.id, 'third', third.position, e)}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
+            onMouseDown={(e) => handleDragStart(e, third.id, 'third', third.position)}
+            onTouchStart={(e) => handleDragStart(e, third.id, 'third', third.position)}
           >
             <span className="text-base md:text-4xl font-bold text-black">⅓</span>
             <button
@@ -649,12 +703,12 @@ const Index = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: '2px solid black'
+              border: '2px solid black',
+              cursor: 'grab'
             }}
             className="group"
-            onTouchStart={(e) => handleTouchStart(quarter.id, 'quarter', quarter.position, e)}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
+            onMouseDown={(e) => handleDragStart(e, quarter.id, 'quarter', quarter.position)}
+            onTouchStart={(e) => handleDragStart(e, quarter.id, 'quarter', quarter.position)}
           >
             <span className="text-base md:text-4xl font-bold text-black">¼</span>
             <button
@@ -687,12 +741,12 @@ const Index = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: '2px solid black'
+              border: '2px solid black',
+              cursor: 'grab'
             }}
             className="group"
-            onTouchStart={(e) => handleTouchStart(fifth.id, 'fifth', fifth.position, e)}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
+            onMouseDown={(e) => handleDragStart(e, fifth.id, 'fifth', fifth.position)}
+            onTouchStart={(e) => handleDragStart(e, fifth.id, 'fifth', fifth.position)}
           >
             <span className="text-base md:text-4xl font-bold text-black">⅕</span>
             <button
@@ -725,12 +779,12 @@ const Index = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: '2px solid black'
+              border: '2px solid black',
+              cursor: 'grab'
             }}
             className="group"
-            onTouchStart={(e) => handleTouchStart(sixth.id, 'sixth', sixth.position, e)}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
+            onMouseDown={(e) => handleDragStart(e, sixth.id, 'sixth', sixth.position)}
+            onTouchStart={(e) => handleDragStart(e, sixth.id, 'sixth', sixth.position)}
           >
             <span className="text-base md:text-4xl font-bold text-black">⅙</span>
             <button
@@ -763,12 +817,12 @@ const Index = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: '2px solid black'
+              border: '2px solid black',
+              cursor: 'grab'
             }}
             className="group"
-            onTouchStart={(e) => handleTouchStart(eighth.id, 'eighth', eighth.position, e)}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
+            onMouseDown={(e) => handleDragStart(e, eighth.id, 'eighth', eighth.position)}
+            onTouchStart={(e) => handleDragStart(e, eighth.id, 'eighth', eighth.position)}
           >
             <span className="text-xs md:text-3xl font-bold text-black">⅛</span>
             <button
@@ -801,12 +855,12 @@ const Index = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: '2px solid black'
+              border: '2px solid black',
+              cursor: 'grab'
             }}
             className="group"
-            onTouchStart={(e) => handleTouchStart(tenth.id, 'tenth', tenth.position, e)}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
+            onMouseDown={(e) => handleDragStart(e, tenth.id, 'tenth', tenth.position)}
+            onTouchStart={(e) => handleDragStart(e, tenth.id, 'tenth', tenth.position)}
           >
             <span className="text-[10px] md:text-lg font-bold text-black">⅒</span>
             <button
