@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -588,20 +587,15 @@ const Index = () => {
             key={quarter.id}
             drag
             dragMomentum={false}
-            dragElastic={0.1}
+            dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             initial={{ x: quarter.position.x, y: quarter.position.y }}
             animate={{ x: quarter.position.x, y: quarter.position.y }}
             onDragEnd={(e, info) => {
-              const newX = quarter.position.x + info.offset.x;
-              const newY = quarter.position.y + info.offset.y;
-              
-              setDuplicatedQuarters(prev => 
-                prev.map(q => q.id === quarter.id 
-                  ? { ...q, position: { x: Math.round(newX), y: Math.round(newY) } } 
-                  : q
-                )
-              );
+              updatePosition(quarter.id, { 
+                x: quarter.position.x + info.offset.x, 
+                y: quarter.position.y + info.offset.y 
+              }, 'quarter');
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -610,11 +604,9 @@ const Index = () => {
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: 'translate(-50%, -50%)',
+              transform: `translate(-50%, -50%)`,
               touchAction: 'none',
-              zIndex: 40,
-              userSelect: 'none',
-              WebkitUserSelect: 'none'
+              zIndex: 40
             }}
             className="bg-green-200 flex items-center justify-center border-2 border-black group"
           >
@@ -637,20 +629,15 @@ const Index = () => {
             key={fifth.id}
             drag
             dragMomentum={false}
-            dragElastic={0.1}
+            dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             initial={{ x: fifth.position.x, y: fifth.position.y }}
             animate={{ x: fifth.position.x, y: fifth.position.y }}
             onDragEnd={(e, info) => {
-              const newX = fifth.position.x + info.offset.x;
-              const newY = fifth.position.y + info.offset.y;
-              
-              setDuplicatedFifths(prev => 
-                prev.map(f => f.id === fifth.id 
-                  ? { ...f, position: { x: Math.round(newX), y: Math.round(newY) } } 
-                  : f
-                )
-              );
+              updatePosition(fifth.id, { 
+                x: fifth.position.x + info.offset.x, 
+                y: fifth.position.y + info.offset.y 
+              }, 'fifth');
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -659,11 +646,9 @@ const Index = () => {
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: 'translate(-50%, -50%)',
+              transform: `translate(-50%, -50%)`,
               touchAction: 'none',
-              zIndex: 40,
-              userSelect: 'none',
-              WebkitUserSelect: 'none'
+              zIndex: 40
             }}
             className="bg-[#FEC6A1] flex items-center justify-center border-2 border-black group"
           >
@@ -686,20 +671,15 @@ const Index = () => {
             key={sixth.id}
             drag
             dragMomentum={false}
-            dragElastic={0.1}
+            dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             initial={{ x: sixth.position.x, y: sixth.position.y }}
             animate={{ x: sixth.position.x, y: sixth.position.y }}
             onDragEnd={(e, info) => {
-              const newX = sixth.position.x + info.offset.x;
-              const newY = sixth.position.y + info.offset.y;
-              
-              setDuplicatedSixths(prev => 
-                prev.map(s => s.id === sixth.id 
-                  ? { ...s, position: { x: Math.round(newX), y: Math.round(newY) } } 
-                  : s
-                )
-              );
+              updatePosition(sixth.id, { 
+                x: sixth.position.x + info.offset.x, 
+                y: sixth.position.y + info.offset.y 
+              }, 'sixth');
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -708,11 +688,9 @@ const Index = () => {
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: 'translate(-50%, -50%)',
+              transform: `translate(-50%, -50%)`,
               touchAction: 'none',
-              zIndex: 40,
-              userSelect: 'none',
-              WebkitUserSelect: 'none'
+              zIndex: 40
             }}
             className="bg-[#FFDEE2] flex items-center justify-center border-2 border-black group"
           >
@@ -735,20 +713,15 @@ const Index = () => {
             key={eighth.id}
             drag
             dragMomentum={false}
-            dragElastic={0.1}
+            dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             initial={{ x: eighth.position.x, y: eighth.position.y }}
             animate={{ x: eighth.position.x, y: eighth.position.y }}
             onDragEnd={(e, info) => {
-              const newX = eighth.position.x + info.offset.x;
-              const newY = eighth.position.y + info.offset.y;
-              
-              setDuplicatedEighths(prev => 
-                prev.map(e => e.id === eighth.id 
-                  ? { ...e, position: { x: Math.round(newX), y: Math.round(newY) } } 
-                  : e
-                )
-              );
+              updatePosition(eighth.id, { 
+                x: eighth.position.x + info.offset.x, 
+                y: eighth.position.y + info.offset.y 
+              }, 'eighth');
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -757,11 +730,9 @@ const Index = () => {
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: 'translate(-50%, -50%)',
+              transform: `translate(-50%, -50%)`,
               touchAction: 'none',
-              zIndex: 40,
-              userSelect: 'none',
-              WebkitUserSelect: 'none'
+              zIndex: 40
             }}
             className="bg-[#ea384c] flex items-center justify-center border-2 border-black group"
           >
@@ -784,20 +755,15 @@ const Index = () => {
             key={tenth.id}
             drag
             dragMomentum={false}
-            dragElastic={0.1}
+            dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
             initial={{ x: tenth.position.x, y: tenth.position.y }}
             animate={{ x: tenth.position.x, y: tenth.position.y }}
             onDragEnd={(e, info) => {
-              const newX = tenth.position.x + info.offset.x;
-              const newY = tenth.position.y + info.offset.y;
-              
-              setDuplicatedTenths(prev => 
-                prev.map(t => t.id === tenth.id 
-                  ? { ...t, position: { x: Math.round(newX), y: Math.round(newY) } } 
-                  : t
-                )
-              );
+              updatePosition(tenth.id, { 
+                x: tenth.position.x + info.offset.x, 
+                y: tenth.position.y + info.offset.y 
+              }, 'tenth');
             }}
             whileDrag={{ scale: 1.05, zIndex: 50 }}
             style={{
@@ -806,11 +772,9 @@ const Index = () => {
               height: baseHeight,
               top: '50%',
               left: '50%',
-              transform: 'translate(-50%, -50%)',
+              transform: `translate(-50%, -50%)`,
               touchAction: 'none',
-              zIndex: 40,
-              userSelect: 'none',
-              WebkitUserSelect: 'none'
+              zIndex: 40
             }}
             className="bg-[#D3E4FD] flex items-center justify-center border-2 border-black group"
           >
