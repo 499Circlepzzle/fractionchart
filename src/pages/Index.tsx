@@ -388,7 +388,7 @@ const Index = () => {
               onClick={duplicateEighth}
               className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#d3324d] transition-colors"
             >
-              <span className="text-xs md:text-3xl font-bold text-black">⅛</span>
+              <span className="text-[9px] md:text-2xl font-bold text-black">⅛</span>
             </button>
             {[...Array(15)].map((_, index) => (
               <motion.div 
@@ -397,14 +397,14 @@ const Index = () => {
               >
                 {index >= 7 ? (
                   <>
-                    <span className="text-[10px] md:text-lg font-bold text-black">{index + 2}/8</span>
-                    <span className="text-[10px] md:text-lg font-bold text-black">
+                    <span className="text-[9px] md:text-base font-bold text-black">{index + 2}/8</span>
+                    <span className="text-[9px] md:text-base font-bold text-black">
                       {Math.floor((index + 2) / 8)}
                       {((index + 2) % 8) === 0 ? '' : '⅛'}
                     </span>
                   </>
                 ) : (
-                  <span className="text-xs md:text-3xl font-bold text-black">{index + 2}/8</span>
+                  <span className="text-[9px] md:text-2xl font-bold text-black">{index + 2}/8</span>
                 )}
               </motion.div>
             ))}
@@ -702,7 +702,7 @@ const Index = () => {
             }}
             className="bg-[#ea384c] flex items-center justify-center border-2 border-black group"
           >
-            <span className="text-xs md:text-3xl font-bold text-black">⅛</span>
+            <span className="text-[9px] md:text-2xl font-bold text-black">⅛</span>
             <button
               type="button"
               onClick={(e) => {
