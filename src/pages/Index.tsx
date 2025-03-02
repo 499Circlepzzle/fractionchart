@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -462,9 +463,13 @@ const Index = () => {
             initial={{ x: half.position.x, y: half.position.y }}
             animate={{ x: half.position.x, y: half.position.y }}
             onDragEnd={(e, info) => {
+              const newPosition = {
+                x: half.position.x + info.offset.x,
+                y: half.position.y + info.offset.y
+              };
               setDuplicatedHalves(prev => 
                 prev.map(item => item.id === half.id 
-                  ? { ...item, position: { x: item.position.x + info.offset.x, y: item.position.y + info.offset.y } } 
+                  ? { ...item, position: newPosition } 
                   : item
                 )
               );
@@ -506,9 +511,13 @@ const Index = () => {
             initial={{ x: third.position.x, y: third.position.y }}
             animate={{ x: third.position.x, y: third.position.y }}
             onDragEnd={(e, info) => {
+              const newPosition = {
+                x: third.position.x + info.offset.x,
+                y: third.position.y + info.offset.y
+              };
               setDuplicatedThirds(prev => 
                 prev.map(item => item.id === third.id 
-                  ? { ...item, position: { x: item.position.x + info.offset.x, y: item.position.y + info.offset.y } } 
+                  ? { ...item, position: newPosition } 
                   : item
                 )
               );
@@ -550,9 +559,13 @@ const Index = () => {
             initial={{ x: quarter.position.x, y: quarter.position.y }}
             animate={{ x: quarter.position.x, y: quarter.position.y }}
             onDragEnd={(e, info) => {
+              const newPosition = {
+                x: quarter.position.x + info.offset.x,
+                y: quarter.position.y + info.offset.y
+              };
               setDuplicatedQuarters(prev => 
                 prev.map(item => item.id === quarter.id 
-                  ? { ...item, position: { x: item.position.x + info.offset.x, y: item.position.y + info.offset.y } } 
+                  ? { ...item, position: newPosition } 
                   : item
                 )
               );
@@ -569,7 +582,7 @@ const Index = () => {
             }}
             className="bg-green-200 flex items-center justify-center border-2 border-black group"
           >
-            <span className="text-[8px] md:text-4xl font-semibold text-black">¼</span>
+            <span className="text-[8px] md:text-3xl font-normal text-black">¼</span>
             <button
               type="button"
               onClick={(e) => {
@@ -594,9 +607,13 @@ const Index = () => {
             initial={{ x: fifth.position.x, y: fifth.position.y }}
             animate={{ x: fifth.position.x, y: fifth.position.y }}
             onDragEnd={(e, info) => {
+              const newPosition = {
+                x: fifth.position.x + info.offset.x,
+                y: fifth.position.y + info.offset.y
+              };
               setDuplicatedFifths(prev => 
                 prev.map(item => item.id === fifth.id 
-                  ? { ...item, position: { x: item.position.x + info.offset.x, y: item.position.y + info.offset.y } } 
+                  ? { ...item, position: newPosition } 
                   : item
                 )
               );
@@ -613,7 +630,7 @@ const Index = () => {
             }}
             className="bg-[#FEC6A1] flex items-center justify-center border-2 border-black group"
           >
-            <span className="text-[9px] md:text-3xl font-semibold text-black">⅕</span>
+            <span className="text-[9px] md:text-2xl font-normal text-black">⅕</span>
             <button
               type="button"
               onClick={(e) => {
@@ -638,9 +655,13 @@ const Index = () => {
             initial={{ x: sixth.position.x, y: sixth.position.y }}
             animate={{ x: sixth.position.x, y: sixth.position.y }}
             onDragEnd={(e, info) => {
+              const newPosition = {
+                x: sixth.position.x + info.offset.x,
+                y: sixth.position.y + info.offset.y
+              };
               setDuplicatedSixths(prev => 
                 prev.map(item => item.id === sixth.id 
-                  ? { ...item, position: { x: item.position.x + info.offset.x, y: item.position.y + info.offset.y } } 
+                  ? { ...item, position: newPosition } 
                   : item
                 )
               );
@@ -657,7 +678,7 @@ const Index = () => {
             }}
             className="bg-[#FFDEE2] flex items-center justify-center border-2 border-black group"
           >
-            <span className="text-[8px] md:text-3xl font-semibold text-black">⅙</span>
+            <span className="text-[8px] md:text-2xl font-normal text-black">⅙</span>
             <button
               type="button"
               onClick={(e) => {
@@ -682,9 +703,13 @@ const Index = () => {
             initial={{ x: eighth.position.x, y: eighth.position.y }}
             animate={{ x: eighth.position.x, y: eighth.position.y }}
             onDragEnd={(e, info) => {
+              const newPosition = {
+                x: eighth.position.x + info.offset.x,
+                y: eighth.position.y + info.offset.y
+              };
               setDuplicatedEighths(prev => 
                 prev.map(item => item.id === eighth.id 
-                  ? { ...item, position: { x: item.position.x + info.offset.x, y: item.position.y + info.offset.y } } 
+                  ? { ...item, position: newPosition } 
                   : item
                 )
               );
@@ -701,7 +726,7 @@ const Index = () => {
             }}
             className="bg-[#ea384c] flex items-center justify-center border-2 border-black group"
           >
-            <span className="text-[7px] md:text-2xl font-semibold text-black">⅛</span>
+            <span className="text-[7px] md:text-xl font-normal text-black">⅛</span>
             <button
               type="button"
               onClick={(e) => {
@@ -726,9 +751,13 @@ const Index = () => {
             initial={{ x: tenth.position.x, y: tenth.position.y }}
             animate={{ x: tenth.position.x, y: tenth.position.y }}
             onDragEnd={(e, info) => {
+              const newPosition = {
+                x: tenth.position.x + info.offset.x,
+                y: tenth.position.y + info.offset.y
+              };
               setDuplicatedTenths(prev => 
                 prev.map(item => item.id === tenth.id 
-                  ? { ...item, position: { x: item.position.x + info.offset.x, y: item.position.y + info.offset.y } } 
+                  ? { ...item, position: newPosition } 
                   : item
                 )
               );
@@ -745,7 +774,7 @@ const Index = () => {
             }}
             className="bg-[#D3E4FD] flex items-center justify-center border-2 border-black group"
           >
-            <span className="text-[6px] md:text-lg font-semibold text-black">⅒</span>
+            <span className="text-[6px] md:text-lg font-normal text-black">⅒</span>
             <button
               type="button"
               onClick={(e) => {
