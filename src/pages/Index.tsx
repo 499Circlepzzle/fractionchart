@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -148,10 +147,10 @@ const Index = () => {
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
             <div className="w-1/2 bg-[#9b87f5] flex items-center justify-center border-r border-black">
-              <span className="text-xl md:text-4xl font-bold text-black">1</span>
+              <span className="text-lg md:text-4xl font-semibold text-black">1</span>
             </div>
             <div className="w-1/2 bg-[#9b87f5] flex items-center justify-center">
-              <span className="text-xl md:text-4xl font-bold text-black">2</span>
+              <span className="text-lg md:text-4xl font-semibold text-black">2</span>
             </div>
           </div>
         </motion.div>
@@ -174,24 +173,24 @@ const Index = () => {
               onClick={duplicateHalf}
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#6c5b94] transition-colors"
             >
-              <span className="text-base md:text-4xl font-bold text-black">½</span>
+              <span className="text-sm md:text-4xl font-semibold text-black">½</span>
             </button>
             <motion.div 
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
             >
-              <span className="text-base md:text-4xl font-bold text-black">2/2</span>
+              <span className="text-sm md:text-4xl font-semibold text-black">2/2</span>
             </motion.div>
             <motion.div 
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black flex-col"
             >
-              <span className="text-xs md:text-xl font-bold text-black">3/2</span>
-              <span className="text-xs md:text-xl font-bold text-black">1½</span>
+              <span className="text-xs md:text-xl font-semibold text-black">3/2</span>
+              <span className="text-xs md:text-xl font-semibold text-black">1½</span>
             </motion.div>
             <motion.div 
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center flex-col"
             >
-              <span className="text-xs md:text-xl font-bold text-black">4/2</span>
-              <span className="text-xs md:text-xl font-bold text-black">2</span>
+              <span className="text-xs md:text-xl font-semibold text-black">4/2</span>
+              <span className="text-xs md:text-xl font-semibold text-black">2</span>
             </motion.div>
           </div>
         </motion.div>
@@ -214,35 +213,35 @@ const Index = () => {
               onClick={duplicateThird}
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#e6cf41] transition-colors"
             >
-              <span className="text-base md:text-4xl font-bold text-black">⅓</span>
+              <span className="text-xs md:text-4xl font-semibold text-black">⅓</span>
             </button>
             <motion.div 
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black"
             >
-              <span className="text-base md:text-4xl font-bold text-black">2/3</span>
+              <span className="text-xs md:text-4xl font-semibold text-black">2/3</span>
             </motion.div>
             <motion.div 
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black"
             >
-              <span className="text-base md:text-4xl font-bold text-black">3/3</span>
+              <span className="text-xs md:text-4xl font-semibold text-black">3/3</span>
             </motion.div>
             <motion.div 
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black flex-col"
             >
-              <span className="text-xs md:text-xl font-bold text-black">4/3</span>
-              <span className="text-xs md:text-xl font-bold text-black">1⅓</span>
+              <span className="text-[8px] md:text-xl font-semibold text-black">4/3</span>
+              <span className="text-[8px] md:text-xl font-semibold text-black">1⅓</span>
             </motion.div>
             <motion.div 
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black flex-col"
             >
-              <span className="text-xs md:text-xl font-bold text-black">5/3</span>
-              <span className="text-xs md:text-xl font-bold text-black">1⅔</span>
+              <span className="text-[8px] md:text-xl font-semibold text-black">5/3</span>
+              <span className="text-[8px] md:text-xl font-semibold text-black">1⅔</span>
             </motion.div>
             <motion.div 
               className="w-1/6 bg-[#FFE649] flex items-center justify-center flex-col"
             >
-              <span className="text-xs md:text-xl font-bold text-black">6/3</span>
-              <span className="text-xs md:text-xl font-bold text-black">2</span>
+              <span className="text-[8px] md:text-xl font-semibold text-black">6/3</span>
+              <span className="text-[8px] md:text-xl font-semibold text-black">2</span>
             </motion.div>
           </div>
         </motion.div>
@@ -265,7 +264,7 @@ const Index = () => {
               onClick={duplicateQuarter}
               className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black cursor-pointer hover:bg-green-300 transition-colors"
             >
-              <span className="text-base md:text-4xl font-bold text-black">¼</span>
+              <span className="text-[8px] md:text-4xl font-semibold text-black">¼</span>
             </button>
             {[...Array(7)].map((_, index) => (
               <motion.div 
@@ -274,14 +273,14 @@ const Index = () => {
               >
                 {index >= 3 ? (
                   <>
-                    <span className="text-xs md:text-xl font-bold text-black">{index + 2}/4</span>
-                    <span className="text-xs md:text-xl font-bold text-black">
+                    <span className="text-[7px] md:text-xl font-semibold text-black">{index + 2}/4</span>
+                    <span className="text-[7px] md:text-xl font-semibold text-black">
                       {Math.floor((index + 2) / 4)}
                       {((index + 2) % 4) === 0 ? '' : '¼'}
                     </span>
                   </>
                 ) : (
-                  <span className="text-base md:text-4xl font-bold text-black">{index + 2}/4</span>
+                  <span className="text-[8px] md:text-4xl font-semibold text-black">{index + 2}/4</span>
                 )}
               </motion.div>
             ))}
@@ -306,7 +305,7 @@ const Index = () => {
               onClick={duplicateFifth}
               className="w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#e5b291] transition-colors"
             >
-              <span className="text-[11px] md:text-3xl font-bold text-black">⅕</span>
+              <span className="text-[9px] md:text-3xl font-semibold text-black">⅕</span>
             </button>
             {[...Array(9)].map((_, index) => (
               <motion.div 
@@ -315,14 +314,14 @@ const Index = () => {
               >
                 {index >= 4 ? (
                   <>
-                    <span className="text-[11px] md:text-xl font-bold text-black">{index + 2}/5</span>
-                    <span className="text-[11px] md:text-xl font-bold text-black">
+                    <span className="text-[9px] md:text-xl font-semibold text-black">{index + 2}/5</span>
+                    <span className="text-[9px] md:text-xl font-semibold text-black">
                       {Math.floor((index + 2) / 5)}
                       {((index + 2) % 5) === 0 ? '' : '⅕'}
                     </span>
                   </>
                 ) : (
-                  <span className="text-[11px] md:text-3xl font-bold text-black">{index + 2}/5</span>
+                  <span className="text-[9px] md:text-3xl font-semibold text-black">{index + 2}/5</span>
                 )}
               </motion.div>
             ))}
@@ -347,7 +346,7 @@ const Index = () => {
               onClick={duplicateSixth}
               className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#ffd0d5] transition-colors"
             >
-              <span className="text-[10px] md:text-3xl font-bold text-black">⅙</span>
+              <span className="text-[8px] md:text-3xl font-semibold text-black">⅙</span>
             </button>
             {[...Array(11)].map((_, index) => (
               <motion.div 
@@ -356,14 +355,14 @@ const Index = () => {
               >
                 {index >= 5 ? (
                   <>
-                    <span className="text-[10px] md:text-xl font-bold text-black">{index + 2}/6</span>
-                    <span className="text-[10px] md:text-xl font-bold text-black">
+                    <span className="text-[8px] md:text-xl font-semibold text-black">{index + 2}/6</span>
+                    <span className="text-[8px] md:text-xl font-semibold text-black">
                       {Math.floor((index + 2) / 6)}
                       {((index + 2) % 6) === 0 ? '' : '⅙'}
                     </span>
                   </>
                 ) : (
-                  <span className="text-[10px] md:text-3xl font-bold text-black">{index + 2}/6</span>
+                  <span className="text-[8px] md:text-3xl font-semibold text-black">{index + 2}/6</span>
                 )}
               </motion.div>
             ))}
@@ -388,7 +387,7 @@ const Index = () => {
               onClick={duplicateEighth}
               className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#d3324d] transition-colors"
             >
-              <span className="text-[9px] md:text-2xl font-bold text-black">⅛</span>
+              <span className="text-[7px] md:text-2xl font-semibold text-black">⅛</span>
             </button>
             {[...Array(15)].map((_, index) => (
               <motion.div 
@@ -397,14 +396,14 @@ const Index = () => {
               >
                 {index >= 7 ? (
                   <>
-                    <span className="text-[9px] md:text-base font-bold text-black">{index + 2}/8</span>
-                    <span className="text-[9px] md:text-base font-bold text-black">
+                    <span className="text-[7px] md:text-base font-semibold text-black">{index + 2}/8</span>
+                    <span className="text-[7px] md:text-base font-semibold text-black">
                       {Math.floor((index + 2) / 8)}
                       {((index + 2) % 8) === 0 ? '' : '⅛'}
                     </span>
                   </>
                 ) : (
-                  <span className="text-[9px] md:text-2xl font-bold text-black">{index + 2}/8</span>
+                  <span className="text-[7px] md:text-2xl font-semibold text-black">{index + 2}/8</span>
                 )}
               </motion.div>
             ))}
@@ -429,7 +428,7 @@ const Index = () => {
               onClick={duplicateTenth}
               className="w-[5%] bg-[#D3E4FD] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#bfcee6] transition-colors"
             >
-              <span className="text-[8px] md:text-lg font-bold text-black">⅒</span>
+              <span className="text-[6px] md:text-lg font-semibold text-black">⅒</span>
             </button>
             {[...Array(19)].map((_, index) => (
               <motion.div 
@@ -438,14 +437,14 @@ const Index = () => {
               >
                 {index >= 9 ? (
                   <>
-                    <span className="text-[8px] md:text-sm font-bold text-black">{index + 2}/10</span>
-                    <span className="text-[8px] md:text-sm font-bold text-black">
+                    <span className="text-[6px] md:text-sm font-semibold text-black">{index + 2}/10</span>
+                    <span className="text-[6px] md:text-sm font-semibold text-black">
                       {Math.floor((index + 2) / 10)}
                       {((index + 2) % 10) === 0 ? '' : '⅒'}
                     </span>
                   </>
                 ) : (
-                  <span className="text-[8px] md:text-lg font-bold text-black">{index + 2}/10</span>
+                  <span className="text-[6px] md:text-lg font-semibold text-black">{index + 2}/10</span>
                 )}
               </motion.div>
             ))}
@@ -482,7 +481,7 @@ const Index = () => {
             }}
             className="bg-[#7E69AB] flex items-center justify-center border-2 border-black group"
           >
-            <span className="text-base md:text-4xl font-bold text-black">½</span>
+            <span className="text-sm md:text-4xl font-semibold text-black">½</span>
             <button
               type="button"
               onClick={(e) => {
@@ -526,7 +525,7 @@ const Index = () => {
             }}
             className="bg-[#FFE649] flex items-center justify-center border-2 border-black group"
           >
-            <span className="text-base md:text-4xl font-bold text-black">⅓</span>
+            <span className="text-xs md:text-4xl font-semibold text-black">⅓</span>
             <button
               type="button"
               onClick={(e) => {
@@ -570,7 +569,7 @@ const Index = () => {
             }}
             className="bg-green-200 flex items-center justify-center border-2 border-black group"
           >
-            <span className="text-base md:text-4xl font-bold text-black">¼</span>
+            <span className="text-[8px] md:text-4xl font-semibold text-black">¼</span>
             <button
               type="button"
               onClick={(e) => {
@@ -614,7 +613,7 @@ const Index = () => {
             }}
             className="bg-[#FEC6A1] flex items-center justify-center border-2 border-black group"
           >
-            <span className="text-[11px] md:text-3xl font-bold text-black">⅕</span>
+            <span className="text-[9px] md:text-3xl font-semibold text-black">⅕</span>
             <button
               type="button"
               onClick={(e) => {
@@ -658,7 +657,7 @@ const Index = () => {
             }}
             className="bg-[#FFDEE2] flex items-center justify-center border-2 border-black group"
           >
-            <span className="text-[10px] md:text-3xl font-bold text-black">⅙</span>
+            <span className="text-[8px] md:text-3xl font-semibold text-black">⅙</span>
             <button
               type="button"
               onClick={(e) => {
@@ -702,7 +701,7 @@ const Index = () => {
             }}
             className="bg-[#ea384c] flex items-center justify-center border-2 border-black group"
           >
-            <span className="text-[9px] md:text-2xl font-bold text-black">⅛</span>
+            <span className="text-[7px] md:text-2xl font-semibold text-black">⅛</span>
             <button
               type="button"
               onClick={(e) => {
@@ -746,7 +745,7 @@ const Index = () => {
             }}
             className="bg-[#D3E4FD] flex items-center justify-center border-2 border-black group"
           >
-            <span className="text-[8px] md:text-lg font-bold text-black">⅒</span>
+            <span className="text-[6px] md:text-lg font-semibold text-black">⅒</span>
             <button
               type="button"
               onClick={(e) => {
