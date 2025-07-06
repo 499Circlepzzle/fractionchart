@@ -451,7 +451,7 @@ const Index = () => {
               <span className="text-[8px] md:text-xl font-semibold text-black">1⅔</span>
             </motion.div>
             <motion.div 
-              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center flex-col"
+              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black flex-col"
             >
               <span className="text-[8px] md:text-xl font-semibold text-black">11/6</span>
               <span className="text-[8px] md:text-xl font-semibold text-black">1⅚</span>
@@ -479,24 +479,89 @@ const Index = () => {
             >
               <span className="text-[7px] md:text-2xl font-semibold text-black">⅛</span>
             </button>
-            {[...Array(15)].map((_, index) => (
-              <motion.div 
-                key={index}
-                className={`w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black ${index >= 7 ? 'flex-col' : ''} last:border-r-0`}
-              >
-                {index >= 7 ? (
-                  <>
-                    <span className="text-[7px] md:text-base font-semibold text-black">{index + 2}/8</span>
-                    <span className="text-[7px] md:text-base font-semibold text-black">
-                      {Math.floor((index + 2) / 8)}
-                      {((index + 2) % 8) === 0 ? '' : '⅛'}
-                    </span>
-                  </>
-                ) : (
-                  <span className="text-[7px] md:text-2xl font-semibold text-black">{index + 2}/8</span>
-                )}
-              </motion.div>
-            ))}
+            <motion.div 
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-[7px] md:text-2xl font-semibold text-black">2/8</span>
+            </motion.div>
+            <motion.div 
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-[7px] md:text-2xl font-semibold text-black">3/8</span>
+            </motion.div>
+            <motion.div 
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-[7px] md:text-2xl font-semibold text-black">4/8</span>
+            </motion.div>
+            <motion.div 
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-[7px] md:text-2xl font-semibold text-black">5/8</span>
+            </motion.div>
+            <motion.div 
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-[7px] md:text-2xl font-semibold text-black">6/8</span>
+            </motion.div>
+            <motion.div 
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-[7px] md:text-2xl font-semibold text-black">7/8</span>
+            </motion.div>
+            <motion.div 
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-[7px] md:text-2xl font-semibold text-black">8/8</span>
+            </motion.div>
+            <motion.div 
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black flex-col"
+            >
+              <span className="text-[7px] md:text-base font-semibold text-black">9/8</span>
+              <span className="text-[7px] md:text-base font-semibold text-black">1⅛</span>
+            </motion.div>
+            <motion.div 
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black flex-col"
+            >
+              <span className="text-[7px] md:text-base font-semibold text-black">10/8</span>
+              <span className="text-[7px] md:text-base font-semibold text-black">1¼</span>
+            </motion.div>
+            <motion.div 
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black flex-col"
+            >
+              <span className="text-[7px] md:text-base font-semibold text-black">11/8</span>
+              <span className="text-[7px] md:text-base font-semibold text-black">1⅜</span>
+            </motion.div>
+            <motion.div 
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black flex-col"
+            >
+              <span className="text-[7px] md:text-base font-semibold text-black">12/8</span>
+              <span className="text-[7px] md:text-base font-semibold text-black">1½</span>
+            </motion.div>
+            <motion.div 
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black flex-col"
+            >
+              <span className="text-[7px] md:text-base font-semibold text-black">13/8</span>
+              <span className="text-[7px] md:text-base font-semibold text-black">1⅝</span>
+            </motion.div>
+            <motion.div 
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black flex-col"
+            >
+              <span className="text-[7px] md:text-base font-semibold text-black">14/8</span>
+              <span className="text-[7px] md:text-base font-semibold text-black">1¾</span>
+            </motion.div>
+            <motion.div 
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black flex-col"
+            >
+              <span className="text-[7px] md:text-base font-semibold text-black">15/8</span>
+              <span className="text-[7px] md:text-base font-semibold text-black">1⅞</span>
+            </motion.div>
+            <motion.div 
+              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center flex-col"
+            >
+              <span className="text-[7px] md:text-base font-semibold text-black">16/8</span>
+              <span className="text-[7px] md:text-base font-semibold text-black">2</span>
+            </motion.div>
           </div>
         </motion.div>
 
