@@ -401,24 +401,61 @@ const Index = () => {
             >
               <span className="text-[8px] md:text-3xl font-semibold text-black">⅙</span>
             </button>
-            {[...Array(11)].map((_, index) => (
-              <motion.div 
-                key={index}
-                className={`w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black ${index >= 5 ? 'flex-col' : ''} last:border-r-0`}
-              >
-                {index >= 5 ? (
-                  <>
-                    <span className="text-[8px] md:text-xl font-semibold text-black">{index + 2}/6</span>
-                    <span className="text-[8px] md:text-xl font-semibold text-black">
-                      {Math.floor((index + 2) / 6)}
-                      {((index + 2) % 6) === 0 ? '' : '⅙'}
-                    </span>
-                  </>
-                ) : (
-                  <span className="text-[8px] md:text-3xl font-semibold text-black">{index + 2}/6</span>
-                )}
-              </motion.div>
-            ))}
+            <motion.div 
+              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-[8px] md:text-3xl font-semibold text-black">2/6</span>
+            </motion.div>
+            <motion.div 
+              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-[8px] md:text-3xl font-semibold text-black">3/6</span>
+            </motion.div>
+            <motion.div 
+              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-[8px] md:text-3xl font-semibold text-black">4/6</span>
+            </motion.div>
+            <motion.div 
+              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-[8px] md:text-3xl font-semibold text-black">5/6</span>
+            </motion.div>
+            <motion.div 
+              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black"
+            >
+              <span className="text-[8px] md:text-3xl font-semibold text-black">6/6</span>
+            </motion.div>
+            <motion.div 
+              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black flex-col"
+            >
+              <span className="text-[8px] md:text-xl font-semibold text-black">7/6</span>
+              <span className="text-[8px] md:text-xl font-semibold text-black">1⅙</span>
+            </motion.div>
+            <motion.div 
+              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black flex-col"
+            >
+              <span className="text-[8px] md:text-xl font-semibold text-black">8/6</span>
+              <span className="text-[8px] md:text-xl font-semibold text-black">1⅓</span>
+            </motion.div>
+            <motion.div 
+              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black flex-col"
+            >
+              <span className="text-[8px] md:text-xl font-semibold text-black">9/6</span>
+              <span className="text-[8px] md:text-xl font-semibold text-black">1½</span>
+            </motion.div>
+            <motion.div 
+              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black flex-col"
+            >
+              <span className="text-[8px] md:text-xl font-semibold text-black">10/6</span>
+              <span className="text-[8px] md:text-xl font-semibold text-black">1⅔</span>
+            </motion.div>
+            <motion.div 
+              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center flex-col"
+            >
+              <span className="text-[8px] md:text-xl font-semibold text-black">11/6</span>
+              <span className="text-[8px] md:text-xl font-semibold text-black">1⅚</span>
+            </motion.div>
           </div>
         </motion.div>
 
