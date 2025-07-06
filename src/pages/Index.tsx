@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -267,24 +266,45 @@ const Index = () => {
             >
               <span className="text-[8px] md:text-4xl font-semibold text-black">¼</span>
             </button>
-            {[...Array(7)].map((_, index) => (
-              <motion.div 
-                key={index}
-                className={`w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black ${index >= 3 ? 'flex-col' : ''}`}
-              >
-                {index >= 3 ? (
-                  <>
-                    <span className="text-[7px] md:text-xl font-semibold text-black">{index + 2}/4</span>
-                    <span className="text-[7px] md:text-xl font-semibold text-black">
-                      {Math.floor((index + 2) / 4)}
-                      {((index + 2) % 4) === 0 ? '' : '¼'}
-                    </span>
-                  </>
-                ) : (
-                  <span className="text-[8px] md:text-4xl font-semibold text-black">{index + 2}/4</span>
-                )}
-              </motion.div>
-            ))}
+            <motion.div 
+              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
+            >
+              <span className="text-[8px] md:text-4xl font-semibold text-black">2/4</span>
+            </motion.div>
+            <motion.div 
+              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
+            >
+              <span className="text-[8px] md:text-4xl font-semibold text-black">3/4</span>
+            </motion.div>
+            <motion.div 
+              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
+            >
+              <span className="text-[8px] md:text-4xl font-semibold text-black">4/4</span>
+            </motion.div>
+            <motion.div 
+              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black flex-col"
+            >
+              <span className="text-[7px] md:text-xl font-semibold text-black">5/4</span>
+              <span className="text-[7px] md:text-xl font-semibold text-black">1¼</span>
+            </motion.div>
+            <motion.div 
+              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black flex-col"
+            >
+              <span className="text-[7px] md:text-xl font-semibold text-black">6/4</span>
+              <span className="text-[7px] md:text-xl font-semibold text-black">1½</span>
+            </motion.div>
+            <motion.div 
+              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black flex-col"
+            >
+              <span className="text-[7px] md:text-xl font-semibold text-black">7/4</span>
+              <span className="text-[7px] md:text-xl font-semibold text-black">1¾</span>
+            </motion.div>
+            <motion.div 
+              className="w-[12.5%] bg-green-200 flex items-center justify-center flex-col"
+            >
+              <span className="text-[7px] md:text-xl font-semibold text-black">8/4</span>
+              <span className="text-[7px] md:text-xl font-semibold text-black">2</span>
+            </motion.div>
           </div>
         </motion.div>
 
@@ -452,7 +472,6 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Draggable duplicated halves */}
         {duplicatedHalves.map((half) => (
           <motion.div
             key={half.id}
@@ -500,7 +519,6 @@ const Index = () => {
           </motion.div>
         ))}
 
-        {/* Draggable duplicated thirds */}
         {duplicatedThirds.map((third) => (
           <motion.div
             key={third.id}
@@ -548,7 +566,6 @@ const Index = () => {
           </motion.div>
         ))}
 
-        {/* Draggable duplicated quarters */}
         {duplicatedQuarters.map((quarter) => (
           <motion.div
             key={quarter.id}
@@ -596,7 +613,6 @@ const Index = () => {
           </motion.div>
         ))}
 
-        {/* Draggable duplicated fifths */}
         {duplicatedFifths.map((fifth) => (
           <motion.div
             key={fifth.id}
@@ -644,7 +660,6 @@ const Index = () => {
           </motion.div>
         ))}
 
-        {/* Draggable duplicated sixths */}
         {duplicatedSixths.map((sixth) => (
           <motion.div
             key={sixth.id}
@@ -683,7 +698,7 @@ const Index = () => {
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                removeSixth(sixth.id);
+                removeEighth(sixth.id);
               }}
               className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
             >
@@ -692,7 +707,6 @@ const Index = () => {
           </motion.div>
         ))}
 
-        {/* Draggable duplicated eighths */}
         {duplicatedEighths.map((eighth) => (
           <motion.div
             key={eighth.id}
@@ -740,7 +754,6 @@ const Index = () => {
           </motion.div>
         ))}
 
-        {/* Draggable duplicated tenths */}
         {duplicatedTenths.map((tenth) => (
           <motion.div
             key={tenth.id}
