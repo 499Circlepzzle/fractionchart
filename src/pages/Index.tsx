@@ -585,24 +585,54 @@ const Index = () => {
             >
               <span className="text-[6px] md:text-lg font-semibold text-black">⅒</span>
             </button>
-            {[...Array(19)].map((_, index) => (
-              <motion.div 
-                key={index}
-                className={`w-[5%] bg-[#D3E4FD] flex items-center justify-center border-r border-black ${index >= 9 ? 'flex-col' : ''} last:border-r-0`}
-              >
-                {index >= 9 ? (
-                  <>
-                    <span className="text-[6px] md:text-sm font-semibold text-black">{index + 2}/10</span>
-                    <span className="text-[6px] md:text-sm font-semibold text-black">
-                      {Math.floor((index + 2) / 10)}
-                      {((index + 2) % 10) === 0 ? '' : '⅒'}
-                    </span>
-                  </>
-                ) : (
-                  <span className="text-[6px] md:text-lg font-semibold text-black">{index + 2}/10</span>
-                )}
-              </motion.div>
-            ))}
+            {[...Array(19)].map((_, index) => {
+              const fraction = index + 2;
+              let displayText = `${fraction}/10`;
+              let mixedText = "";
+              
+              if (fraction >= 11) {
+                const wholeNumber = Math.floor(fraction / 10);
+                const remainder = fraction % 10;
+                
+                if (remainder === 0) {
+                  mixedText = wholeNumber.toString();
+                } else if (remainder === 1) {
+                  mixedText = `${wholeNumber}⅒`;
+                } else if (remainder === 2) {
+                  mixedText = `${wholeNumber}⅕`;
+                } else if (remainder === 3) {
+                  mixedText = `${wholeNumber}³⁄₁₀`;
+                } else if (remainder === 4) {
+                  mixedText = `${wholeNumber}⅖`;
+                } else if (remainder === 5) {
+                  mixedText = `${wholeNumber}½`;
+                } else if (remainder === 6) {
+                  mixedText = `${wholeNumber}⅗`;
+                } else if (remainder === 7) {
+                  mixedText = `${wholeNumber}⁷⁄₁₀`;
+                } else if (remainder === 8) {
+                  mixedText = `${wholeNumber}⅘`;
+                } else if (remainder === 9) {
+                  mixedText = `${wholeNumber}⁹⁄₁₀`;
+                }
+              }
+              
+              return (
+                <motion.div 
+                  key={index}
+                  className={`w-[5%] bg-[#D3E4FD] flex items-center justify-center border-r border-black ${mixedText ? 'flex-col' : ''} last:border-r-0`}
+                >
+                  {mixedText ? (
+                    <>
+                      <span className="text-[6px] md:text-sm font-semibold text-black">{displayText}</span>
+                      <span className="text-[6px] md:text-sm font-semibold text-black">{mixedText}</span>
+                    </>
+                  ) : (
+                    <span className="text-[6px] md:text-lg font-semibold text-black">{displayText}</span>
+                  )}
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
 
