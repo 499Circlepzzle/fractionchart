@@ -456,7 +456,7 @@ const Index = () => {
               <span className="text-[8px] md:text-xl font-semibold text-black">11/6</span>
               <span className="text-[8px] md:text-xl font-semibold text-black">1⅚</span>
             </motion.div>
-          </div>
+          </motion.div>
         </motion.div>
 
         <motion.div
@@ -862,7 +862,7 @@ const Index = () => {
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                removeEighth(sixth.id);
+                removeSixth(sixth.id);
               }}
               className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
             >
