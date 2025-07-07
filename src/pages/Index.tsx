@@ -456,7 +456,7 @@ const Index = () => {
               <span className="text-[8px] md:text-xl font-semibold text-black">11/6</span>
               <span className="text-[8px] md:text-xl font-semibold text-black">1⅚</span>
             </motion.div>
-          </motion.div>
+          </div>
         </motion.div>
 
         <motion.div
