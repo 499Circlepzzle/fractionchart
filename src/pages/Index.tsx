@@ -4,7 +4,6 @@ import { X, Plus } from "lucide-react";
 
 const Index = () => {
   // Calculate dimensions maintaining new proportions
-  // Fixed: ensuring all function names are correctly referenced
   const baseWidth = "90vw"; // 90% of viewport width
   const baseHeight = "calc((90vw / 24) * 2.5)"; // Original height * 2.5 (150% increase)
   
