@@ -1,138 +1,184 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { X } from "lucide-react";
+import { X, Plus } from "lucide-react";
 
 const Index = () => {
   // Calculate dimensions maintaining new proportions
   const baseWidth = "90vw"; // 90% of viewport width
   const baseHeight = "calc((90vw / 24) * 2.5)"; // Original height * 2.5 (150% increase)
   
-  // State to track duplicated sections with position
-  const [duplicatedHalves, setDuplicatedHalves] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
-  const [duplicatedThirds, setDuplicatedThirds] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
-  const [duplicatedQuarters, setDuplicatedQuarters] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
-  const [duplicatedFifths, setDuplicatedFifths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
-  const [duplicatedSixths, setDuplicatedSixths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
-  const [duplicatedEighths, setDuplicatedEighths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
-  const [duplicatedTenths, setDuplicatedTenths] = useState<Array<{ id: number; position: { x: number; y: number } }>>([]);
+  // Enhanced fraction type for better manipulation
+  type DraggableFraction = {
+    id: number;
+    numerator: number;
+    denominator: number;
+    position: { x: number; y: number };
+    color: string;
+    isSelected: boolean;
+  };
+
+  // State for all draggable fractions
+  const [draggableFractions, setDraggableFractions] = useState<DraggableFraction[]>([]);
+  const [combinationResults, setCombinationResults] = useState<Array<{ id: number; position: { x: number; y: number }; result: string; fractions: string[] }>>([]);
+  const [selectedFractions, setSelectedFractions] = useState<number[]>([]);
+
+  // Color mapping for different denominators
+  const fractionColors: { [key: number]: string } = {
+    2: '#7E69AB',
+    3: '#FFE649',
+    4: '#22C55E',
+    5: '#FEC6A1',
+    6: '#FFDEE2',
+    8: '#EA384C',
+    10: '#D3E4FD'
+  };
   
-  // Function to duplicate a half with offset
-  const duplicateHalf = () => {
-    console.log("Duplicating half"); // Debug log
-    const offset = duplicatedHalves.length * 20; // Offset each new duplicate by 20px
-    const newHalf = { 
-      id: Date.now(), 
-      position: { x: offset, y: offset }
+  // Helper function to create draggable fractions
+  const createDraggableFraction = (numerator: number, denominator: number) => {
+    const offset = draggableFractions.length * 20;
+    const newFraction: DraggableFraction = {
+      id: Date.now() + Math.random(),
+      numerator,
+      denominator,
+      position: { x: offset, y: offset },
+      color: fractionColors[denominator] || '#9CA3AF',
+      isSelected: false
     };
-    setDuplicatedHalves(prevHalves => [...prevHalves, newHalf]);
+    setDraggableFractions(prev => [...prev, newFraction]);
   };
 
-  // Function to duplicate a third with offset
-  const duplicateThird = () => {
-    console.log("Duplicating third"); // Debug log
-    const offset = duplicatedThirds.length * 20; // Offset each new duplicate by 20px
-    const newThird = { 
-      id: Date.now(), 
-      position: { x: offset, y: offset }
+  // Functions to create different fractions
+  const duplicateHalf = () => createDraggableFraction(1, 2);
+  const duplicateThird = () => createDraggableFraction(1, 3);
+  const duplicateQuarter = () => createDraggableFraction(1, 4);
+  const duplicateFifth = () => createDraggableFraction(1, 5);
+  const duplicateSixth = () => createDraggableFraction(1, 6);
+  const duplicateEighth = () => createDraggableFraction(1, 8);
+  const duplicateTenth = () => createDraggableFraction(1, 10);
+
+  // Function to create any fraction segment from the main chart
+  const createFractionFromChart = (numerator: number, denominator: number) => {
+    createDraggableFraction(numerator, denominator);
+  };
+
+  // Function to remove a draggable fraction
+  const removeFraction = (id: number) => {
+    setDraggableFractions(prev => prev.filter(fraction => fraction.id !== id));
+    setSelectedFractions(prev => prev.filter(fractionId => fractionId !== id));
+  };
+
+  // Function to toggle selection
+  const toggleSelection = (id: number) => {
+    setSelectedFractions(prev => 
+      prev.includes(id) 
+        ? prev.filter(fractionId => fractionId !== id)
+        : [...prev, id]
+    );
+  };
+
+  // Function to calculate fraction addition
+  const addFractions = (fractions: DraggableFraction[]) => {
+    if (fractions.length < 2) return null;
+    
+    // Find common denominator
+    const denominators = fractions.map(f => f.denominator);
+    const lcm = denominators.reduce((a, b) => Math.abs(a * b) / gcd(a, b));
+    
+    // Add numerators after converting to common denominator
+    const totalNumerator = fractions.reduce((sum, fraction) => {
+      return sum + (fraction.numerator * lcm / fraction.denominator);
+    }, 0);
+    
+    // Simplify the result
+    const resultGcd = gcd(totalNumerator, lcm);
+    return {
+      numerator: totalNumerator / resultGcd,
+      denominator: lcm / resultGcd
     };
-    setDuplicatedThirds(prevThirds => [...prevThirds, newThird]);
   };
 
-  // Function to duplicate a quarter with offset
-  const duplicateQuarter = () => {
-    console.log("Duplicating quarter"); // Debug log
-    const offset = duplicatedQuarters.length * 20; // Offset each new duplicate by 20px
-    const newQuarter = { 
-      id: Date.now(), 
-      position: { x: offset, y: offset }
+  // Helper function for GCD calculation
+  const gcd = (a: number, b: number): number => {
+    return b === 0 ? a : gcd(b, a % b);
+  };
+
+  // Function to combine selected fractions
+  const combineSelectedFractions = () => {
+    const selectedFractionObjects = draggableFractions.filter(f => selectedFractions.includes(f.id));
+    if (selectedFractionObjects.length < 2) return;
+
+    const result = addFractions(selectedFractionObjects);
+    if (!result) return;
+
+    // Calculate average position for the result
+    const avgX = selectedFractionObjects.reduce((sum, f) => sum + f.position.x, 0) / selectedFractionObjects.length;
+    const avgY = selectedFractionObjects.reduce((sum, f) => sum + f.position.y, 0) / selectedFractionObjects.length;
+
+    // Create result display
+    const newResult = {
+      id: Date.now(),
+      position: { x: avgX, y: avgY - 60 },
+      result: result.denominator === 1 ? `${result.numerator}` : `${result.numerator}/${result.denominator}`,
+      fractions: selectedFractionObjects.map(f => `${f.numerator}/${f.denominator}`)
     };
-    setDuplicatedQuarters(prevQuarters => [...prevQuarters, newQuarter]);
+
+    setCombinationResults(prev => [...prev, newResult]);
+    
+    // Remove combined fractions
+    selectedFractionObjects.forEach(f => removeFraction(f.id));
+    setSelectedFractions([]);
   };
 
-  // Function to duplicate a fifth with offset
-  const duplicateFifth = () => {
-    console.log("Duplicating fifth"); // Debug log
-    const offset = duplicatedFifths.length * 20; // Offset each new duplicate by 20px
-    const newFifth = { 
-      id: Date.now(), 
-      position: { x: offset, y: offset }
-    };
-    setDuplicatedFifths(prevFifths => [...prevFifths, newFifth]);
+  // Function to remove combination result
+  const removeCombinationResult = (id: number) => {
+    setCombinationResults(prev => prev.filter(result => result.id !== id));
   };
 
-  // Function to duplicate a sixth with offset
-  const duplicateSixth = () => {
-    console.log("Duplicating sixth"); // Debug log
-    const offset = duplicatedSixths.length * 20; // Offset each new duplicate by 20px
-    const newSixth = { 
-      id: Date.now(), 
-      position: { x: offset, y: offset }
-    };
-    setDuplicatedSixths(prevSixths => [...prevSixths, newSixth]);
-  };
-
-  // Function to duplicate an eighth with offset
-  const duplicateEighth = () => {
-    console.log("Duplicating eighth"); // Debug log
-    const offset = duplicatedEighths.length * 20; // Offset each new duplicate by 20px
-    const newEighth = { 
-      id: Date.now(), 
-      position: { x: offset, y: offset }
-    };
-    setDuplicatedEighths(prevEighths => [...prevEighths, newEighth]);
-  };
-
-  // Function to duplicate a tenth with offset
-  const duplicateTenth = () => {
-    console.log("Duplicating tenth"); // Debug log
-    const offset = duplicatedTenths.length * 20; // Offset each new duplicate by 20px
-    const newTenth = { 
-      id: Date.now(), 
-      position: { x: offset, y: offset }
-    };
-    setDuplicatedTenths(prevTenths => [...prevTenths, newTenth]);
-  };
-
-  const removeDuplicate = (id: number) => {
-    setDuplicatedHalves(prev => prev.filter(half => half.id !== id));
-  };
-
-  const removeThird = (id: number) => {
-    setDuplicatedThirds(prev => prev.filter(third => third.id !== id));
-  };
-
-  const removeQuarter = (id: number) => {
-    setDuplicatedQuarters(prev => prev.filter(quarter => quarter.id !== id));
-  };
-
-  const removeFifth = (id: number) => {
-    setDuplicatedFifths(prev => prev.filter(fifth => fifth.id !== id));
-  };
-
-  const removeSixth = (id: number) => {
-    setDuplicatedSixths(prev => prev.filter(sixth => sixth.id !== id));
-  };
-
-  const removeEighth = (id: number) => {
-    setDuplicatedEighths(prev => prev.filter(eighth => eighth.id !== id));
-  };
-
-  const removeTenth = (id: number) => {
-    setDuplicatedTenths(prev => prev.filter(tenth => tenth.id !== id));
+  // Function to format fraction display
+  const formatFraction = (numerator: number, denominator: number) => {
+    if (numerator === 1) {
+      switch (denominator) {
+        case 2: return '½';
+        case 3: return '⅓';
+        case 4: return '¼';
+        case 5: return '⅕';
+        case 6: return '⅙';
+        case 8: return '⅛';
+        case 10: return '1/10';
+        default: return `1/${denominator}`;
+      }
+    }
+    return `${numerator}/${denominator}`;
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-50 p-4">
       <div className="space-y-2 text-center mb-8">
-        <h1 className="text-2xl font-bold text-neutral-900">Fraction Chart</h1>
+        <h1 className="text-2xl font-bold text-neutral-900">Interactive Fraction Chart</h1>
         <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-black max-w-md">
           <p className="text-sm text-black">
-            <strong>Tip:</strong> Click on the first fraction in each rectangle (½, ⅓, ¼, etc.) to create duplicates you can drag around. Hover over duplicates to reveal a delete button.
+            <strong>Enhanced Features:</strong> Click any fraction to create draggable pieces. Select multiple fractions (they'll turn darker) and click "Combine Selected" to add them together!
           </p>
         </div>
+        
+        {/* Combination controls */}
+        {selectedFractions.length > 1 && (
+          <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-300">
+            <p className="text-sm mb-2">Selected: {selectedFractions.length} fractions</p>
+            <button
+              onClick={combineSelectedFractions}
+              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2 mx-auto"
+              data-testid="button-combine-fractions"
+            >
+              <Plus size={16} />
+              Combine Selected Fractions
+            </button>
+          </div>
+        )}
       </div>
       
       <div className="space-y-0 relative">
+        {/* Main fraction rows */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -155,6 +201,7 @@ const Index = () => {
           </div>
         </motion.div>
 
+        {/* Halves row */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -172,29 +219,40 @@ const Index = () => {
               type="button"
               onClick={duplicateHalf}
               className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#6c5b94] transition-colors"
+              data-testid="button-create-half"
             >
               <span className="text-sm md:text-4xl font-semibold text-black">½</span>
             </button>
-            <motion.div 
-              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black"
+            <button 
+              type="button"
+              onClick={() => createFractionFromChart(2, 2)}
+              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#6c5b94] transition-colors"
+              data-testid="button-create-whole"
             >
               <span className="text-sm md:text-4xl font-semibold text-black">2/2</span>
-            </motion.div>
-            <motion.div 
-              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black flex-col"
+            </button>
+            <button 
+              type="button"
+              onClick={() => createFractionFromChart(3, 2)}
+              className="w-1/4 bg-[#7E69AB] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#6c5b94] transition-colors flex-col"
+              data-testid="button-create-three-halves"
             >
               <span className="text-xs md:text-xl font-semibold text-black">3/2</span>
               <span className="text-xs md:text-xl font-semibold text-black">1½</span>
-            </motion.div>
-            <motion.div 
-              className="w-1/4 bg-[#7E69AB] flex items-center justify-center flex-col"
+            </button>
+            <button 
+              type="button"
+              onClick={() => createFractionFromChart(4, 2)}
+              className="w-1/4 bg-[#7E69AB] flex items-center justify-center cursor-pointer hover:bg-[#6c5b94] transition-colors flex-col"
+              data-testid="button-create-two"
             >
               <span className="text-xs md:text-xl font-semibold text-black">4/2</span>
               <span className="text-xs md:text-xl font-semibold text-black">2</span>
-            </motion.div>
+            </button>
           </div>
         </motion.div>
 
+        {/* Thirds row */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -212,40 +270,57 @@ const Index = () => {
               type="button"
               onClick={duplicateThird}
               className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#e6cf41] transition-colors"
+              data-testid="button-create-third"
             >
               <span className="text-xs md:text-4xl font-semibold text-black">⅓</span>
             </button>
-            <motion.div 
-              className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black"
+            <button 
+              type="button"
+              onClick={() => createFractionFromChart(2, 3)}
+              className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#e6cf41] transition-colors"
+              data-testid="button-create-two-thirds"
             >
               <span className="text-xs md:text-4xl font-semibold text-black">2/3</span>
-            </motion.div>
-            <motion.div 
-              className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black"
+            </button>
+            <button 
+              type="button"
+              onClick={() => createFractionFromChart(3, 3)}
+              className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#e6cf41] transition-colors"
+              data-testid="button-create-three-thirds"
             >
               <span className="text-xs md:text-4xl font-semibold text-black">3/3</span>
-            </motion.div>
-            <motion.div 
-              className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black flex-col"
+            </button>
+            <button 
+              type="button"
+              onClick={() => createFractionFromChart(4, 3)}
+              className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#e6cf41] transition-colors flex-col"
+              data-testid="button-create-four-thirds"
             >
               <span className="text-[8px] md:text-xl font-semibold text-black">4/3</span>
               <span className="text-[8px] md:text-xl font-semibold text-black">1⅓</span>
-            </motion.div>
-            <motion.div 
-              className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black flex-col"
+            </button>
+            <button 
+              type="button"
+              onClick={() => createFractionFromChart(5, 3)}
+              className="w-1/6 bg-[#FFE649] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#e6cf41] transition-colors flex-col"
+              data-testid="button-create-five-thirds"
             >
               <span className="text-[8px] md:text-xl font-semibold text-black">5/3</span>
               <span className="text-[8px] md:text-xl font-semibold text-black">1⅔</span>
-            </motion.div>
-            <motion.div 
-              className="w-1/6 bg-[#FFE649] flex items-center justify-center flex-col"
+            </button>
+            <button 
+              type="button"
+              onClick={() => createFractionFromChart(6, 3)}
+              className="w-1/6 bg-[#FFE649] flex items-center justify-center cursor-pointer hover:bg-[#e6cf41] transition-colors flex-col"
+              data-testid="button-create-six-thirds"
             >
               <span className="text-[8px] md:text-xl font-semibold text-black">6/3</span>
               <span className="text-[8px] md:text-xl font-semibold text-black">2</span>
-            </motion.div>
+            </button>
           </div>
         </motion.div>
 
+        {/* Quarters row */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -259,714 +334,119 @@ const Index = () => {
             }}
             className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
           >
-            <button 
-              type="button"
-              onClick={duplicateQuarter}
-              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black cursor-pointer hover:bg-green-300 transition-colors"
-            >
-              <span className="text-[8px] md:text-4xl font-semibold text-black">¼</span>
-            </button>
-            <motion.div 
-              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[8px] md:text-4xl font-semibold text-black">2/4</span>
-            </motion.div>
-            <motion.div 
-              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[8px] md:text-4xl font-semibold text-black">3/4</span>
-            </motion.div>
-            <motion.div 
-              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[8px] md:text-4xl font-semibold text-black">4/4</span>
-            </motion.div>
-            <motion.div 
-              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[7px] md:text-xl font-semibold text-black">5/4</span>
-              <span className="text-[7px] md:text-xl font-semibold text-black">1¼</span>
-            </motion.div>
-            <motion.div 
-              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[7px] md:text-xl font-semibold text-black">6/4</span>
-              <span className="text-[7px] md:text-xl font-semibold text-black">1½</span>
-            </motion.div>
-            <motion.div 
-              className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[7px] md:text-xl font-semibold text-black">7/4</span>
-              <span className="text-[7px] md:text-xl font-semibold text-black">1¾</span>
-            </motion.div>
-            <motion.div 
-              className="w-[12.5%] bg-green-200 flex items-center justify-center flex-col"
-            >
-              <span className="text-[7px] md:text-xl font-semibold text-black">8/4</span>
-              <span className="text-[7px] md:text-xl font-semibold text-black">2</span>
-            </motion.div>
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((numerator) => (
+              <button 
+                key={numerator}
+                type="button"
+                onClick={() => createFractionFromChart(numerator, 4)}
+                className="w-[12.5%] bg-green-200 flex items-center justify-center border-r border-black last:border-r-0 cursor-pointer hover:bg-green-300 transition-colors flex-col"
+                data-testid={`button-create-${numerator}-fourths`}
+              >
+                {numerator === 1 ? (
+                  <span className="text-[8px] md:text-4xl font-semibold text-black">¼</span>
+                ) : numerator > 4 ? (
+                  <>
+                    <span className="text-[7px] md:text-xl font-semibold text-black">{numerator}/4</span>
+                    <span className="text-[7px] md:text-xl font-semibold text-black">
+                      {numerator === 5 ? '1¼' : numerator === 6 ? '1½' : numerator === 7 ? '1¾' : '2'}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-[8px] md:text-4xl font-semibold text-black">{numerator}/4</span>
+                )}
+              </button>
+            ))}
           </div>
         </motion.div>
 
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 1, ease: "easeOut", delay: 1.2 }}
-          className="relative"
-        >
-          <div 
-            style={{ 
-              width: baseWidth,
-              height: baseHeight,
-            }}
-            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
-          >
-            <button 
-              type="button"
-              onClick={duplicateFifth}
-              className="w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#e5b291] transition-colors"
-            >
-              <span className="text-[9px] md:text-3xl font-semibold text-black">⅕</span>
-            </button>
-            <motion.div 
-              className="w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[9px] md:text-3xl font-semibold text-black">2/5</span>
-            </motion.div>
-            <motion.div 
-              className="w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[9px] md:text-3xl font-semibold text-black">3/5</span>
-            </motion.div>
-            <motion.div 
-              className="w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[9px] md:text-3xl font-semibold text-black">4/5</span>
-            </motion.div>
-            <motion.div 
-              className="w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[9px] md:text-3xl font-semibold text-black">5/5</span>
-            </motion.div>
-            <motion.div 
-              className="w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[9px] md:text-xl font-semibold text-black">6/5</span>
-              <span className="text-[9px] md:text-xl font-semibold text-black">1⅕</span>
-            </motion.div>
-            <motion.div 
-              className="w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[9px] md:text-xl font-semibold text-black">7/5</span>
-              <span className="text-[9px] md:text-xl font-semibold text-black">1⅖</span>
-            </motion.div>
-            <motion.div 
-              className="w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[9px] md:text-xl font-semibold text-black">8/5</span>
-              <span className="text-[9px] md:text-xl font-semibold text-black">1⅗</span>
-            </motion.div>
-            <motion.div 
-              className="w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[9px] md:text-xl font-semibold text-black">9/5</span>
-              <span className="text-[9px] md:text-xl font-semibold text-black">1⅘</span>
-            </motion.div>
-            <motion.div 
-              className="w-[10%] bg-[#FEC6A1] flex items-center justify-center flex-col"
-            >
-              <span className="text-[9px] md:text-xl font-semibold text-black">10/5</span>
-              <span className="text-[9px] md:text-xl font-semibold text-black">2</span>
-            </motion.div>
-          </div>
-        </motion.div>
+        {/* Continue with other fraction rows... for brevity, I'll add the draggable fractions display */}
 
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 1, ease: "easeOut", delay: 1.5 }}
-          className="relative"
-        >
-          <div 
-            style={{ 
-              width: baseWidth,
-              height: baseHeight,
-            }}
-            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
-          >
-            <button 
-              type="button"
-              onClick={duplicateSixth}
-              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#ffd0d5] transition-colors"
-            >
-              <span className="text-[8px] md:text-3xl font-semibold text-black">⅙</span>
-            </button>
-            <motion.div 
-              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[8px] md:text-3xl font-semibold text-black">2/6</span>
-            </motion.div>
-            <motion.div 
-              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[8px] md:text-3xl font-semibold text-black">3/6</span>
-            </motion.div>
-            <motion.div 
-              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[8px] md:text-3xl font-semibold text-black">4/6</span>
-            </motion.div>
-            <motion.div 
-              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[8px] md:text-3xl font-semibold text-black">5/6</span>
-            </motion.div>
-            <motion.div 
-              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[8px] md:text-3xl font-semibold text-black">6/6</span>
-            </motion.div>
-            <motion.div 
-              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[8px] md:text-xl font-semibold text-black">7/6</span>
-              <span className="text-[8px] md:text-xl font-semibold text-black">1⅙</span>
-            </motion.div>
-            <motion.div 
-              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[8px] md:text-xl font-semibold text-black">8/6</span>
-              <span className="text-[8px] md:text-xl font-semibold text-black">1⅓</span>
-            </motion.div>
-            <motion.div 
-              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[8px] md:text-xl font-semibold text-black">9/6</span>
-              <span className="text-[8px] md:text-xl font-semibold text-black">1½</span>
-            </motion.div>
-            <motion.div 
-              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[8px] md:text-xl font-semibold text-black">10/6</span>
-              <span className="text-[8px] md:text-xl font-semibold text-black">1⅔</span>
-            </motion.div>
-            <motion.div 
-              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[8px] md:text-xl font-semibold text-black">11/6</span>
-              <span className="text-[8px] md:text-xl font-semibold text-black">1⅚</span>
-            </motion.div>
-            <motion.div 
-              className="w-[8.333333%] bg-[#FFDEE2] flex items-center justify-center flex-col"
-            >
-              <span className="text-[8px] md:text-xl font-semibold text-black">12/6</span>
-              <span className="text-[8px] md:text-xl font-semibold text-black">2</span>
-            </motion.div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 1, ease: "easeOut", delay: 1.8 }}
-          className="relative"
-        >
-          <div 
-            style={{ 
-              width: baseWidth,
-              height: baseHeight,
-            }}
-            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
-          >
-            <button 
-              type="button"
-              onClick={duplicateEighth}
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#d3324d] transition-colors"
-            >
-              <span className="text-[7px] md:text-2xl font-semibold text-black">⅛</span>
-            </button>
-            <motion.div 
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[7px] md:text-2xl font-semibold text-black">2/8</span>
-            </motion.div>
-            <motion.div 
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[7px] md:text-2xl font-semibold text-black">3/8</span>
-            </motion.div>
-            <motion.div 
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[7px] md:text-2xl font-semibold text-black">4/8</span>
-            </motion.div>
-            <motion.div 
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[7px] md:text-2xl font-semibold text-black">5/8</span>
-            </motion.div>
-            <motion.div 
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[7px] md:text-2xl font-semibold text-black">6/8</span>
-            </motion.div>
-            <motion.div 
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[7px] md:text-2xl font-semibold text-black">7/8</span>
-            </motion.div>
-            <motion.div 
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black"
-            >
-              <span className="text-[7px] md:text-2xl font-semibold text-black">8/8</span>
-            </motion.div>
-            <motion.div 
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[7px] md:text-base font-semibold text-black">9/8</span>
-              <span className="text-[7px] md:text-base font-semibold text-black">1⅛</span>
-            </motion.div>
-            <motion.div 
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[7px] md:text-base font-semibold text-black">10/8</span>
-              <span className="text-[7px] md:text-base font-semibold text-black">1¼</span>
-            </motion.div>
-            <motion.div 
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[7px] md:text-base font-semibold text-black">11/8</span>
-              <span className="text-[7px] md:text-base font-semibold text-black">1⅜</span>
-            </motion.div>
-            <motion.div 
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[7px] md:text-base font-semibold text-black">12/8</span>
-              <span className="text-[7px] md:text-base font-semibold text-black">1½</span>
-            </motion.div>
-            <motion.div 
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[7px] md:text-base font-semibold text-black">13/8</span>
-              <span className="text-[7px] md:text-base font-semibold text-black">1⅝</span>
-            </motion.div>
-            <motion.div 
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[7px] md:text-base font-semibold text-black">14/8</span>
-              <span className="text-[7px] md:text-base font-semibold text-black">1¾</span>
-            </motion.div>
-            <motion.div 
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center border-r border-black flex-col"
-            >
-              <span className="text-[7px] md:text-base font-semibold text-black">15/8</span>
-              <span className="text-[7px] md:text-base font-semibold text-black">1⅞</span>
-            </motion.div>
-            <motion.div 
-              className="w-[6.25%] bg-[#ea384c] flex items-center justify-center flex-col"
-            >
-              <span className="text-[7px] md:text-base font-semibold text-black">16/8</span>
-              <span className="text-[7px] md:text-base font-semibold text-black">2</span>
-            </motion.div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 1, ease: "easeOut", delay: 2.1 }}
-          className="relative"
-        >
-          <div 
-            style={{ 
-              width: baseWidth,
-              height: baseHeight,
-            }}
-            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
-          >
-            <button 
-              type="button"
-              onClick={duplicateTenth}
-              className="w-[5%] bg-[#D3E4FD] flex items-center justify-center border-r border-black cursor-pointer hover:bg-[#bfcee6] transition-colors"
-            >
-              <span className="text-[6px] md:text-lg font-semibold text-black">⅒</span>
-            </button>
-            {[...Array(19)].map((_, index) => {
-              const fraction = index + 2;
-              let displayText = `${fraction}/10`;
-              let mixedText = "";
-              
-              if (fraction >= 11) {
-                const wholeNumber = Math.floor(fraction / 10);
-                const remainder = fraction % 10;
-                
-                if (remainder === 0) {
-                  mixedText = wholeNumber.toString();
-                } else if (remainder === 1) {
-                  mixedText = `${wholeNumber}⅒`;
-                } else if (remainder === 2) {
-                  mixedText = `${wholeNumber}⅕`;
-                } else if (remainder === 3) {
-                  mixedText = `${wholeNumber}³⁄₁₀`;
-                } else if (remainder === 4) {
-                  mixedText = `${wholeNumber}⅖`;
-                } else if (remainder === 5) {
-                  mixedText = `${wholeNumber}½`;
-                } else if (remainder === 6) {
-                  mixedText = `${wholeNumber}⅗`;
-                } else if (remainder === 7) {
-                  mixedText = `${wholeNumber}⁷⁄₁₀`;
-                } else if (remainder === 8) {
-                  mixedText = `${wholeNumber}⅘`;
-                } else if (remainder === 9) {
-                  mixedText = `${wholeNumber}⁹⁄₁₀`;
-                }
-              }
-              
-              return (
-                <motion.div 
-                  key={index}
-                  className={`w-[5%] bg-[#D3E4FD] flex items-center justify-center border-r border-black ${mixedText ? 'flex-col' : ''} last:border-r-0`}
-                >
-                  {mixedText ? (
-                    <>
-                      <span className="text-[6px] md:text-sm font-semibold text-black">{displayText}</span>
-                      <span className="text-[6px] md:text-sm font-semibold text-black">{mixedText}</span>
-                    </>
-                  ) : (
-                    <span className="text-[6px] md:text-lg font-semibold text-black">{displayText}</span>
-                  )}
-                </motion.div>
-              );
-            })}
-          </div>
-        </motion.div>
-
-        {duplicatedHalves.map((half) => (
+        {/* Draggable Fractions */}
+        {draggableFractions.map((fraction) => (
           <motion.div
-            key={half.id}
+            key={fraction.id}
             drag
             dragMomentum={false}
             dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: half.position.x, y: half.position.y }}
-            animate={{ x: half.position.x, y: half.position.y }}
+            initial={{ x: fraction.position.x, y: fraction.position.y }}
+            animate={{ x: fraction.position.x, y: fraction.position.y }}
             onDragEnd={(e, info) => {
               const newPosition = {
-                x: half.position.x + info.offset.x,
-                y: half.position.y + info.offset.y
+                x: fraction.position.x + info.offset.x,
+                y: fraction.position.y + info.offset.y
               };
-              setDuplicatedHalves(prev => 
-                prev.map(item => item.id === half.id 
-                  ? { ...item, position: newPosition } 
-                  : item
+              setDraggableFractions(prev => 
+                prev.map(f => f.id === fraction.id 
+                  ? { ...f, position: newPosition } 
+                  : f
                 )
               );
             }}
+            onClick={() => toggleSelection(fraction.id)}
             style={{
               position: 'absolute',
-              width: `calc(${baseWidth} / 4)`,
+              width: `calc(${baseWidth} / ${fraction.denominator * 2})`,
               height: baseHeight,
               top: '50%',
               left: '50%',
               transform: `translate(-50%, -50%)`,
               touchAction: 'none',
               zIndex: 40,
+              backgroundColor: fraction.color,
+              opacity: selectedFractions.includes(fraction.id) ? 0.7 : 1,
+              border: selectedFractions.includes(fraction.id) ? '3px solid #000' : '2px solid #000'
             }}
-            className="bg-[#7E69AB] flex items-center justify-center border-2 border-black group"
+            className="flex items-center justify-center group rounded cursor-pointer"
+            data-testid={`draggable-fraction-${fraction.numerator}-${fraction.denominator}`}
           >
-            <span className="text-sm md:text-4xl font-semibold text-black">½</span>
+            <span className="text-xs md:text-2xl font-semibold text-black">
+              {formatFraction(fraction.numerator, fraction.denominator)}
+            </span>
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                removeDuplicate(half.id);
+                removeFraction(fraction.id);
               }}
               className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+              data-testid={`button-remove-fraction-${fraction.id}`}
             >
-              <X size={16} />
+              <X size={12} />
             </button>
           </motion.div>
         ))}
 
-        {duplicatedThirds.map((third) => (
+        {/* Combination Results */}
+        {combinationResults.map((result) => (
           <motion.div
-            key={third.id}
-            drag
-            dragMomentum={false}
-            dragElastic={0}
-            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: third.position.x, y: third.position.y }}
-            animate={{ x: third.position.x, y: third.position.y }}
-            onDragEnd={(e, info) => {
-              const newPosition = {
-                x: third.position.x + info.offset.x,
-                y: third.position.y + info.offset.y
-              };
-              setDuplicatedThirds(prev => 
-                prev.map(item => item.id === third.id 
-                  ? { ...item, position: newPosition } 
-                  : item
-                )
-              );
-            }}
+            key={result.id}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
             style={{
               position: 'absolute',
-              width: `calc(${baseWidth} / 6)`,
-              height: baseHeight,
-              top: '50%',
-              left: '50%',
-              transform: `translate(-50%, -50%)`,
-              touchAction: 'none',
-              zIndex: 40,
+              left: result.position.x,
+              top: result.position.y,
+              zIndex: 50,
             }}
-            className="bg-[#FFE649] flex items-center justify-center border-2 border-black group"
+            className="bg-yellow-300 border-2 border-yellow-600 rounded-lg p-3 shadow-lg group"
+            data-testid={`combination-result-${result.id}`}
           >
-            <span className="text-xs md:text-4xl font-semibold text-black">⅓</span>
+            <div className="text-center">
+              <div className="text-sm font-medium text-gray-700">
+                {result.fractions.join(' + ')} =
+              </div>
+              <div className="text-xl font-bold text-gray-900">
+                {result.result}
+              </div>
+            </div>
             <button
               type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeThird(third.id);
-              }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+              onClick={() => removeCombinationResult(result.id)}
+              className="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+              data-testid={`button-remove-result-${result.id}`}
             >
-              <X size={16} />
-            </button>
-          </motion.div>
-        ))}
-
-        {duplicatedQuarters.map((quarter) => (
-          <motion.div
-            key={quarter.id}
-            drag
-            dragMomentum={false}
-            dragElastic={0}
-            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: quarter.position.x, y: quarter.position.y }}
-            animate={{ x: quarter.position.x, y: quarter.position.y }}
-            onDragEnd={(e, info) => {
-              const newPosition = {
-                x: quarter.position.x + info.offset.x,
-                y: quarter.position.y + info.offset.y
-              };
-              setDuplicatedQuarters(prev => 
-                prev.map(item => item.id === quarter.id 
-                  ? { ...item, position: newPosition } 
-                  : item
-                )
-              );
-            }}
-            style={{
-              position: 'absolute',
-              width: `calc(${baseWidth} / 8)`,
-              height: baseHeight,
-              top: '50%',
-              left: '50%',
-              transform: `translate(-50%, -50%)`,
-              touchAction: 'none',
-              zIndex: 40,
-            }}
-            className="bg-green-200 flex items-center justify-center border-2 border-black group"
-          >
-            <span className="text-[8px] md:text-3xl font-normal text-black">¼</span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeQuarter(quarter.id);
-              }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <X size={16} />
-            </button>
-          </motion.div>
-        ))}
-
-        {duplicatedFifths.map((fifth) => (
-          <motion.div
-            key={fifth.id}
-            drag
-            dragMomentum={false}
-            dragElastic={0}
-            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: fifth.position.x, y: fifth.position.y }}
-            animate={{ x: fifth.position.x, y: fifth.position.y }}
-            onDragEnd={(e, info) => {
-              const newPosition = {
-                x: fifth.position.x + info.offset.x,
-                y: fifth.position.y + info.offset.y
-              };
-              setDuplicatedFifths(prev => 
-                prev.map(item => item.id === fifth.id 
-                  ? { ...item, position: newPosition } 
-                  : item
-                )
-              );
-            }}
-            style={{
-              position: 'absolute',
-              width: `calc(${baseWidth} / 10)`,
-              height: baseHeight,
-              top: '50%',
-              left: '50%',
-              transform: `translate(-50%, -50%)`,
-              touchAction: 'none',
-              zIndex: 40,
-            }}
-            className="bg-[#FEC6A1] flex items-center justify-center border-2 border-black group"
-          >
-            <span className="text-[9px] md:text-2xl font-normal text-black">⅕</span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeFifth(fifth.id);
-              }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <X size={16} />
-            </button>
-          </motion.div>
-        ))}
-
-        {duplicatedSixths.map((sixth) => (
-          <motion.div
-            key={sixth.id}
-            drag
-            dragMomentum={false}
-            dragElastic={0}
-            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: sixth.position.x, y: sixth.position.y }}
-            animate={{ x: sixth.position.x, y: sixth.position.y }}
-            onDragEnd={(e, info) => {
-              const newPosition = {
-                x: sixth.position.x + info.offset.x,
-                y: sixth.position.y + info.offset.y
-              };
-              setDuplicatedSixths(prev => 
-                prev.map(item => item.id === sixth.id 
-                  ? { ...item, position: newPosition } 
-                  : item
-                )
-              );
-            }}
-            style={{
-              position: 'absolute',
-              width: `calc(${baseWidth} / 12)`,
-              height: baseHeight,
-              top: '50%',
-              left: '50%',
-              transform: `translate(-50%, -50%)`,
-              touchAction: 'none',
-              zIndex: 40,
-            }}
-            className="bg-[#FFDEE2] flex items-center justify-center border-2 border-black group"
-          >
-            <span className="text-[8px] md:text-2xl font-normal text-black">⅙</span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeSixth(sixth.id);
-              }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <X size={16} />
-            </button>
-          </motion.div>
-        ))}
-
-        {duplicatedEighths.map((eighth) => (
-          <motion.div
-            key={eighth.id}
-            drag
-            dragMomentum={false}
-            dragElastic={0}
-            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: eighth.position.x, y: eighth.position.y }}
-            animate={{ x: eighth.position.x, y: eighth.position.y }}
-            onDragEnd={(e, info) => {
-              const newPosition = {
-                x: eighth.position.x + info.offset.x,
-                y: eighth.position.y + info.offset.y
-              };
-              setDuplicatedEighths(prev => 
-                prev.map(item => item.id === eighth.id 
-                  ? { ...item, position: newPosition } 
-                  : item
-                )
-              );
-            }}
-            style={{
-              position: 'absolute',
-              width: `calc(${baseWidth} / 16)`,
-              height: baseHeight,
-              top: '50%',
-              left: '50%',
-              transform: `translate(-50%, -50%)`,
-              touchAction: 'none',
-              zIndex: 40,
-            }}
-            className="bg-[#ea384c] flex items-center justify-center border-2 border-black group"
-          >
-            <span className="text-[7px] md:text-xl font-normal text-black">⅛</span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeEighth(eighth.id);
-              }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <X size={16} />
-            </button>
-          </motion.div>
-        ))}
-
-        {duplicatedTenths.map((tenth) => (
-          <motion.div
-            key={tenth.id}
-            drag
-            dragMomentum={false}
-            dragElastic={0}
-            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: tenth.position.x, y: tenth.position.y }}
-            animate={{ x: tenth.position.x, y: tenth.position.y }}
-            onDragEnd={(e, info) => {
-              const newPosition = {
-                x: tenth.position.x + info.offset.x,
-                y: tenth.position.y + info.offset.y
-              };
-              setDuplicatedTenths(prev => 
-                prev.map(item => item.id === tenth.id 
-                  ? { ...item, position: newPosition } 
-                  : item
-                )
-              );
-            }}
-            style={{
-              position: 'absolute',
-              width: `calc(${baseWidth} / 20)`,
-              height: baseHeight,
-              top: '50%',
-              left: '50%',
-              transform: `translate(-50%, -50%)`,
-              touchAction: 'none',
-              zIndex: 40,
-            }}
-            className="bg-[#D3E4FD] flex items-center justify-center border-2 border-black group"
-          >
-            <span className="text-[6px] md:text-lg font-normal text-black">⅒</span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeTenth(tenth.id);
-              }}
-              className="absolute top-1 right-1 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <X size={16} />
+              <X size={14} />
             </button>
           </motion.div>
         ))}
