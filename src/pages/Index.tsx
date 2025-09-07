@@ -30,7 +30,8 @@ const Index = () => {
     5: '#FEC6A1',
     6: '#FFDEE2',
     8: '#EA384C',
-    10: '#D3E4FD'
+    10: '#D3E4FD',
+    12: '#B19CD9'
   };
   
   // Helper function to create draggable fractions
@@ -55,6 +56,7 @@ const Index = () => {
   const duplicateSixth = () => createDraggableFraction(1, 6);
   const duplicateEighth = () => createDraggableFraction(1, 8);
   const duplicateTenth = () => createDraggableFraction(1, 10);
+  const duplicateTwelfth = () => createDraggableFraction(1, 12);
 
   // Function to create any fraction segment from the main chart
   const createFractionFromChart = (numerator: number, denominator: number) => {
@@ -145,6 +147,7 @@ const Index = () => {
         case 6: return '⅙';
         case 8: return '⅛';
         case 10: return '1/10';
+        case 12: return '1/12';
         default: return `1/${denominator}`;
       }
     }
@@ -509,6 +512,45 @@ const Index = () => {
                   </>
                 ) : (
                   <span className="text-[4px] md:text-lg font-semibold text-black">{numerator}/10</span>
+                )}
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Twelfths row */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 2.4 }}
+          className="relative"
+        >
+          <div 
+            style={{ 
+              width: baseWidth,
+              height: baseHeight,
+            }}
+            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
+          >
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].map((numerator) => (
+              <button 
+                key={numerator}
+                type="button"
+                onClick={() => createFractionFromChart(numerator, 12)}
+                className="w-[4.167%] bg-[#B19CD9] flex items-center justify-center border-r border-black last:border-r-0 cursor-pointer hover:bg-[#9a7bc9] transition-colors flex-col"
+                data-testid={`button-create-${numerator}-twelfths`}
+              >
+                {numerator === 1 ? (
+                  <span className="text-[4px] md:text-sm font-semibold text-black">1/12</span>
+                ) : numerator > 12 ? (
+                  <>
+                    <span className="text-[3px] md:text-[8px] font-semibold text-black">{numerator}/12</span>
+                    <span className="text-[3px] md:text-[8px] font-semibold text-black">
+                      {numerator === 13 ? '1 1/12' : numerator === 14 ? '1 2/12' : numerator === 15 ? '1 3/12' : numerator === 16 ? '1 4/12' : numerator === 17 ? '1 5/12' : numerator === 18 ? '1 6/12' : numerator === 19 ? '1 7/12' : numerator === 20 ? '1 8/12' : numerator === 21 ? '1 9/12' : numerator === 22 ? '1 10/12' : numerator === 23 ? '1 11/12' : '2'}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-[3px] md:text-sm font-semibold text-black">{numerator}/12</span>
                 )}
               </button>
             ))}
