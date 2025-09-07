@@ -359,7 +359,161 @@ const Index = () => {
           </div>
         </motion.div>
 
-        {/* Continue with other fraction rows... for brevity, I'll add the draggable fractions display */}
+        {/* Fifths row */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 1.2 }}
+          className="relative"
+        >
+          <div 
+            style={{ 
+              width: baseWidth,
+              height: baseHeight,
+            }}
+            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
+          >
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((numerator) => (
+              <button 
+                key={numerator}
+                type="button"
+                onClick={() => createFractionFromChart(numerator, 5)}
+                className="w-[10%] bg-[#FEC6A1] flex items-center justify-center border-r border-black last:border-r-0 cursor-pointer hover:bg-[#fd9f5e] transition-colors flex-col"
+                data-testid={`button-create-${numerator}-fifths`}
+              >
+                {numerator === 1 ? (
+                  <span className="text-[8px] md:text-3xl font-semibold text-black">⅕</span>
+                ) : numerator > 5 ? (
+                  <>
+                    <span className="text-[6px] md:text-lg font-semibold text-black">{numerator}/5</span>
+                    <span className="text-[6px] md:text-lg font-semibold text-black">
+                      {numerator === 6 ? '1⅕' : numerator === 7 ? '1⅖' : numerator === 8 ? '1⅗' : numerator === 9 ? '1⅘' : '2'}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-[7px] md:text-3xl font-semibold text-black">{numerator}/5</span>
+                )}
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Sixths row */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 1.5 }}
+          className="relative"
+        >
+          <div 
+            style={{ 
+              width: baseWidth,
+              height: baseHeight,
+            }}
+            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
+          >
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((numerator) => (
+              <button 
+                key={numerator}
+                type="button"
+                onClick={() => createFractionFromChart(numerator, 6)}
+                className="w-[8.333%] bg-[#FFDEE2] flex items-center justify-center border-r border-black last:border-r-0 cursor-pointer hover:bg-[#ffb5c1] transition-colors flex-col"
+                data-testid={`button-create-${numerator}-sixths`}
+              >
+                {numerator === 1 ? (
+                  <span className="text-[7px] md:text-2xl font-semibold text-black">⅙</span>
+                ) : numerator > 6 ? (
+                  <>
+                    <span className="text-[5px] md:text-sm font-semibold text-black">{numerator}/6</span>
+                    <span className="text-[5px] md:text-sm font-semibold text-black">
+                      {numerator === 7 ? '1⅙' : numerator === 8 ? '1⅓' : numerator === 9 ? '1½' : numerator === 10 ? '1⅔' : numerator === 11 ? '1⅚' : '2'}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-[6px] md:text-2xl font-semibold text-black">{numerator}/6</span>
+                )}
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Eighths row */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 1.8 }}
+          className="relative"
+        >
+          <div 
+            style={{ 
+              width: baseWidth,
+              height: baseHeight,
+            }}
+            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
+          >
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((numerator) => (
+              <button 
+                key={numerator}
+                type="button"
+                onClick={() => createFractionFromChart(numerator, 8)}
+                className="w-[6.25%] bg-[#EA384C] flex items-center justify-center border-r border-black last:border-r-0 cursor-pointer hover:bg-[#c71e32] transition-colors flex-col"
+                data-testid={`button-create-${numerator}-eighths`}
+              >
+                {numerator === 1 ? (
+                  <span className="text-[6px] md:text-xl font-semibold text-white">⅛</span>
+                ) : numerator > 8 ? (
+                  <>
+                    <span className="text-[4px] md:text-xs font-semibold text-white">{numerator}/8</span>
+                    <span className="text-[4px] md:text-xs font-semibold text-white">
+                      {numerator === 9 ? '1⅛' : numerator === 10 ? '1¼' : numerator === 11 ? '1⅜' : numerator === 12 ? '1½' : numerator === 13 ? '1⅝' : numerator === 14 ? '1¾' : numerator === 15 ? '1⅞' : '2'}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-[5px] md:text-xl font-semibold text-white">{numerator}/8</span>
+                )}
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Tenths row */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 2.1 }}
+          className="relative"
+        >
+          <div 
+            style={{ 
+              width: baseWidth,
+              height: baseHeight,
+            }}
+            className="flex border-2 border-black rounded-sm shadow-md overflow-hidden"
+          >
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map((numerator) => (
+              <button 
+                key={numerator}
+                type="button"
+                onClick={() => createFractionFromChart(numerator, 10)}
+                className="w-[5%] bg-[#D3E4FD] flex items-center justify-center border-r border-black last:border-r-0 cursor-pointer hover:bg-[#a8c7f8] transition-colors flex-col"
+                data-testid={`button-create-${numerator}-tenths`}
+              >
+                {numerator === 1 ? (
+                  <span className="text-[5px] md:text-lg font-semibold text-black">1/10</span>
+                ) : numerator > 10 ? (
+                  <>
+                    <span className="text-[3px] md:text-[10px] font-semibold text-black">{numerator}/10</span>
+                    <span className="text-[3px] md:text-[10px] font-semibold text-black">
+                      {numerator === 11 ? '1.1' : numerator === 12 ? '1.2' : numerator === 13 ? '1.3' : numerator === 14 ? '1.4' : numerator === 15 ? '1.5' : numerator === 16 ? '1.6' : numerator === 17 ? '1.7' : numerator === 18 ? '1.8' : numerator === 19 ? '1.9' : '2'}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-[4px] md:text-lg font-semibold text-black">{numerator}/10</span>
+                )}
+              </button>
+            ))}
+          </div>
+        </motion.div>
 
         {/* Draggable Fractions */}
         {draggableFractions.map((fraction) => (
