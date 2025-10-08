@@ -160,7 +160,7 @@ const Index = () => {
         <h1 className="text-2xl font-bold text-neutral-900">Interactive Fraction Chart</h1>
         <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-black max-w-md">
           <p className="text-sm text-black">
-            <strong>Enhanced Features:</strong> Click any fraction to create draggable pieces. Select multiple fractions (they'll turn darker) and click "Combine Selected" to add them together!
+            <strong>How to use:</strong> Click any fraction to create draggable pieces. Hover over a piece and click the blue + button to select it (turns green). Select 2+ pieces to see the "Combine Selected" button and add them together!
           </p>
         </div>
         
@@ -579,7 +579,6 @@ const Index = () => {
                 )
               );
             }}
-            onClick={() => toggleSelection(fraction.id)}
             style={{
               position: 'absolute',
               width: `calc(${baseWidth} / ${fraction.denominator * 2})`,
@@ -591,14 +590,30 @@ const Index = () => {
               zIndex: 40,
               backgroundColor: fraction.color,
               opacity: selectedFractions.includes(fraction.id) ? 0.7 : 1,
-              border: selectedFractions.includes(fraction.id) ? '3px solid #000' : '2px solid #000'
+              border: selectedFractions.includes(fraction.id) ? '4px solid #000' : '2px solid #000'
             }}
-            className="flex items-center justify-center group rounded cursor-pointer"
+            className="flex items-center justify-center group rounded cursor-move"
             data-testid={`draggable-fraction-${fraction.numerator}-${fraction.denominator}`}
           >
-            <span className="text-xs md:text-2xl font-semibold text-black">
+            <span className="text-xs md:text-2xl font-semibold text-black pointer-events-none">
               {formatFraction(fraction.numerator, fraction.denominator)}
             </span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleSelection(fraction.id);
+              }}
+              className={`absolute top-1 left-1 p-1 rounded-full text-white transition-all ${
+                selectedFractions.includes(fraction.id) 
+                  ? 'bg-green-600 opacity-100' 
+                  : 'bg-blue-500 opacity-0 group-hover:opacity-100'
+              }`}
+              data-testid={`button-select-fraction-${fraction.id}`}
+              title={selectedFractions.includes(fraction.id) ? "Selected" : "Click to select"}
+            >
+              <Plus size={12} />
+            </button>
             <button
               type="button"
               onClick={(e) => {
