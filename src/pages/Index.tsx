@@ -621,11 +621,16 @@ const Index = () => {
 
         {/* Draggable Fractions */}
         {draggableFractions.map((fraction) => {
-          // Calculate position offset for grouped fractions
-          const unitWidth = fraction.denominator ? parseFloat(baseWidth.replace('vw', '')) / (fraction.denominator * 2) : 0;
-          const groupOffset = fraction.groupId && fraction.indexInGroup !== undefined 
-            ? fraction.indexInGroup * unitWidth 
+          // Calculate position offset for grouped fractions (in vw units)
+          const baseWidthNum = parseFloat(baseWidth.replace('vw', ''));
+          const unitWidthVw = baseWidthNum / (fraction.denominator * 2);
+          const groupOffsetVw = fraction.groupId && fraction.indexInGroup !== undefined 
+            ? fraction.indexInGroup * unitWidthVw 
             : 0;
+          
+          // Convert vw to pixels for positioning
+          const viewportWidth = window.innerWidth;
+          const groupOffsetPx = (groupOffsetVw / 100) * viewportWidth;
           
           return (<motion.div
             key={fraction.id}
@@ -633,8 +638,8 @@ const Index = () => {
             dragMomentum={false}
             dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: fraction.position.x + groupOffset, y: fraction.position.y }}
-            animate={{ x: fraction.position.x + groupOffset, y: fraction.position.y }}
+            initial={{ x: fraction.position.x + groupOffsetPx, y: fraction.position.y }}
+            animate={{ x: fraction.position.x + groupOffsetPx, y: fraction.position.y }}
             onDragEnd={(e, info) => {
               const newPosition = {
                 x: fraction.position.x + info.offset.x,
