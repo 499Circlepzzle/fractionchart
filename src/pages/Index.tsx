@@ -15,12 +15,15 @@ const Index = () => {
     position: { x: number; y: number };
     color: string;
     isSelected: boolean;
+    groupId?: number;
+    indexInGroup?: number;
   };
 
   // State for all draggable fractions
   const [draggableFractions, setDraggableFractions] = useState<DraggableFraction[]>([]);
   const [combinationResults, setCombinationResults] = useState<Array<{ id: number; position: { x: number; y: number }; result: string; fractions: string[] }>>([]);
   const [selectedFractions, setSelectedFractions] = useState<number[]>([]);
+  const [groupedMode, setGroupedMode] = useState(false);
 
   // Color mapping for different denominators
   const fractionColors: { [key: number]: string } = {
@@ -60,7 +63,31 @@ const Index = () => {
 
   // Function to create any fraction segment from the main chart
   const createFractionFromChart = (numerator: number, denominator: number) => {
-    createDraggableFraction(numerator, denominator);
+    if (!groupedMode) {
+      // Concept 1: Create single fraction piece
+      createDraggableFraction(numerator, denominator);
+    } else {
+      // Concept 2: Create grouped unit fractions
+      const offset = draggableFractions.length * 20;
+      const groupId = Date.now();
+      const unitWidth = `calc(${baseWidth} / ${denominator * 2})`;
+      
+      // Create 'numerator' number of unit fractions (1/denominator each)
+      const newFractions: DraggableFraction[] = [];
+      for (let i = 0; i < numerator; i++) {
+        newFractions.push({
+          id: groupId + i + Math.random(),
+          numerator: 1,
+          denominator,
+          position: { x: offset, y: offset },
+          color: fractionColors[denominator] || '#9CA3AF',
+          isSelected: false,
+          groupId,
+          indexInGroup: i
+        });
+      }
+      setDraggableFractions(prev => [...prev, ...newFractions]);
+    }
   };
 
   // Function to remove a draggable fraction
@@ -158,9 +185,44 @@ const Index = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-50 p-4">
       <div className="space-y-2 text-center mb-8">
         <h1 className="text-2xl font-bold text-neutral-900">Interactive Fraction Chart</h1>
+        
+        {/* Mode Toggle */}
+        <div className="flex items-center justify-center gap-3 mt-4">
+          <label className="text-sm font-medium text-neutral-700">Mode:</label>
+          <button
+            onClick={() => setGroupedMode(false)}
+            className={`px-4 py-2 rounded-lg transition-colors ${
+              !groupedMode 
+                ? 'bg-blue-600 text-white' 
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
+            data-testid="button-mode-single"
+          >
+            Single Piece
+          </button>
+          <button
+            onClick={() => setGroupedMode(true)}
+            className={`px-4 py-2 rounded-lg transition-colors ${
+              groupedMode 
+                ? 'bg-blue-600 text-white' 
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
+            data-testid="button-mode-grouped"
+          >
+            Unit Pieces
+          </button>
+        </div>
+        
         <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-black max-w-md">
           <p className="text-sm text-black">
-            <strong>How to use:</strong> Click any fraction to create draggable pieces. Hover over a piece and click the blue + button to select it (turns green). Select 2+ pieces to see the "Combine Selected" button and add them together!
+            {!groupedMode ? (
+              <><strong>Single Piece Mode:</strong> Click 3/4 to create one 3/4 piece. Great for quick fraction work!</>
+            ) : (
+              <><strong>Unit Pieces Mode:</strong> Click 3/4 to create three 1/4 pieces grouped together. Helps see that 3/4 = 1/4 + 1/4 + 1/4!</>
+            )}
+          </p>
+          <p className="text-sm text-black mt-2">
+            Hover over pieces and click the blue + button to select. Select 2+ pieces to combine them!
           </p>
         </div>
         
@@ -558,26 +620,43 @@ const Index = () => {
         </motion.div>
 
         {/* Draggable Fractions */}
-        {draggableFractions.map((fraction) => (
-          <motion.div
+        {draggableFractions.map((fraction) => {
+          // Calculate position offset for grouped fractions
+          const unitWidth = fraction.denominator ? parseFloat(baseWidth.replace('vw', '')) / (fraction.denominator * 2) : 0;
+          const groupOffset = fraction.groupId && fraction.indexInGroup !== undefined 
+            ? fraction.indexInGroup * unitWidth 
+            : 0;
+          
+          return (<motion.div
             key={fraction.id}
             drag
             dragMomentum={false}
             dragElastic={0}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            initial={{ x: fraction.position.x, y: fraction.position.y }}
-            animate={{ x: fraction.position.x, y: fraction.position.y }}
+            initial={{ x: fraction.position.x + groupOffset, y: fraction.position.y }}
+            animate={{ x: fraction.position.x + groupOffset, y: fraction.position.y }}
             onDragEnd={(e, info) => {
               const newPosition = {
                 x: fraction.position.x + info.offset.x,
                 y: fraction.position.y + info.offset.y
               };
-              setDraggableFractions(prev => 
-                prev.map(f => f.id === fraction.id 
-                  ? { ...f, position: newPosition } 
-                  : f
-                )
-              );
+              
+              // If part of a group, move all fractions in the group
+              if (fraction.groupId) {
+                setDraggableFractions(prev => 
+                  prev.map(f => f.groupId === fraction.groupId 
+                    ? { ...f, position: newPosition } 
+                    : f
+                  )
+                );
+              } else {
+                setDraggableFractions(prev => 
+                  prev.map(f => f.id === fraction.id 
+                    ? { ...f, position: newPosition } 
+                    : f
+                  )
+                );
+              }
             }}
             style={{
               position: 'absolute',
@@ -626,7 +705,8 @@ const Index = () => {
               <X size={12} />
             </button>
           </motion.div>
-        ))}
+          );
+        })}
 
         {/* Combination Results */}
         {combinationResults.map((result) => (
