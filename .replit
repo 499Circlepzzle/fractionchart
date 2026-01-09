@@ -4,9 +4,10 @@ modules = ["nodejs-20", "web"]
 channel = "stable-25_05"
 
 [deployment]
-deploymentTarget = "autoscale"
+deploymentTarget = "static"
 run = ["npx", "serve", "-s", "dist", "-l", "8080"]
 build = ["npm", "run", "build"]
+publicDir = "dist"
 
 [workflows]
 runButton = "Project"
